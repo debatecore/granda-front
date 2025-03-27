@@ -1,0 +1,6 @@
+@import "tailwindcss";
+
+@theme inline {
+    --font-fancy: var(--font-newsreader);
+    --font-logo: var(--font-funnel-display);
+}

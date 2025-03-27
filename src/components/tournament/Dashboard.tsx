@@ -1,0 +1,3 @@
+const TournamentDashboard = () => {};
+
+export { TournamentDashboard };
