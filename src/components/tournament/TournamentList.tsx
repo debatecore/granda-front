@@ -17,7 +17,7 @@ const TournamentsList = async () => {
   }
 
   return (
-    <div className="mt-16 p-16 border-t border-b border-stone-700/70 overflow-y-scroll">
+    <div className="mt-8 sm:mt-16 w-full sm:w-fit px-8 py-12 sm:py-16 lg:px-16 border-t border-b border-stone-700/70 overflow-y-scroll">
       {data_tournaments.length !== 0 ? (
         <div className="flex flex-col gap-4">
           {data_tournaments.map((tournament, i) => {
@@ -52,23 +52,23 @@ const TournamentListItem = ({
   return (
     <Link href={`/t/${tournament.id}`}>
       <div
-        className="relative rounded border border-stone-700 bg-cover bg-center"
+        className="relative rounded border border-stone-700 bg-cover bg-center overflow-hidden"
         style={{
           backgroundImage: `url(${backgrounds[indexForImage % backgrounds.length]})`,
         }}
       >
-        <div className="relative backdrop-blur-xs w-full h-full min-h-28 min-w-lg py-3 px-4 bg-black/75">
-          <h2 className="text-xl font-semibold font-logo">
+        <div className="relative backdrop-blur-xs w-full h-full sm:min-h-28 sm:min-w-lg py-3 px-4 bg-black/75">
+          <h2 className="sm:text-xl font-semibold font-logo">
             {tournament.full_name}
           </h2>
-          <p className="text-stone-300 font-semibold">
+          <p className="text-xs sm:text-base text-stone-300 font-semibold">
             {tournament.shortened_name}
           </p>
-          <div className="absolute bottom-0 right-0">
+          {/* <div className="absolute bottom-0 right-0">
             <p className="text-xs font-mono pr-[2px] pb-[1px] text-stone-500">
               {tournament.id}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>

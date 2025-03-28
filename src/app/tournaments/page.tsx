@@ -21,12 +21,12 @@ export default async function TournamentListPage() {
     return (
       <>
         <div className="flex flex-col w-full h-screen items-center">
-          <h1 className="mt-16 text-4xl font-semibold">{`Welcome, ${data_authme.value.handle}!`}</h1>
-          <p className="text-stone-500">
+          <h1 className="mt-8 sm:mt-16 text-2xl sm:text-4xl text-balance text-center font-semibold">{`Welcome, ${data_authme.value.handle}!`}</h1>
+          <p className="text-stone-500 text-xs text-balance text-center sm:text-base">
             {"Here's a selection of tournaments you can access."}
           </p>
           <TournamentsList />
-          <p className="text-stone-500 pt-2 mb-16">
+          <p className="text-stone-500 pt-2 mb-16 text-balance text-center">
             {"Alternatively, back to the "}
             <Link href={"/login"} className="underline">
               {"login page."}
