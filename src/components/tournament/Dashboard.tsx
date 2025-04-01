@@ -1,3 +1,0 @@
-const TournamentDashboard = () => {};
-
-export { TournamentDashboard };

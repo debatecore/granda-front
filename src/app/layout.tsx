@@ -3,6 +3,7 @@ import {
   Funnel_Display,
   Geist,
   Geist_Mono,
+  Lexend,
   Newsreader,
 } from "next/font/google";
 import "./globals.css";
@@ -24,6 +25,10 @@ const FontLogo = Funnel_Display({
   subsets: ["latin"],
   variable: "--font-funnel-display",
 });
+const FontLexend = Lexend({
+  subsets: ["latin"],
+  variable: "--font-lexend",
+});
 
 export const metadata: Metadata = {
   title: "granda: Debate Tournament Planner",
@@ -39,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontNewsreader.variable} ${FontLogo.variable} antialiased bg-stone-950 text-stone-100`}
+        className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontLexend.variable} ${FontNewsreader.variable} ${FontLogo.variable} font-sans antialiased bg-stone-950 text-stone-100`}
       >
         {children}
       </body>

@@ -3,4 +3,7 @@
 @theme inline {
     --font-fancy: var(--font-newsreader);
     --font-logo: var(--font-funnel-display);
+    --font-lexend: var(--font-lexend);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
