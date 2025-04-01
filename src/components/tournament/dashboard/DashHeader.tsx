@@ -16,6 +16,7 @@ const DashHeader = ({ t, u }: { t: Tournament; u: User }) => {
         <p className="font-semibold tracking-tight">{u.handle}</p>
         <LucideUserCircle />
       </div>
+      {/* COMMENT OUT THOSE BOTTOM TWO TO DELETE THE IMAGE FROM THE HEADER.. BOTH! */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-30" />
       <div
         className="absolute top-0 left-0 w-full h-full bg-cover bg-center blur-sm opacity-25 z-20"

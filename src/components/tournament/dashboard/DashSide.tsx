@@ -1,7 +1,6 @@
 import {
   LucideBetweenHorizontalStart,
   LucideCastle,
-  LucideCog,
   LucideFileClock,
   LucideFileImage,
   LucideIcon,
@@ -10,14 +9,10 @@ import {
   LucideScale,
   LucideScrollText,
   LucideSettings,
-  LucideSettings2,
-  LucideSliders,
-  LucideSlidersHorizontal,
   LucideTrophy,
   LucideUserCog,
   LucideUsers,
   LucideWaypoints,
-  LucideWrench,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -121,7 +116,7 @@ const DashSide = ({
         {
           name: "Tournament Settings",
           href: `/t/${tournament_path}/settings`,
-          icon: LucideCog,
+          icon: LucideSettings,
         },
       ],
     },
