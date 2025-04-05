@@ -1,7 +1,18 @@
 import { Tournament } from "@/types/Tournament";
 import olek from "@/../public/S-MOW2024-olekrelief.jpg";
-import { LucideUserCircle } from "lucide-react";
+import { LucideSettings, LucideUserCircle } from "lucide-react";
 import { User } from "@/types/User";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import Link from "next/link";
+import { LogOutDashHeaderDropdownButton } from "./Logout";
 
 const DashHeader = ({ t, u }: { t: Tournament; u: User }) => {
   return (
@@ -12,10 +23,30 @@ const DashHeader = ({ t, u }: { t: Tournament; u: User }) => {
         {/* this should be the separator between breadcrumb steps.. */}
         {/* <LucideChevronRight className="inline" size={16} /> */}
       </div>
-      <div className="ml-auto flex gap-4 px-3 py-1 bg-stone-700/40 border border-stone-700 rounded z-40 cursor-pointer">
-        <p className="font-semibold tracking-tight">{u.handle}</p>
-        <LucideUserCircle />
-      </div>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <div className="ml-auto flex gap-4 px-3 py-1 bg-stone-700/40 border border-stone-700 rounded z-40 cursor-pointer">
+            <p className="font-semibold tracking-tight">{u.handle}</p>
+            <LucideUserCircle />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuLabel className="select-none">
+            {"Your account"}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem disabled>
+              <LucideUserCircle /> {"Account"}
+            </DropdownMenuItem>
+            <DropdownMenuItem disabled>
+              <LucideSettings /> {"Settings"}
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <LogOutDashHeaderDropdownButton />
+        </DropdownMenuContent>
+      </DropdownMenu>
       {/* COMMENT OUT THOSE BOTTOM TWO TO DELETE THE IMAGE FROM THE HEADER.. BOTH! */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-30" />
       <div
