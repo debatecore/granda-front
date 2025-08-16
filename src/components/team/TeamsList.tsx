@@ -35,7 +35,6 @@ const TeamsList = async ({ tournament_id }: { tournament_id: string }) => {
 
 const TeamListItem = ({
   team: team,
-  indexForImage,
 }: {
   team: Team;
   indexForImage: number;
@@ -45,7 +44,6 @@ const TeamListItem = ({
       title={team.full_name}
       subtitle={team.shortened_name}
       href={`/t/${team.tournament_id}/team/${team.id}`}
-      indexForImage={indexForImage}
     />
   );
 };

@@ -6,13 +6,11 @@ const GenericListItem = ({
   subtitle,
   href,
   icon,
-  indexForImage,
 }: {
   title: string;
   subtitle?: string;
   href?: string;
   icon?: () => JSX.Element;
-  indexForImage: number;
 }) => {
   return (
     <>
@@ -24,6 +22,7 @@ const GenericListItem = ({
               {subtitle}
             </p>
           </div>
+          {icon && icon()}
         </Link>
       </div>
     </>
