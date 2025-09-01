@@ -8,6 +8,8 @@ import LanguageDetector, {
 import settings_en from "./en/settings.json";
 import sidebar_en from "./en/sidebar.json";
 import sidebar_pl from "./pl/sidebar.json";
+import dash_header_pl from "./pl/dash_header.json";
+import dash_header_en from "./en/dash_header.json";
 import settings_pl from "./pl/settings.json";
 import { LanguageCode } from "@/types/Language";
 
@@ -41,10 +43,12 @@ i18n
       en: {
         settings: settings_en,
         sidebar: sidebar_en,
+        dash_header: dash_header_en,
       },
       pl: {
         settings: settings_pl,
         sidebar: sidebar_pl,
+        dash_header: dash_header_pl,
       }
     },
   });

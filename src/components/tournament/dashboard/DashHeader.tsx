@@ -14,8 +14,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOutDashHeaderDropdownButton } from "./Logout";
 import { redirect } from "next/navigation";
+import { useTranslation } from "react-i18next";
+import "@/i18n/config";
 
 const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
+  const { t } = useTranslation("dash_header");
   return (
     <>
       <div className="space-x-1 z-40">
@@ -37,12 +40,12 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="select-none">
-            {"Your account"}
+            {t("your_account_heading")}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem disabled>
-              <LucideUserCircle /> {"Account"}
+              <LucideUserCircle /> {t("account")}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -50,7 +53,7 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
               }}
               className="cursor-pointer"
             >
-              <LucideSettings /> {"Settings"}
+              <LucideSettings /> {t("settings")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
