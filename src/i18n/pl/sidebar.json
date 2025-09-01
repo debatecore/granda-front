@@ -1,0 +1,27 @@
+{
+  "logo_by": "od",
+  "tournament": {
+    "catname": "turniej",
+    "overview": "Overview",
+    "ladder": "Drabinka turniejowa",
+    "standings": "Rankingi"
+  },
+  "tournament_data": {
+    "catname": "informacje o turnieju",
+    "competing_teams": "Drużyny",
+    "debate_motions": "Tezy debat",
+    "staff_judges_bias": "Organizatorzy i sędziowie",
+    "physical_infrastructure": "Miejsca",
+    "event_branding": "Szata graficzna"
+  },
+  "shareable": {
+    "catname": "materiały prasowe",
+    "image_generation": "Generowanie grafik"
+  },
+  "organisational": {
+    "catname": "organizacja",
+    "audit_log": "Dziennik zdarzeń",
+    "users": "Użytkownicy",
+    "tournament_settings": "Ustawienia turnieju"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "logo_by": "by",
+  "tournament": {
+    "catname": "tournament",
+    "overview": "Overview",
+    "ladder": "Tournament Ladder",
+    "standings": "Tournament Standings"
+  },
+  "tournament_data": {
+    "catname": "tournament data",
+    "competing_teams": "Competing Teams",
+    "debate_motions": "Debate Motions",
+    "staff_judges_bias": "Staff, Judges & Bias",
+    "physical_infrastructure": "Physical Infrastructure",
+    "event_branding": "Event Branding"
+  },
+  "shareable": {
+    "catname": "shareable",
+    "image_generation": "Image Generation"
+  },
+  "organisational": {
+    "catname": "organisational",
+    "audit_log": "Audit Log",
+    "users": "Users",
+    "tournament_settings": "Tournament Settings"
+  }
+}

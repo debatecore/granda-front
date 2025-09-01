@@ -50,11 +50,6 @@ const LocalLoggedIn = ({ user }: { user: User }) => {
             name: "Tournaments List",
             href: "/tournaments",
           },
-          // {
-          //   name: "User Settings",
-          //   href: "/user-settings",
-          //   disabled: true,
-          // },
         ].map((el) => {
           return (
             <Link

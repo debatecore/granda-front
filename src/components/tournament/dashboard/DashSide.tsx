@@ -1,3 +1,4 @@
+"use client";
 import {
   LucideBetweenHorizontalStart,
   LucideCastle,
@@ -15,6 +16,8 @@ import {
   LucideWaypoints,
 } from "lucide-react";
 import Link from "next/link";
+import "@/i18n/config";
+import { useTranslation } from "react-i18next";
 
 type DashSideLink = {
   name: string;
@@ -35,23 +38,24 @@ const DashSide = ({
   tournament_path: string;
   path_highlight?: string;
 }) => {
+  const { t } = useTranslation("sidebar");
   const links: DashSidebarLinks = [
     {
-      catname: "tournament",
+      catname: t("tournament.catname"),
       links: [
         {
-          name: "Overview",
+          name: t("tournament.overview"),
           href: `/t/${tournament_path}`,
           icon: LucideLayoutDashboard,
         },
         {
-          name: "Tournament Ladder",
+          name: t("tournament.ladder"),
           href: `/t/${tournament_path}/ladder`,
           icon: LucideBetweenHorizontalStart,
           disabled: true,
         },
         {
-          name: "Tournament Standings",
+          name: t("tournament.standings"),
           href: `/t/${tournament_path}/standings`,
           icon: LucideTrophy,
           disabled: true,
@@ -59,30 +63,30 @@ const DashSide = ({
       ],
     },
     {
-      catname: "tournament data",
+      catname: t("tournament_data.catname"),
       links: [
         {
-          name: "Competing Teams",
+          name: t("tournament_data.competing_teams"),
           href: `/t/${tournament_path}/teams`,
           icon: LucideUsers,
         },
         {
-          name: "Debate Motions",
+          name: t("tournament_data.debate_motions"),
           href: `/t/${tournament_path}/motions`,
           icon: LucideScrollText,
         },
         {
-          name: "Staff, Judges & Bias",
+          name: t("tournament_data.staff_judges_bias"),
           href: `/t/${tournament_path}/staff`,
           icon: LucideScale,
         },
         {
-          name: "Physical Infrastructure",
+          name: t("tournament_data.physical_infrastructure"),
           href: `/t/${tournament_path}/locations`,
           icon: LucideCastle,
         },
         {
-          name: "Event Branding",
+          name: t("tournament_data.event_branding"),
           href: `/t/${tournament_path}/event-branding`,
           icon: LucideFileImage,
           disabled: true,
@@ -90,10 +94,10 @@ const DashSide = ({
       ],
     },
     {
-      catname: "shareable",
+      catname: t("shareable.catname"),
       links: [
         {
-          name: "Image Generation",
+          name: t("shareable.image_generation"),
           href: `/t/${tournament_path}/image-generation`,
           icon: LucidePaintBucket,
           disabled: true,
@@ -101,20 +105,20 @@ const DashSide = ({
       ],
     },
     {
-      catname: "Organisational",
+      catname: t("organisational.catname"),
       links: [
         {
-          name: "Audit Log",
+          name: t("organisational.audit_log"),
           href: `/t/${tournament_path}/logs`,
           icon: LucideFileClock,
         },
         {
-          name: "Users",
+          name: t("organisational.users"),
           href: `/t/${tournament_path}/users`,
           icon: LucideUserCog,
         },
         {
-          name: "Tournament Settings",
+          name: t("organisational.tournament_settings"),
           href: `/t/${tournament_path}/settings`,
           icon: LucideSettings,
         },
@@ -129,7 +133,7 @@ const DashSide = ({
         <div className="mb-1">
           <h3 className="font-logo text-2xl">{"granda"}</h3>
           <p className="text-xs">
-            <span className="text-stone-500">{"by "}</span>
+            <span className="text-stone-500">{t("logo_by")} </span>
             <Link
               href={"https://debateco.re"}
               className="font-semibold font-lexend tracking-wide text-transparent text-clip bg-clip-text bg-gradient-to-r from-violet-600 from-30% to-70% to-pink-400"
@@ -153,13 +157,19 @@ const DashSide = ({
                 return (
                   <Link
                     key={link.name}
-                    className={`flex flex-row items-center gap-2 border border-transparent hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 text-stone-200 rounded py-1 px-2 ${link.name === path_highlight && "bg-stone-700/15"} ${link.disabled && "opacity-35"}`}
+                    className={`flex flex-row items-center gap-2 border border-transparent hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 text-stone-200 rounded py-1 px-2 ${
+                      link.name === path_highlight && "bg-stone-700/15"
+                    } ${link.disabled && "opacity-35"}`}
                     href={link.disabled === true ? "" : link.href}
                     aria-disabled={link.disabled === true}
                   >
                     <link.icon
                       size={22}
-                      className={`${link.name === path_highlight ? "text-stone-400" : "text-stone-500"} font-light`}
+                      className={`${
+                        link.name === path_highlight
+                          ? "text-stone-400"
+                          : "text-stone-500"
+                      } font-light`}
                     />
                     <span className="tracking-tight font-geist font-medium">
                       {link.name}

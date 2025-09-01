@@ -21,7 +21,6 @@ export default async function LogInPage() {
 
   return (
     <div className="relative w-full h-screen flex flex-col items-center justify-center">
-      {/* <GrainEffect /> */}
       <div
         className={`relative max-w-5xl w-full h-4/6 overflow-hidden grid grid-cols-2 border border-stone-700 rounded bg-cover`}
         style={{
