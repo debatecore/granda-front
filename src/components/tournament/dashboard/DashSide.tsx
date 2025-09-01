@@ -1,4 +1,3 @@
-"use client";
 import {
   LucideBetweenHorizontalStart,
   LucideCastle,
@@ -16,8 +15,8 @@ import {
   LucideWaypoints,
 } from "lucide-react";
 import Link from "next/link";
-import "@/i18n/config";
-import { useTranslation } from "react-i18next";
+import "@/i18n/language-utils";
+import { useTranslations } from "next-intl";
 
 type DashSideLink = {
   name: string;
@@ -38,7 +37,7 @@ const DashSide = ({
   tournament_path: string;
   path_highlight?: string;
 }) => {
-  const { t } = useTranslation("dash");
+  const t = useTranslations("dash");
   const links: DashSidebarLinks = [
     {
       catname: t("sidebar.tournament.catname"),

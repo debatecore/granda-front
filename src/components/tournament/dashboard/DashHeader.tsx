@@ -14,11 +14,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogOutDashHeaderDropdownButton } from "./Logout";
 import { redirect } from "next/navigation";
-import { useTranslation } from "react-i18next";
-import "@/i18n/config";
+import { useTranslations } from "next-intl";
 
 const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
-  const { t } = useTranslation("dash");
+  const t = useTranslations("dash");
   return (
     <>
       <div className="space-x-1 z-40">

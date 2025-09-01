@@ -1,0 +1,54 @@
+{
+  "dash": {
+    "header": {
+      "your_account_heading": "Twoje konto",
+      "account": "Konto",
+      "settings": "Ustawienia",
+      "log_out": "Wyloguj się"
+    },
+    "sidebar": {
+      "logo_by": "od",
+      "tournament": {
+        "catname": "turniej",
+        "overview": "Panel główny",
+        "ladder": "Drabinka turniejowa",
+        "standings": "Rankingi"
+      },
+      "tournament_data": {
+        "catname": "informacje o turnieju",
+        "competing_teams": "Drużyny",
+        "debate_motions": "Tezy debat",
+        "staff_judges_bias": "Organizatorzy i sędziowie",
+        "physical_infrastructure": "Miejsca",
+        "event_branding": "Szata graficzna"
+      },
+      "shareable": {
+        "catname": "materiały prasowe",
+        "image_generation": "Generowanie grafik"
+      },
+      "organisational": {
+        "catname": "organizacja",
+        "audit_log": "Dziennik zdarzeń",
+        "users": "Użytkownicy",
+        "tournament_settings": "Ustawienia turnieju"
+      }
+    }
+  },
+  "login": {
+    "msg_handle_empty": "Handle must not be empty.",
+    "msg_passwd_empty": "Hasło nie może być puste.",
+    "msg_invalid_credentials": "Błędne dane logowania",
+    "handle_label": "Nick",
+    "handle_aria_label": "Twój nick (nazwa użytkownika)",
+    "handle_placeholder": "nick",
+    "password_label": "Hasło",
+    "password_aria_label": "Twoje hasło",
+    "password_placeholder": "twoje_hasło",
+    "log_in": "Zaloguj się"
+  },
+  "settings": {
+    "title": "Ustawienia",
+    "language_heading": "Język",
+    "save": "Zapisz"
+  }
+}

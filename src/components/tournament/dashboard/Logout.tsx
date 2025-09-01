@@ -2,11 +2,11 @@
 
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { fetchClientSide } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useTranslation } from "react-i18next";
 
 const LogOutDashHeaderDropdownButton = () => {
-  const { t } = useTranslation("dash");
+  const t = useTranslations("dash");
   const router = useRouter();
   const logoutrequest = async () => {
     const res = await fetchClientSide("/auth/clear");

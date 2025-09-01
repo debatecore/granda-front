@@ -1,13 +1,12 @@
 "use client";
 
 import { fetchClientSide } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
-import "@/i18n/config"
 
 const LocalLogIn = () => {
-  const { t } = useTranslation("login");
+  const t = useTranslations("login");
   const MSG_HANDLE_EMPTY = t("msg_handle_empty");
   const MSG_PASSW_EMPTY = t("msg_passwd_empty");
   const MSG_PLACEHOLDER = "--";
@@ -67,7 +66,9 @@ const LocalLogIn = () => {
             }}
           />
           <p
-            className={`absolute top-[5px] left-2 ${isHandleEmpty && "text-stone-400"}`}
+            className={`absolute top-[5px] left-2 ${
+              isHandleEmpty && "text-stone-400"
+            }`}
           >
             {"@"}
           </p>
@@ -88,7 +89,9 @@ const LocalLogIn = () => {
           }}
         />
         <p
-          className={`mt-8 ${msg == MSG_PLACEHOLDER && "text-transparent select-none"}`}
+          className={`mt-8 ${
+            msg == MSG_PLACEHOLDER && "text-transparent select-none"
+          }`}
         >
           {msg}
         </p>

@@ -1,43 +1,25 @@
-"use client";
+import { LANGUAGE_COOKIE } from "@/i18n/language-utils";
+import { cookies } from "next/headers";
+import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
+import { getTranslations } from "next-intl/server";
+import { SaveButton } from "@/components/settings/SaveButton";
 
-import i18next from "i18next";
-import GenericSelect from "@/components/ui/GenericSelect";
-import { getEndonym, languages } from "@/i18n/config";
-import { FlagIcon } from "@/components/icons/FlagIcon";
-import { useState } from "react";
-import { LanguageCode } from "@/types/Language";
-import { useTranslation } from "react-i18next";
-
-export default function TournamentSettingsPage({
+export default async function TournamentSettingsPage({
   params,
 }: {
   params: Promise<{ path: string }>;
 }) {
-  const { t } = useTranslation("settings");
-  const languageOptions = languages.map((languageCode) => {
-    return {
-      value: languageCode,
-      text: getEndonym(languageCode),
-      icon: <FlagIcon language={languageCode} />,
-    };
-  });
-  const [currentLanguage, setCurrentLanguage] = useState(i18next.language);
-
-  const handleLanguageChange = (language: LanguageCode) => {
-    setCurrentLanguage(language);
-    i18next.changeLanguage(language);
-  };
+  const t = await getTranslations("settings");
+  const store = await cookies();
+  const language = store.get(LANGUAGE_COOKIE)?.value || "en";
 
   return (
     <>
       <div className="p-4 gap-6 items-center">
         <h1 className="text-2xl font-logo mb-6">{t("title")}</h1>
         <h2>{t("language_heading")}</h2>
-        <GenericSelect
-          options={languageOptions}
-          value={currentLanguage}
-          onValueChange={handleLanguageChange}
-        />
+        <LanguageSwitcher cachedLanguage={language} />
+        <SaveButton />
       </div>
     </>
   );
