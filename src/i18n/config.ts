@@ -6,10 +6,8 @@ import LanguageDetector, {
   DetectorOptions,
 } from "i18next-browser-languagedetector";
 import settings_en from "./en/settings.json";
-import sidebar_en from "./en/sidebar.json";
-import sidebar_pl from "./pl/sidebar.json";
-import dash_header_pl from "./pl/dash_header.json";
-import dash_header_en from "./en/dash_header.json";
+import dash_pl from "./pl/dash.json";
+import dash_en from "./en/dash.json";
 import settings_pl from "./pl/settings.json";
 import login_pl from "./pl/login.json";
 import login_en from "./en/login.json";
@@ -44,16 +42,14 @@ i18n
     resources: {
       en: {
         settings: settings_en,
-        sidebar: sidebar_en,
-        dash_header: dash_header_en,
+        dash: dash_en,
         login: login_en,
       },
       pl: {
         settings: settings_pl,
-        sidebar: sidebar_pl,
-        dash_header: dash_header_pl,
+        dash: dash_pl,
         login: login_pl,
-      }
+      },
     },
   });
 
@@ -61,9 +57,11 @@ const languages = ["en", "pl"] as const;
 export { languages };
 
 const getEndonym = (languageCode: LanguageCode) => {
-  switch(languageCode) {
-    case "en": return "English";
-    case "pl": return "Polski";
+  switch (languageCode) {
+    case "en":
+      return "English";
+    case "pl":
+      return "Polski";
   }
 };
 

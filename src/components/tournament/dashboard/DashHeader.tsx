@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import "@/i18n/config";
 
 const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
-  const { t } = useTranslation("dash_header");
+  const { t } = useTranslation("dash");
   return (
     <>
       <div className="space-x-1 z-40">
@@ -40,12 +40,12 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuLabel className="select-none">
-            {t("your_account_heading")}
+            {t("header.your_account_heading")}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem disabled>
-              <LucideUserCircle /> {t("account")}
+              <LucideUserCircle /> {t("header.account")}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
@@ -53,7 +53,7 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
               }}
               className="cursor-pointer"
             >
-              <LucideSettings /> {t("settings")}
+              <LucideSettings /> {t("header.settings")}
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />

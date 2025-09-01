@@ -19,7 +19,7 @@ type GenericSelectProps = {
 const GenericSelect = (props: GenericSelectProps) => (
   <Select.Root onValueChange={props.onValueChange} value={props.value}>
     <Select.Trigger>
-      <Select.Value />
+      <Select.Value /> {props.value ? getSelectedIcon(props.value, props.options) : ""}
       <Select.Icon>
         <ChevronDownIcon />
       </Select.Icon>
@@ -51,5 +51,10 @@ const GenericSelect = (props: GenericSelectProps) => (
     </Select.Portal>
   </Select.Root>
 );
+
+const getSelectedIcon = (value: string, options: SelectOption[]) => {
+  const selectedOption = options.filter((option) => {return option.value == value})[0];
+  return selectedOption.icon;
+}
 
 export default GenericSelect;

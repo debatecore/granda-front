@@ -38,24 +38,24 @@ const DashSide = ({
   tournament_path: string;
   path_highlight?: string;
 }) => {
-  const { t } = useTranslation("sidebar");
+  const { t } = useTranslation("dash");
   const links: DashSidebarLinks = [
     {
-      catname: t("tournament.catname"),
+      catname: t("sidebar.tournament.catname"),
       links: [
         {
-          name: t("tournament.overview"),
+          name: t("sidebar.tournament.overview"),
           href: `/t/${tournament_path}`,
           icon: LucideLayoutDashboard,
         },
         {
-          name: t("tournament.ladder"),
+          name: t("sidebar.tournament.ladder"),
           href: `/t/${tournament_path}/ladder`,
           icon: LucideBetweenHorizontalStart,
           disabled: true,
         },
         {
-          name: t("tournament.standings"),
+          name: t("sidebar.tournament.standings"),
           href: `/t/${tournament_path}/standings`,
           icon: LucideTrophy,
           disabled: true,
@@ -63,30 +63,30 @@ const DashSide = ({
       ],
     },
     {
-      catname: t("tournament_data.catname"),
+      catname: t("sidebar.tournament_data.catname"),
       links: [
         {
-          name: t("tournament_data.competing_teams"),
+          name: t("sidebar.tournament_data.competing_teams"),
           href: `/t/${tournament_path}/teams`,
           icon: LucideUsers,
         },
         {
-          name: t("tournament_data.debate_motions"),
+          name: t("sidebar.tournament_data.debate_motions"),
           href: `/t/${tournament_path}/motions`,
           icon: LucideScrollText,
         },
         {
-          name: t("tournament_data.staff_judges_bias"),
+          name: t("sidebar.tournament_data.staff_judges_bias"),
           href: `/t/${tournament_path}/staff`,
           icon: LucideScale,
         },
         {
-          name: t("tournament_data.physical_infrastructure"),
+          name: t("sidebar.tournament_data.physical_infrastructure"),
           href: `/t/${tournament_path}/locations`,
           icon: LucideCastle,
         },
         {
-          name: t("tournament_data.event_branding"),
+          name: t("sidebar.tournament_data.event_branding"),
           href: `/t/${tournament_path}/event-branding`,
           icon: LucideFileImage,
           disabled: true,
@@ -94,10 +94,10 @@ const DashSide = ({
       ],
     },
     {
-      catname: t("shareable.catname"),
+      catname: t("sidebar.shareable.catname"),
       links: [
         {
-          name: t("shareable.image_generation"),
+          name: t("sidebar.shareable.image_generation"),
           href: `/t/${tournament_path}/image-generation`,
           icon: LucidePaintBucket,
           disabled: true,
@@ -105,20 +105,20 @@ const DashSide = ({
       ],
     },
     {
-      catname: t("organisational.catname"),
+      catname: t("sidebar.organisational.catname"),
       links: [
         {
-          name: t("organisational.audit_log"),
+          name: t("sidebar.organisational.audit_log"),
           href: `/t/${tournament_path}/logs`,
           icon: LucideFileClock,
         },
         {
-          name: t("organisational.users"),
+          name: t("sidebar.organisational.users"),
           href: `/t/${tournament_path}/users`,
           icon: LucideUserCog,
         },
         {
-          name: t("organisational.tournament_settings"),
+          name: t("sidebar.organisational.tournament_settings"),
           href: `/t/${tournament_path}/settings`,
           icon: LucideSettings,
         },
@@ -133,7 +133,7 @@ const DashSide = ({
         <div className="mb-1">
           <h3 className="font-logo text-2xl">{"granda"}</h3>
           <p className="text-xs">
-            <span className="text-stone-500">{t("logo_by")} </span>
+            <span className="text-stone-500">{t("sidebar.logo_by")} </span>
             <Link
               href={"https://debateco.re"}
               className="font-semibold font-lexend tracking-wide text-transparent text-clip bg-clip-text bg-gradient-to-r from-violet-600 from-30% to-70% to-pink-400"

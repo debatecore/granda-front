@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 const LogOutDashHeaderDropdownButton = () => {
-  const { t } = useTranslation("dash_header");
+  const { t } = useTranslation("dash");
   const router = useRouter();
   const logoutrequest = async () => {
     const res = await fetchClientSide("/auth/clear");
@@ -20,7 +20,7 @@ const LogOutDashHeaderDropdownButton = () => {
       className="cursor-pointer"
       onClick={() => logoutrequest()}
     >
-      {t("log_out")}
+      {t("header.log_out")}
     </DropdownMenuItem>
   );
 };
