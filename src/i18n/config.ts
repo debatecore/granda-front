@@ -11,6 +11,8 @@ import sidebar_pl from "./pl/sidebar.json";
 import dash_header_pl from "./pl/dash_header.json";
 import dash_header_en from "./en/dash_header.json";
 import settings_pl from "./pl/settings.json";
+import login_pl from "./pl/login.json";
+import login_en from "./en/login.json";
 import { LanguageCode } from "@/types/Language";
 
 const options: DetectorOptions = {
@@ -37,18 +39,20 @@ i18n
     detection: options,
     debug: true,
     load: "languageOnly",
-    supportedLngs: ["en", "pl", "de"],
+    supportedLngs: ["en", "pl"],
     fallbackLng: "en",
     resources: {
       en: {
         settings: settings_en,
         sidebar: sidebar_en,
         dash_header: dash_header_en,
+        login: login_en,
       },
       pl: {
         settings: settings_pl,
         sidebar: sidebar_pl,
         dash_header: dash_header_pl,
+        login: login_pl,
       }
     },
   });

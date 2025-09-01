@@ -3,10 +3,13 @@
 import { fetchClientSide } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import "@/i18n/config"
 
 const LocalLogIn = () => {
-  const MSG_HANDLE_EMPTY = "Handle must not be empty.";
-  const MSG_PASSW_EMPTY = "Password must not be empty.";
+  const { t } = useTranslation("login");
+  const MSG_HANDLE_EMPTY = t("msg_handle_empty");
+  const MSG_PASSW_EMPTY = t("msg_passwd_empty");
   const MSG_PLACEHOLDER = "--";
 
   const router = useRouter();
@@ -38,8 +41,9 @@ const LocalLogIn = () => {
       }),
     });
     if (res.ok) {
-      // setMsg("Logged in succesfully!");
       router.push("/tournaments");
+    } else if (res.status == 401) {
+      setMsg(t("msg_invalid_credentials"));
     } else {
       const msg = await res.text();
       setMsg(msg);
@@ -49,14 +53,14 @@ const LocalLogIn = () => {
   return (
     <>
       <div className="flex flex-col mt-16 mb-10">
-        <p>{"Handle"}</p>
+        <p>{t("handle_label")}</p>
         <div className="relative">
           <input
             id="handleinput"
             type="text"
-            aria-label="Your handle (username)"
+            aria-label={t("handle_aria_label")}
             className="bg-stone-950/65 px-[22px] p-1 rounded border border-stone-700 hover:border-stone-500 focus:border-stone-500"
-            placeholder="your_handle"
+            placeholder={t("handle_placeholder")}
             value={handle}
             onChange={(e) => {
               setHandle(e.target.value);
@@ -68,12 +72,12 @@ const LocalLogIn = () => {
             {"@"}
           </p>
         </div>
-        <p className="mt-2">{"Password"}</p>
+        <p className="mt-2">{t("password_label")}</p>
         <input
           id="passwordinput"
           type="password"
-          aria-label="Your password"
-          placeholder="your_password"
+          aria-label={t("password_aria_label")}
+          placeholder={t("password_placeholder")}
           className="bg-stone-950/65 px-2 p-1 rounded border border-stone-700 hover:border-stone-500 focus:border-stone-500"
           value={passw}
           onKeyUp={(e) => {
@@ -94,7 +98,7 @@ const LocalLogIn = () => {
             loginrequest();
           }}
         >
-          {"Log in"}
+          {t("log_in")}
         </button>
       </div>
     </>

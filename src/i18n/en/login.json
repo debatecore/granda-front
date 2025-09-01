@@ -1,0 +1,12 @@
+{
+    "msg_handle_empty": "Handle must not be empty.",
+    "msg_passwd_empty": "Password must not be empty.",
+    "msg_invalid_credentials": "Invalid credentials",
+    "handle_label": "Handle",
+    "handle_aria_label": "Your handle (username)",
+    "handle_placeholder": "your_handle",
+    "password_label": "Password",
+    "password_aria_label": "Your password",
+    "password_placeholder": "your_password",
+    "log_in": "Log in"
+}
