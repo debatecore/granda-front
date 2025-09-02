@@ -10,6 +10,7 @@ const LocalLogIn = () => {
   const MSG_HANDLE_EMPTY = t("msg_handle_empty");
   const MSG_PASSW_EMPTY = t("msg_passwd_empty");
   const MSG_PLACEHOLDER = "--";
+  const UNAUTHORIZED = 401;
 
   const router = useRouter();
   const [handle, setHandle] = useState<string>("");
@@ -41,7 +42,7 @@ const LocalLogIn = () => {
     });
     if (res.ok) {
       router.push("/tournaments");
-    } else if (res.status == 401) {
+    } else if (res.status == UNAUTHORIZED) {
       setMsg(t("msg_invalid_credentials"));
     } else {
       const msg = await res.text();

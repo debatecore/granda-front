@@ -17,6 +17,8 @@ import {
 import Link from "next/link";
 import "@/i18n/language-utils";
 import { useTranslations } from "next-intl";
+import { DebatecoreLogo } from "@/components/debatecore/DebatecoreLogo";
+import { GrandaLogo } from "@/components/debatecore/GrandaLogo";
 
 type DashSideLink = {
   name: string;
@@ -130,15 +132,10 @@ const DashSide = ({
       <div className="flex items-center pl-6 gap-4 h-20 border-b border-stone-700">
         <LucideWaypoints size={32} />
         <div className="mb-1">
-          <h3 className="font-logo text-2xl">{"granda"}</h3>
+          <GrandaLogo className="text-2xl" subtitle={false} />
           <p className="text-xs">
             <span className="text-stone-500">{t("sidebar.logo_by")} </span>
-            <Link
-              href={"https://debateco.re"}
-              className="font-semibold font-lexend tracking-wide text-transparent text-clip bg-clip-text bg-gradient-to-r from-violet-600 from-30% to-70% to-pink-400"
-            >
-              {"debatecore"}
-            </Link>
+            <DebatecoreLogo />
           </p>
         </div>
       </div>

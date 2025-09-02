@@ -44,11 +44,27 @@
     "password_label": "Password",
     "password_aria_label": "Your password",
     "password_placeholder": "your_password",
-    "log_in": "Log in"
+    "log_in": "Log in",
+    "welcome_back": "Welcome back, {handle}!",
+    "next_destination_instruction": "Please choose your next destination.",
+    "tournaments_list": "Tournaments List",
+    "log_out": "Log out"
   },
   "settings": {
     "title": "Settings",
     "language_heading": "Language",
     "save": "Save"
+  },
+  "tournaments_list": {
+    "welcome": "Welcome, {handle}!",
+    "heading": "Here's a selection of tournaments you can access.",
+    "login_redirect_footer": "Alternatively, back to the <login>login page</login>."
+  },
+  "debatecore": {
+    "logo_subtitle": "The Debate Tournament Planner",
+    "footer_text": "Computer aided debate enrichment provided by <debatecore></debatecore>."
+  },
+  "overview": {
+    "title": "Overview"
   }
 }

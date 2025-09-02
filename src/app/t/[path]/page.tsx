@@ -1,12 +1,15 @@
+import { getTranslations } from "next-intl/server";
+
 export default async function TournamentRootPage({
   params,
 }: {
   params: Promise<{ path: string }>;
 }) {
+  const t = await getTranslations("overview");
   return (
     <>
       <div className="p-4">
-        <h1 className="text-2xl font-logo mb-6">{`Overview`}</h1>
+        <h1 className="text-2xl font-logo mb-6">{t("title")}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded border border-stone-700 h-64 bg-stone-700/25 flex flex-col gap-4 p-4">
             <p className="font-logo">Fictional content!</p>

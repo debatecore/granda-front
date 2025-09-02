@@ -12,10 +12,13 @@ const SaveButton = () => {
   const t = useTranslations("settings");
   return (
     <GenericButton
-      text={t("save")}
+      square
       onClick={saveSettings}
       className="max-w-1/12"
-    />
+      color="success"
+    >
+      {t("save")}
+    </GenericButton>
   );
 };
 

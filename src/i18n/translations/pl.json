@@ -44,11 +44,27 @@
     "password_label": "Hasło",
     "password_aria_label": "Twoje hasło",
     "password_placeholder": "twoje_hasło",
-    "log_in": "Zaloguj się"
+    "log_in": "Zaloguj się",
+    "welcome_back": "Witaj z powrotem, {handle}!",
+    "next_destination_instruction": "Wybierz, gdzie chcesz się udać.",
+    "tournaments_list": "Lista turniejów",
+    "log_out": "Wyloguj się"
   },
   "settings": {
     "title": "Ustawienia",
     "language_heading": "Język",
     "save": "Zapisz"
+  },
+  "tournaments_list": {
+    "welcome": "Witaj, {handle}!",
+    "heading": "Oto lista turniejów, do których masz dostęp.",
+    "login_redirect_footer": "Możesz też wrócić do <login>strony logowania</login>."
+  },
+  "debatecore": {
+    "logo_subtitle": "Zaplanuj swój turniej debat",
+    "footer_text": "Komputerowe wspomaganie debat dostarcza <debatecore></debatecore>."
+  },
+  "overview": {
+    "title": "Panel główny"
   }
 }
