@@ -8,6 +8,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
 
 const FontGeistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,11 +32,13 @@ const FontLexend = Lexend({
   variable: "--font-lexend",
 });
 
-export const metadata: Metadata = {
-  title: "granda: Debate Tournament Planner",
-  description:
-    "Computer aided debate tournament organizing experience enrichment.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  return {
+    title: t("title"),
+    description: t("description"),
+  } as Metadata;
+}
 
 export default function RootLayout({
   children,

@@ -66,5 +66,9 @@
   },
   "overview": {
     "title": "Panel główny"
+  },
+  "metadata": {
+    "title": "granda: Zaplanuj swój turniej debat",
+    "description": "Komputerowo wspomagane planowanie turniejów debat."
   }
 }
