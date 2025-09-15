@@ -16,7 +16,7 @@ const FlagIcon = (props: FlagIconProps) => {
       flagCode = props.language;
     }
   }
-  return <span className={"h-[12px] scale-x-[1.15] fi fi-" + flagCode}></span>;
+  return <span className={`h-[12px] scale-x-[1.15] fi fi-${flagCode}`}></span>;
 };
 
 export { FlagIcon };

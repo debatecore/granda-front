@@ -14,7 +14,7 @@ import {
   LucideUsers,
   LucideWaypoints,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import "@/i18n/language-utils";
 import { useTranslations } from "next-intl";
 import { DebatecoreLogo } from "@/components/debatecore/DebatecoreLogo";

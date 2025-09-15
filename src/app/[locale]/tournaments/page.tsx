@@ -4,7 +4,7 @@ import { fetchServerside } from "@/lib/utils";
 import { User } from "@/types/User";
 import { getTranslations } from "next-intl/server";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 
 export default async function TournamentListPage() {

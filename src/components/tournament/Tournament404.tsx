@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import MOW2024OlekSad from "../../../public/MOW2024-oleksad.jpg";
 
 const TournamentDoesntExist = () => {

@@ -13,11 +13,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOutDashHeaderDropdownButton } from "./Logout";
-import { redirect } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { redirect } from "@/i18n/navigation";
+import { useLocale, useTranslations } from "next-intl";
 
 const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
   const t = useTranslations("dash");
+  const locale = useLocale();
   return (
     <>
       <div className="space-x-1 z-40">
@@ -48,7 +49,10 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => {
-                redirect(`/t/${tournament.id}/settings`);
+                redirect({
+                  href: `/t/${tournament.id}/settings`,
+                  locale,
+                });
               }}
               className="cursor-pointer"
             >

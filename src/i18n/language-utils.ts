@@ -12,3 +12,10 @@ export const getEndonym = (languageCode: LanguageCode) => {
       return "Polski";
   }
 };
+
+export const getCachedLanguage = () => {
+  return document.cookie
+    .split("; ")
+    ?.find((row) => row.startsWith(`${LANGUAGE_COOKIE}=`))
+    ?.split("=")[1];
+};

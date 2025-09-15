@@ -2,7 +2,7 @@
 
 import { fetchClientSide } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 
 const LocalLogIn = () => {

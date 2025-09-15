@@ -1,7 +1,7 @@
 import { fetchServerside } from "@/lib/utils";
 import { Tournament } from "@/types/Tournament";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import MOW2024OlekFinal from "../../../public/S-MOW2024-olekfinal.jpg";
 import MOW2024OlekRelief from "../../../public/S-MOW2024-olekrelief.jpg";
 
@@ -64,11 +64,6 @@ const TournamentListItem = ({
           <p className="text-xs sm:text-base text-stone-300 font-semibold">
             {tournament.shortened_name}
           </p>
-          {/* <div className="absolute bottom-0 right-0">
-            <p className="text-xs font-mono pr-[2px] pb-[1px] text-stone-500">
-              {tournament.id}
-            </p>
-          </div> */}
         </div>
       </div>
     </Link>

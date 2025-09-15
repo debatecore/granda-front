@@ -18,7 +18,7 @@
         "catname": "informacje o turnieju",
         "competing_teams": "Drużyny",
         "debate_motions": "Tezy debat",
-        "staff_judges_bias": "Organizatorzy i sędziowie",
+        "staff_judges_bias": "Organizatorzy, sędziowie i powiązania",
         "physical_infrastructure": "Miejsca",
         "event_branding": "Szata graficzna"
       },
@@ -46,7 +46,7 @@
     "password_placeholder": "twoje_hasło",
     "log_in": "Zaloguj się",
     "welcome_back": "Witaj z powrotem, {handle}!",
-    "next_destination_instruction": "Wybierz, gdzie chcesz się udać.",
+    "next_destination_instruction": "Wybierz, gdzie chcesz się udać.",
     "tournaments_list": "Lista turniejów",
     "log_out": "Wyloguj się"
   },

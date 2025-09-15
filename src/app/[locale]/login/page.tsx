@@ -1,5 +1,5 @@
 import { GrainEffect } from "@/components/grain";
-import MOW2024 from "../../../public/MOW2024-olekfinal.jpg";
+import MOW2024 from "@/../public/MOW2024-olekfinal.jpg";
 import { LocalLogIn } from "@/components/LogInLocally";
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";

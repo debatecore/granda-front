@@ -1,7 +1,7 @@
 import { LANGUAGE_COOKIE } from "@/i18n/language-utils";
 import { cookies } from "next/headers";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { SaveButton } from "@/components/settings/SaveButton";
 
 export default async function TournamentSettingsPage({
@@ -11,7 +11,7 @@ export default async function TournamentSettingsPage({
 }) {
   const t = await getTranslations("settings");
   const store = await cookies();
-  const language = store.get(LANGUAGE_COOKIE)?.value || "en";
+  const language = await getLocale();
 
   return (
     <>
