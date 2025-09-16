@@ -50,11 +50,12 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }>) {
   const { locale } = await params;
+  console.log(locale);
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontLexend.variable} ${FontNewsreader.variable} ${FontLogo.variable} dark font-sans antialiased bg-stone-950 text-stone-100`}
       >

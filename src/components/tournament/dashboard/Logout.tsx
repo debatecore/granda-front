@@ -3,7 +3,7 @@
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { fetchClientSide } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 
 const LogOutDashHeaderDropdownButton = () => {
   const t = useTranslations("dash");
@@ -11,7 +11,7 @@ const LogOutDashHeaderDropdownButton = () => {
   const logoutrequest = async () => {
     const res = await fetchClientSide("/auth/clear");
     if (res.ok || res.status === 401) {
-      router.refresh();
+      router.push("/login");
     }
   };
   return (
