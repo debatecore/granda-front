@@ -40,7 +40,7 @@
     "msg_invalid_credentials": "Błędne dane logowania",
     "handle_label": "Nick",
     "handle_aria_label": "Twój nick",
-    "handle_placeholder": "nick",
+    "handle_placeholder": "twój_nick",
     "password_label": "Hasło",
     "password_aria_label": "Twoje hasło",
     "password_placeholder": "twoje_hasło",
@@ -61,7 +61,6 @@
     "login_redirect_footer": "Możesz też wrócić do <login>strony logowania</login>."
   },
   "debatecore": {
-    "logo_subtitle": "Zaplanuj swój turniej debat",
     "footer_text": "Komputerowe wspomaganie debat dostarcza <debatecore></debatecore>."
   },
   "overview": {

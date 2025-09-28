@@ -61,7 +61,6 @@
     "login_redirect_footer": "Alternatively, back to the <login>login page</login>."
   },
   "debatecore": {
-    "logo_subtitle": "The Debate Tournament Planner",
     "footer_text": "Computer aided debate enrichment provided by <debatecore></debatecore>."
   },
   "overview": {
