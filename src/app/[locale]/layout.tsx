@@ -7,6 +7,10 @@ import {
   Newsreader,
 } from "next/font/google";
 import "./globals.css";
+import { hasLocale, NextIntlClientProvider } from "next-intl";
+import { getTranslations } from "next-intl/server";
+import { routing } from "@/i18n/routing";
+import { notFound } from "next/navigation";
 
 const FontGeistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,23 +34,31 @@ const FontLexend = Lexend({
   variable: "--font-lexend",
 });
 
-export const metadata: Metadata = {
-  title: "granda: Debate Tournament Planner",
-  description:
-    "Computer aided debate tournament organizing experience enrichment.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("metadata");
+  return {
+    title: t("title"),
+    description: t("description"),
+  } as Metadata;
+}
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params,
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ locale: string }>;
 }>) {
+  const { locale } = await params;
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body
         className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontLexend.variable} ${FontNewsreader.variable} ${FontLogo.variable} dark font-sans antialiased bg-stone-950 text-stone-100`}
       >
-        {children}
+        <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
     </html>
   );

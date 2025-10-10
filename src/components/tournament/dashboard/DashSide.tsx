@@ -14,7 +14,11 @@ import {
   LucideUsers,
   LucideWaypoints,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import "@/i18n/language-utils";
+import { useTranslations } from "next-intl";
+import { DebatecoreLogo } from "@/components/debatecore/DebatecoreLogo";
+import { GrandaLogo } from "@/components/debatecore/GrandaLogo";
 
 type DashSideLink = {
   name: string;
@@ -35,23 +39,24 @@ const DashSide = ({
   tournament_path: string;
   path_highlight?: string;
 }) => {
+  const t = useTranslations("dash");
   const links: DashSidebarLinks = [
     {
-      catname: "tournament",
+      catname: t("sidebar.tournament.catname"),
       links: [
         {
-          name: "Overview",
+          name: t("sidebar.tournament.overview"),
           href: `/t/${tournament_path}`,
           icon: LucideLayoutDashboard,
         },
         {
-          name: "Tournament Ladder",
+          name: t("sidebar.tournament.ladder"),
           href: `/t/${tournament_path}/ladder`,
           icon: LucideBetweenHorizontalStart,
           disabled: true,
         },
         {
-          name: "Tournament Standings",
+          name: t("sidebar.tournament.standings"),
           href: `/t/${tournament_path}/standings`,
           icon: LucideTrophy,
           disabled: true,
@@ -59,30 +64,30 @@ const DashSide = ({
       ],
     },
     {
-      catname: "tournament data",
+      catname: t("sidebar.tournament_data.catname"),
       links: [
         {
-          name: "Competing Teams",
+          name: t("sidebar.tournament_data.competing_teams"),
           href: `/t/${tournament_path}/teams`,
           icon: LucideUsers,
         },
         {
-          name: "Debate Motions",
+          name: t("sidebar.tournament_data.debate_motions"),
           href: `/t/${tournament_path}/motions`,
           icon: LucideScrollText,
         },
         {
-          name: "Staff, Judges & Bias",
+          name: t("sidebar.tournament_data.staff_judges_bias"),
           href: `/t/${tournament_path}/staff`,
           icon: LucideScale,
         },
         {
-          name: "Physical Infrastructure",
+          name: t("sidebar.tournament_data.physical_infrastructure"),
           href: `/t/${tournament_path}/locations`,
           icon: LucideCastle,
         },
         {
-          name: "Event Branding",
+          name: t("sidebar.tournament_data.event_branding"),
           href: `/t/${tournament_path}/event-branding`,
           icon: LucideFileImage,
           disabled: true,
@@ -90,10 +95,10 @@ const DashSide = ({
       ],
     },
     {
-      catname: "shareable",
+      catname: t("sidebar.shareable.catname"),
       links: [
         {
-          name: "Image Generation",
+          name: t("sidebar.shareable.image_generation"),
           href: `/t/${tournament_path}/image-generation`,
           icon: LucidePaintBucket,
           disabled: true,
@@ -101,20 +106,20 @@ const DashSide = ({
       ],
     },
     {
-      catname: "Organisational",
+      catname: t("sidebar.organisational.catname"),
       links: [
         {
-          name: "Audit Log",
+          name: t("sidebar.organisational.audit_log"),
           href: `/t/${tournament_path}/logs`,
           icon: LucideFileClock,
         },
         {
-          name: "Users",
+          name: t("sidebar.organisational.users"),
           href: `/t/${tournament_path}/users`,
           icon: LucideUserCog,
         },
         {
-          name: "Tournament Settings",
+          name: t("sidebar.organisational.tournament_settings"),
           href: `/t/${tournament_path}/settings`,
           icon: LucideSettings,
         },
@@ -127,15 +132,10 @@ const DashSide = ({
       <div className="flex items-center pl-6 gap-4 h-20 border-b border-stone-700">
         <LucideWaypoints size={32} />
         <div className="mb-1">
-          <h3 className="font-logo text-2xl">{"granda"}</h3>
+          <GrandaLogo className="text-2xl" subtitle={false} />
           <p className="text-xs">
-            <span className="text-stone-500">{"by "}</span>
-            <Link
-              href={"https://debateco.re"}
-              className="font-semibold font-lexend tracking-wide text-transparent text-clip bg-clip-text bg-gradient-to-r from-violet-600 from-30% to-70% to-pink-400"
-            >
-              {"debatecore"}
-            </Link>
+            <span className="text-stone-500">{t("sidebar.logo_by")} </span>
+            <DebatecoreLogo />
           </p>
         </div>
       </div>
@@ -153,13 +153,19 @@ const DashSide = ({
                 return (
                   <Link
                     key={link.name}
-                    className={`flex flex-row items-center gap-2 border border-transparent hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 text-stone-200 rounded py-1 px-2 ${link.name === path_highlight && "bg-stone-700/15"} ${link.disabled && "opacity-35"}`}
+                    className={`flex flex-row items-center gap-2 border border-transparent hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 text-stone-200 rounded py-1 px-2 ${
+                      link.name === path_highlight && "bg-stone-700/15"
+                    } ${link.disabled && "opacity-35"}`}
                     href={link.disabled === true ? "" : link.href}
                     aria-disabled={link.disabled === true}
                   >
                     <link.icon
                       size={22}
-                      className={`${link.name === path_highlight ? "text-stone-400" : "text-stone-500"} font-light`}
+                      className={`${
+                        link.name === path_highlight
+                          ? "text-stone-400"
+                          : "text-stone-500"
+                      } font-light`}
                     />
                     <span className="tracking-tight font-geist font-medium">
                       {link.name}

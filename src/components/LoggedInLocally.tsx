@@ -3,11 +3,14 @@
 import { fetchClientSide } from "@/lib/utils";
 import { User } from "@/types/User";
 import { LucideUser } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { LinkButton } from "./ui/LinkButton";
+import { GenericButton } from "./ui/GenericButton";
 
 const LocalLoggedIn = ({ user }: { user: User }) => {
+  const t = useTranslations("login");
   const MSG_PLACEHOLDER = "--";
 
   const router = useRouter();
@@ -40,44 +43,42 @@ const LocalLoggedIn = ({ user }: { user: User }) => {
           </div>
         )}
         <div>
-          <p className="font-semibold text-xl">{`Welcome back, ${user.handle}!`}</p>
-          <p className="text-stone-500 text-xs">{`Please choose your next destination.`}</p>
+          <p className="font-semibold text-xl">
+            {t("welcome_back", { handle: user.handle })}
+          </p>
+          <p className="text-stone-500 text-xs">
+            {t("next_destination_instruction")}
+          </p>
         </div>
       </div>
       <div className="flex flex-col gap-2 mt-auto">
         {[
           {
-            name: "Tournaments List",
+            name: t("tournaments_list"),
             href: "/tournaments",
           },
-          // {
-          //   name: "User Settings",
-          //   href: "/user-settings",
-          //   disabled: true,
-          // },
         ].map((el) => {
           return (
-            <Link
-              href={el.href}
-              key={el.href}
-              className="cursor-pointer p-1 text-center block w-full bg-stone-700/45 rounded px-2 border border-stone-700 hover:border-stone-500 focus:border-stone-500"
-            >
-              {el.name}
-            </Link>
+            <LinkButton key={el.href} href={el.href} square>
+              {t("tournaments_list")}
+            </LinkButton>
           );
         })}
       </div>
       <div className="">
-        <button
-          className="cursor-pointer p-1 w-full bg-red-900/45 rounded px-2 border border-red-900 hover:border-red-700 focus:border-red-700"
+        <GenericButton
+          square
+          color="error"
           onClick={() => {
             logoutrequest();
           }}
         >
-          Log out
-        </button>
+          {t("log_out")}
+        </GenericButton>
         <p
-          className={`p-1 text-center text-stone-400 text-xs ${msg === MSG_PLACEHOLDER && "text-transparent select-none"}`}
+          className={`p-1 text-center text-stone-400 text-xs ${
+            msg === MSG_PLACEHOLDER && "text-transparent select-none"
+          }`}
         >
           {msg}
         </p>

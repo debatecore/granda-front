@@ -1,13 +1,16 @@
 "use client";
 
 import { fetchClientSide } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 
 const LocalLogIn = () => {
-  const MSG_HANDLE_EMPTY = "Handle must not be empty.";
-  const MSG_PASSW_EMPTY = "Password must not be empty.";
+  const t = useTranslations("login");
+  const MSG_HANDLE_EMPTY = t("msg_handle_empty");
+  const MSG_PASSW_EMPTY = t("msg_passwd_empty");
   const MSG_PLACEHOLDER = "--";
+  const UNAUTHORIZED = 401;
 
   const router = useRouter();
   const [handle, setHandle] = useState<string>("");
@@ -38,8 +41,9 @@ const LocalLogIn = () => {
       }),
     });
     if (res.ok) {
-      // setMsg("Logged in succesfully!");
       router.push("/tournaments");
+    } else if (res.status == UNAUTHORIZED) {
+      setMsg(t("msg_invalid_credentials"));
     } else {
       const msg = await res.text();
       setMsg(msg);
@@ -49,31 +53,33 @@ const LocalLogIn = () => {
   return (
     <>
       <div className="flex flex-col mt-16 mb-10">
-        <p>{"Handle"}</p>
+        <p>{t("handle_label")}</p>
         <div className="relative">
           <input
             id="handleinput"
             type="text"
-            aria-label="Your handle (username)"
+            aria-label={t("handle_aria_label")}
             className="bg-stone-950/65 px-[22px] p-1 rounded border border-stone-700 hover:border-stone-500 focus:border-stone-500"
-            placeholder="your_handle"
+            placeholder={t("handle_placeholder")}
             value={handle}
             onChange={(e) => {
               setHandle(e.target.value);
             }}
           />
           <p
-            className={`absolute top-[5px] left-2 ${isHandleEmpty && "text-stone-400"}`}
+            className={`absolute top-[5px] left-2 ${
+              isHandleEmpty && "text-stone-400"
+            }`}
           >
             {"@"}
           </p>
         </div>
-        <p className="mt-2">{"Password"}</p>
+        <p className="mt-2">{t("password_label")}</p>
         <input
           id="passwordinput"
           type="password"
-          aria-label="Your password"
-          placeholder="your_password"
+          aria-label={t("password_aria_label")}
+          placeholder={t("password_placeholder")}
           className="bg-stone-950/65 px-2 p-1 rounded border border-stone-700 hover:border-stone-500 focus:border-stone-500"
           value={passw}
           onKeyUp={(e) => {
@@ -84,7 +90,9 @@ const LocalLogIn = () => {
           }}
         />
         <p
-          className={`mt-8 ${msg == MSG_PLACEHOLDER && "text-transparent select-none"}`}
+          className={`mt-8 ${
+            msg == MSG_PLACEHOLDER && "text-transparent select-none"
+          }`}
         >
           {msg}
         </p>
@@ -94,7 +102,7 @@ const LocalLogIn = () => {
             loginrequest();
           }}
         >
-          {"Log in"}
+          {t("log_in")}
         </button>
       </div>
     </>
