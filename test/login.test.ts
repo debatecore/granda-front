@@ -35,7 +35,7 @@ test.describe("login procedure", () => {
 
   test("invalid credentials", async ({ page }) => {
     // GIVEN
-    const usernameInput = await page.getByRole("textbox", {
+    const usernameInput = page.getByRole("textbox", {
       name: "Your handle (username)",
     });
     const passwordInput = page.getByRole("textbox", { name: "Your password" });
@@ -56,7 +56,7 @@ test.describe("login procedure", () => {
 
   test("lacking password", async ({ page }) => {
     // GIVEN
-    const usernameInput = await page.getByRole("textbox", {
+    const usernameInput = page.getByRole("textbox", {
       name: "Your handle (username)",
     });
     const loginButton = page.getByRole("button", { name: "Log in" });
