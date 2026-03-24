@@ -21,5 +21,4 @@ const IconLocation = (props: iconprops) => {
   );
 };
 
-export { const IconLocation = (props: iconprops) => {
- };
+export { IconLocation };
