@@ -35,7 +35,7 @@ const setColor = (color: ButtonColor) => {
 };
 
 const GenericButton = (
-  props: PropsWithChildren<SharedButtonProps & GenericButtonProps>
+  props: PropsWithChildren<SharedButtonProps & GenericButtonProps>,
 ) => {
   return (
     <button
