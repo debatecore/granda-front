@@ -69,5 +69,23 @@
   "metadata": {
     "title": "granda: Debate Tournament Planner",
     "description": "Computer aided debate tournament organizing experience enrichment."
+  },
+
+  "ladder": {
+    "title": "Tournament Ladder",
+    "planning_title": "Tournament planning",
+    "planning_description": "Set the core parameters to generate the tournament ladder.",
+    "group_phase_rounds": "Group phase rounds",
+    "groups_count": "Groups count",
+    "advancing_teams": "Advancing teams",
+    "submit": "Plan tournament",
+    "submitting": "Planning...",
+    "placeholder_title": "Tournament ladder",
+    "placeholder_description": "Tournament ladder placeholder.",
+    "no_phases_error": "Failed to load tournament phases.",
+    "validation_positive_integer": "This value must be a positive integer.",
+    "validation_power_of_two": "Advancing teams must be a power of 2.",
+    "request_failed": "Failed to plan the tournament.",
+    "success": "Tournament planning submitted successfully."
   }
 }
