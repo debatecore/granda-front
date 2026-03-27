@@ -41,7 +41,7 @@ export function TournamentPlanningForm({
 
   const [state, formAction, isPending] = useActionState(
     boundPlanTournament,
-    initialState
+    initialState,
   );
 
   let errorMessage: string | null = null;

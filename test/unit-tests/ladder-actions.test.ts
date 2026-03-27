@@ -35,7 +35,7 @@ describe("planTournament", () => {
     const result = await planTournament(
       "test-tournament-id",
       { success: false, error: null },
-      formData
+      formData,
     );
 
     // THEN
@@ -57,7 +57,7 @@ describe("planTournament", () => {
     const result = await planTournament(
       "test-tournament-id",
       { success: false, error: null },
-      formData
+      formData,
     );
 
     // THEN
@@ -79,7 +79,7 @@ describe("planTournament", () => {
     const result = await planTournament(
       "test-tournament-id",
       { success: false, error: null },
-      formData
+      formData,
     );
 
     // THEN
@@ -107,7 +107,7 @@ describe("planTournament", () => {
     const result = await planTournament(
       "test-tournament-id",
       { success: false, error: null },
-      formData
+      formData,
     );
 
     // THEN
@@ -125,7 +125,7 @@ describe("planTournament", () => {
           groups_count: 2,
           advancing_teams: 4,
         }),
-      }
+      },
     );
 
     expect(result).toEqual({
@@ -155,7 +155,7 @@ describe("planTournament", () => {
     const result = await planTournament(
       "test-tournament-id",
       { success: false, error: null },
-      formData
+      formData,
     );
 
     // THEN

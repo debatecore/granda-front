@@ -19,7 +19,7 @@ function isPowerOfTwo(value: number) {
 export async function planTournament(
   tournamentId: string,
   _prevState: PlanTournamentState,
-  formData: FormData
+  formData: FormData,
 ): Promise<PlanTournamentState> {
   const groupPhaseRounds = Number(formData.get("group_phase_rounds"));
   const groupsCount = Number(formData.get("groups_count"));

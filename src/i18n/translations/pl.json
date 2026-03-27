@@ -71,20 +71,20 @@
     "description": "Komputerowo wspomagane planowanie turniejów debat."
   },
   "ladder": {
-  "title": "Drabinka turniejowa",
-  "planning_title": "Planowanie turnieju",
-  "planning_description": "Ustaw podstawowe parametry, aby wygenerować drabinkę turniejową.",
-  "group_phase_rounds": "Liczba rund fazy grupowej",
-  "groups_count": "Liczba grup",
-  "advancing_teams": "Liczba awansujących drużyn",
-  "submit": "Zaplanuj turniej",
-  "submitting": "Planowanie...",
-  "placeholder_title": "Drabinka turniejowa",
-  "placeholder_description": "Placeholder drabinki turniejowej.",
-  "no_phases_error": "Nie udało się pobrać faz turnieju.",
-  "validation_positive_integer": "Ta wartość musi być dodatnią liczbą całkowitą.",
-  "validation_power_of_two": "Liczba awansujących drużyn musi być potęgą 2.",
-  "request_failed": "Nie udało się zaplanować turnieju.",
-  "success": "Planowanie turnieju zakończone powodzeniem."
-}
+    "title": "Drabinka turniejowa",
+    "planning_title": "Planowanie turnieju",
+    "planning_description": "Ustaw podstawowe parametry, aby wygenerować drabinkę turniejową.",
+    "group_phase_rounds": "Liczba rund fazy grupowej",
+    "groups_count": "Liczba grup",
+    "advancing_teams": "Liczba awansujących drużyn",
+    "submit": "Zaplanuj turniej",
+    "submitting": "Planowanie...",
+    "placeholder_title": "Drabinka turniejowa",
+    "placeholder_description": "Placeholder drabinki turniejowej.",
+    "no_phases_error": "Nie udało się pobrać faz turnieju.",
+    "validation_positive_integer": "Ta wartość musi być dodatnią liczbą całkowitą.",
+    "validation_power_of_two": "Liczba awansujących drużyn musi być potęgą 2.",
+    "request_failed": "Nie udało się zaplanować turnieju.",
+    "success": "Planowanie turnieju zakończone powodzeniem."
+  }
 }
