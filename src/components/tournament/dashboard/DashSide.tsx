@@ -53,7 +53,7 @@ const DashSide = ({
           name: t("sidebar.tournament.ladder"),
           href: `/t/${tournament_path}/ladder`,
           icon: LucideBetweenHorizontalStart,
-          disabled: true,
+          disabled: false,
         },
         {
           name: t("sidebar.tournament.standings"),
