@@ -18,9 +18,9 @@ export default async function HomePage() {
     },
   });
   if (res_authme.ok) {
-    redirect({href: "/tournaments", locale});
+    redirect({ href: "/tournaments", locale });
   } else {
-    redirect({href: "/login", locale});
+    redirect({ href: "/login", locale });
   }
   return (
     <div className="relative w-full h-screen flex justify-center items-center">
