@@ -7,6 +7,8 @@ import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 import { User, UUID_MAX } from "@/types/User";
+import { GenericComponent } from "@/components/ui/GenericComponent";
+import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
 
 export default async function TournamentListPage() {
   const t = await getTranslations("tournaments_list");
@@ -34,6 +36,11 @@ export default async function TournamentListPage() {
         </p>
 
         {data_authme.value.id === UUID_MAX && <CreateTournamentButton />}
+
+        <GenericComponent
+          title="some other title"
+          content={<p>Lorem ipsum dolor sit amet</p>}
+        />
 
         <TournamentsList />
 
