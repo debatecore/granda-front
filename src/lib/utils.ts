@@ -5,15 +5,19 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
+const BACKEND_PORT = process.env.BACKEND_PORT
+  ? process.env.BACKEND_PORT
+  : "2023";
+const BACKEND_SOCKET_ADDRESS =
+  process.env.NODE_ENV === "production"
+    ? `http://server-prod:${BACKEND_PORT}`
+    : `http://127.0.0.1:${BACKEND_PORT}`;
+
 export const fetchClientSide = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  const input =
-    process.env.NODE_ENV === "production"
-      ? `${process.env["NEXT_PUBLIC_API_URL"]}${path}`
-      : `http://localhost:2023${path}`;
-  return fetch(input, {
+  return fetch(`${BACKEND_SOCKET_ADDRESS}${path}`, {
     credentials: "include",
     ...init,
   });
@@ -23,7 +27,7 @@ export const fetchServerside = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  const input = `http://localhost:2023${path}`;
+  const input = `${BACKEND_SOCKET_ADDRESS}${path}`;
   return fetch(input, {
     credentials: "include",
     ...init,
