@@ -5,19 +5,21 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const BACKEND_PORT = process.env.BACKEND_PORT
-  ? process.env.BACKEND_PORT
-  : "2023";
-const BACKEND_SOCKET_ADDRESS =
-  process.env.NODE_ENV === "production"
-    ? `http://server-prod:${BACKEND_PORT}`
-    : `http://127.0.0.1:${BACKEND_PORT}`;
+// TO-DO: figure out how to pass env variables to the container
+// (it doesn't seem to work)
+const INTERNAL_BACKEND_SOCKET = process.env.INTERNAL_BACKEND_SOCKET
+  ? process.env.INTERNAL_BACKEND_SOCKET
+  : "http://server-prod:2023";
+const BACKEND_SOCKET = process.env.BACKEND_SOCKET
+  ? process.env.BACKEND_SOCKET
+  : "http://localhost:2023";
 
 export const fetchClientSide = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  return fetch(`${BACKEND_SOCKET_ADDRESS}${path}`, {
+  console.log(BACKEND_SOCKET);
+  return fetch(`${BACKEND_SOCKET}${path}`, {
     credentials: "include",
     ...init,
   });
@@ -27,7 +29,7 @@ export const fetchServerside = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  const input = `${BACKEND_SOCKET_ADDRESS}${path}`;
+  const input = `${INTERNAL_BACKEND_SOCKET}${path}`;
   return fetch(input, {
     credentials: "include",
     ...init,

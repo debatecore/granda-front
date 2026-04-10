@@ -11,6 +11,8 @@ services:
     environment:
       - FRONTEND_PORT=${FRONTEND_PORT}
       - BACKEND_PORT=${BACKEND_PORT}
+      - INTERNAL_BACKEND_SOCKET=http://server-prod:${BACKEND_PORT}
+      - BACKEND_SOCKET=${BACKEND_SOCKET}
     depends_on:
       server-prod:
         condition: service_started
