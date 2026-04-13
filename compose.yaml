@@ -34,6 +34,11 @@ services:
     depends_on:
       db-prod:
         condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   db-prod:
     image: postgres:17.2
     restart: always

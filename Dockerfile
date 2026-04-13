@@ -29,6 +29,13 @@ RUN --mount=type=cache,target=/root/.npm \
     echo "No lockfile found." && exit 1; \
     fi
 
+# COPY . .
+# RUN npm install --save-dev @types/jest
+# RUN npx playwright install
+# RUN npx playwright install-deps
+# RUN npm run test
+# RUN npm run test:e2e
+
 # ============================================
 # Stage 2: Build Next.js application in standalone mode
 # ============================================
