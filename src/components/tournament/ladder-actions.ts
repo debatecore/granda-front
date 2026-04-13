@@ -43,7 +43,7 @@ export async function planTournament(
     };
   }
 
-  const res = await fetchServerside(`/tournament/${tournamentId}/plan`, {
+  const res = await fetchServerside(`/tournaments/${tournamentId}/plan`, {
     method: "POST",
     headers: {
       Cookie: (await cookies()).toString(),
