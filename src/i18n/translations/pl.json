@@ -69,5 +69,13 @@
   "metadata": {
     "title": "granda: Zaplanuj swój turniej debat",
     "description": "Komputerowo wspomagane planowanie turniejów debat."
+  },
+  "debate_details": {
+    "title": "Szczegóły debaty",
+    "load_error": "Nie udało się pobrać szczegółów debaty.",
+    "fallback_motion": "Debata bez tezy",
+    "debate_id": "ID debaty",
+    "marshal_panel_title": "Przyciski marszałka",
+    "conduct_button": "Przeprowadź debatę!"
   }
 }
