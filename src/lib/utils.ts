@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 const INTERNAL_BACKEND_SOCKET =
-  process.env.INTERNAL_BACKEND_SOCKET || "http://server-prod:2023";
+  process.env.INTERNAL_BACKEND_SOCKET || "http://localhost:2023";
 const BACKEND_SOCKET = process.env.BACKEND_SOCKET || "http://localhost:2023";
 
 export const fetchClientSide = async (
