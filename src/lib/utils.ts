@@ -23,7 +23,10 @@ export const fetchServerside = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  const input = `http://localhost:2023${path}`;
+  const base = process.env.SERVER_URL ?? "http://localhost:2023";
+  const input = `${base}${path}`;
+  console.log("BAJOJAJO");
+  console.log(input);
   return fetch(input, {
     credentials: "include",
     ...init,
