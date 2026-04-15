@@ -18,12 +18,14 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flag-icons": "^7.5.0",
+    "get-port": "^7.2.0",
     "lucide-react": "^0.482.0",
     "next": "15.5.2",
     "next-intl": "^4.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwind-merge": "^3.1.0",
+    "tree-kill": "^1.2.2",
     "tw-animate-css": "^1.2.5"
   },
   "devDependencies": {

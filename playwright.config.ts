@@ -30,17 +30,10 @@ export default defineConfig({
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
-    // {
-    //   name: "firefox",
-    //   use: { ...devices["Desktop Firefox"] },
-    // },
+    {
+      name: "firefox",
+      use: { ...devices["Desktop Firefox"] },
+    },
   ],
-
-  // webServer: {
-  //   command: "npm run dev",
-  //   port: 3000,
-  //   reuseExistingServer: false,
-  //   stdout: "pipe",
-  //   stderr: "pipe",
-  // },
+  timeout: 120000,
 });

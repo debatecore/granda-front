@@ -12,7 +12,7 @@ export const fetchClientSide = async (
   const input =
     process.env.NODE_ENV === "production"
       ? `${process.env["NEXT_PUBLIC_API_URL"]}${path}`
-      : `http://localhost:2023${path}`;
+      : (process.env.SERVER_URL ?? "http://localhost:2023");
   return fetch(input, {
     credentials: "include",
     ...init,
@@ -25,8 +25,6 @@ export const fetchServerside = async (
 ) => {
   const base = process.env.SERVER_URL ?? "http://localhost:2023";
   const input = `${base}${path}`;
-  console.log("BAJOJAJO");
-  console.log(input);
   return fetch(input, {
     credentials: "include",
     ...init,

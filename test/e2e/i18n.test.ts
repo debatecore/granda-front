@@ -1,6 +1,8 @@
 import { test as base, expect } from "@playwright/test";
-import { TestContainers } from "./testcontainers";
+import { TestContainers } from "./e2eUtils";
 import { spawn } from "child_process";
+import getPort from "get-port";
+import kill from "tree-kill";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let serverProcess: any;
@@ -13,14 +15,9 @@ type Fixtures = {
 
 const test = base.extend<Fixtures>({
   frontendPort: async ({}, use) => {
-    const frontendPort = 3001;
+    const frontendPort = await getPort();
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(frontendPort);
-  },
-  frontendSocket: async ({ frontendPort }, use) => {
-    const baseURL = `http://localhost:${frontendPort}`;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    await use(baseURL);
   },
   testContainers: async ({}, use) => {
     const containers = new TestContainers();
@@ -29,28 +26,34 @@ const test = base.extend<Fixtures>({
     await use(containers);
     await containers.stop();
   },
+  page: async ({ browser, frontendPort }, use) => {
+    const page = await browser.newPage({
+      baseURL: `http://localhost:${frontendPort}`,
+    });
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(page);
+  },
 });
 
 test.describe("routing-based i18n on login page", async () => {
-  test.beforeEach(
-    async ({ page, testContainers, frontendPort, frontendSocket }) => {
-      const port = testContainers.server?.getMappedPort(2023);
-      process.env.SERVER_URL = `http://localhost:${port}`;
-      console.log(`port set outside: ${process.env.SERVER_URL}`);
-      serverProcess = spawn("npm", ["run", "dev"], {
-        env: {
-          ...process.env,
-          SERVER_URL: `http://localhost:${port}`,
-          PORT: frontendPort.toString(),
-        },
-        stdio: "inherit",
-      });
-      await waitForServer(`${frontendSocket}/en/login`);
-      await page.goto(`${frontendSocket}/en/login`);
-    },
-  );
+  test.beforeEach(async ({ page, testContainers, frontendPort }) => {
+    const port = testContainers.server?.getMappedPort(2023);
+    process.env.SERVER_URL = `http://localhost:${port}`;
+    console.log(`port set outside: ${process.env.SERVER_URL}`);
+    serverProcess = spawn("npm", ["run", "dev"], {
+      env: {
+        ...process.env,
+        SERVER_URL: `http://localhost:${port}`,
+        PORT: frontendPort.toString(),
+      },
+      stdio: "inherit",
+    });
+    await waitForServer(`http://localhost:${frontendPort}/en/login`);
+    await page.goto("/en/login");
+  });
 
-  async function waitForServer(url: string, timeout = 10000) {
+  async function waitForServer(url: string, timeout = 120000) {
     const start = Date.now();
 
     while (Date.now() - start < timeout) {
@@ -65,10 +68,14 @@ test.describe("routing-based i18n on login page", async () => {
   }
 
   test.afterEach(async () => {
-    await serverProcess.kill();
+    if (serverProcess?.pid) {
+      await new Promise((resolve) => {
+        kill(serverProcess.pid, "SIGTERM", resolve);
+      });
+    }
   });
 
-  test("en", async ({ page, frontendPort }) => {
+  test("en", async ({ page }) => {
     // GIVEN
     await page.goto("/en/login");
 
@@ -83,9 +90,9 @@ test.describe("routing-based i18n on login page", async () => {
     await expect(loginButton).toBeVisible();
   });
 
-  test.only("pl", async ({ page, testContainers, frontendSocket }) => {
+  test.only("pl", async ({ page }) => {
     // GIVEN
-    await page.goto(`${frontendSocket}/pl/login`);
+    await page.goto("/pl/login");
 
     // WHEN
     const handleLabel = page.getByText("Nick");
