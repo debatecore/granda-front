@@ -1,17 +1,15 @@
-import { test as base, expect } from "@playwright/test";
-import { TestContainers } from "./e2eUtils";
-import { spawn } from "child_process";
+import { expect, test as base } from "@playwright/test";
+import {
+  Fixtures,
+  getFixturedTest,
+  killFrontendServer,
+  TestContainers,
+  waitForServer,
+} from "./e2eUtils";
+import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import getPort from "get-port";
-import kill from "tree-kill";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let serverProcess: any;
-
-type Fixtures = {
-  testContainers: TestContainers;
-  frontendPort: number;
-  frontendSocket: string;
-};
+let frontendServer: ChildProcessWithoutNullStreams;
 
 const test = base.extend<Fixtures>({
   frontendPort: async ({}, use) => {
@@ -30,7 +28,6 @@ const test = base.extend<Fixtures>({
     const page = await browser.newPage({
       baseURL: `http://localhost:${frontendPort}`,
     });
-
     // eslint-disable-next-line react-hooks/rules-of-hooks
     await use(page);
   },
@@ -38,40 +35,21 @@ const test = base.extend<Fixtures>({
 
 test.describe("routing-based i18n on login page", async () => {
   test.beforeEach(async ({ page, testContainers, frontendPort }) => {
-    const port = testContainers.server?.getMappedPort(2023);
-    process.env.SERVER_URL = `http://localhost:${port}`;
-    console.log(`port set outside: ${process.env.SERVER_URL}`);
-    serverProcess = spawn("npm", ["run", "dev"], {
+    const backendPort = testContainers.server?.getMappedPort(2023);
+    frontendServer = spawn("npm", ["run", "dev"], {
       env: {
         ...process.env,
-        SERVER_URL: `http://localhost:${port}`,
+        SERVER_URL: `http://localhost:${backendPort}`,
         PORT: frontendPort.toString(),
       },
-      stdio: "inherit",
     });
     await waitForServer(`http://localhost:${frontendPort}/en/login`);
     await page.goto("/en/login");
   });
 
-  async function waitForServer(url: string, timeout = 120000) {
-    const start = Date.now();
-
-    while (Date.now() - start < timeout) {
-      try {
-        await fetch(url);
-        return;
-      } catch {}
-      await new Promise((r) => setTimeout(r, 200));
-    }
-
-    throw new Error("Server did not start in time");
-  }
-
   test.afterEach(async () => {
-    if (serverProcess?.pid) {
-      await new Promise((resolve) => {
-        kill(serverProcess.pid, "SIGTERM", resolve);
-      });
+    if (frontendServer.pid) {
+      killFrontendServer(frontendServer.pid);
     }
   });
 

@@ -10,6 +10,10 @@ import {
   Wait,
 } from "testcontainers";
 
+import { test as base } from "@playwright/test";
+import getPort from "get-port";
+import kill from "tree-kill";
+
 export class TestContainers {
   server?: StartedTestContainer;
   db?: StartedPostgreSqlContainer;
@@ -42,3 +46,29 @@ export class TestContainers {
     await this.network?.stop();
   }
 }
+
+export async function waitForServer(url: string, timeout = 120000) {
+  const start = Date.now();
+
+  while (Date.now() - start < timeout) {
+    try {
+      await fetch(url);
+      return;
+    } catch {}
+    await new Promise((r) => setTimeout(r, 200));
+  }
+
+  throw new Error("Server did not start in time");
+}
+
+export const killFrontendServer = async (pid: number) => {
+  await new Promise((resolve) => {
+    kill(pid, "SIGTERM", resolve);
+  });
+};
+
+export type Fixtures = {
+  testContainers: TestContainers;
+  frontendPort: number;
+  frontendSocket: string;
+};
