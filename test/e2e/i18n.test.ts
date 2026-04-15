@@ -1,6 +1,16 @@
 import { test, expect } from "@playwright/test";
+import { DockerComposeEnvironment } from "testcontainers";
 
-test.describe("routing-based i18n on login page", () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let environment: any;
+
+test.describe("routing-based i18n on login page", async () => {
+  test.beforeAll(async () => {
+    environment = await new DockerComposeEnvironment("../tau", "compose.yaml")
+      .withProfiles("prod")
+      .up();
+  });
+
   test.beforeEach(async ({ page }) => {
     await page.goto("/en/login");
   });
@@ -33,5 +43,9 @@ test.describe("routing-based i18n on login page", () => {
     await expect(handleLabel).toBeVisible();
     await expect(passwordLabel).toBeVisible();
     await expect(loginButton).toBeVisible();
+  });
+
+  test.afterAll(async () => {
+    await environment.down();
   });
 });
