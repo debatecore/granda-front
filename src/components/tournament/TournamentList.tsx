@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import MOW2024OlekFinal from "../../../public/S-MOW2024-olekfinal.jpg";
 import MOW2024OlekRelief from "../../../public/S-MOW2024-olekrelief.jpg";
+import { GenericComponent } from "@/components/ui/GenericComponent";
 
 const TournamentsList = async () => {
   let data_tournaments: Tournament[] = [];
@@ -32,15 +33,64 @@ const TournamentsList = async () => {
           })}
         </div>
       ) : (
-        <>
-          <p className="text-stone-500">
-            {"There aren't any tournaments you're a part of yet."}
-          </p>
-        </>
+        <p className="text-stone-500">
+          {"There aren't any tournaments you're a part of yet."}
+        </p>
       )}
+
+      {/* show Component Gallery either tounament exist or not  */}
+      <div className="mt-20 border-t border-stone-800 pt-12">
+        <h3 className="text-stone-600 mb-8 text-sm uppercase tracking-widest">Component Gallery (Test View)</h3>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full max-w-[1200px]">
+          {/* left calum */}
+          <div className="flex flex-col gap-6">
+            <GenericComponent title="Attendees">
+              <div className="space-y-1 text-sm">
+                <p>1. Emelia Haney</p>
+                <p>2. Yasin Tucker</p>
+                <p>3. Earl Allison</p>
+                <p>4. Emilie Whitaker</p>
+                <p className="text-stone-500 mt-2">...and more</p>
+              </div>
+            </GenericComponent>
+
+            <GenericComponent title="Location">
+              <div className="flex flex-col sm:flex-row gap-4 text-sm">
+                <p className="flex-1">Softwarepark 23, Hagenberg im Mühlkreis</p>
+                <div className="w-full sm:w-48 h-32 bg-stone-800 rounded-md border border-stone-700 flex items-center justify-center text-stone-600">
+                  Image Placeholder
+                </div>
+              </div>
+            </GenericComponent>
+          </div>
+
+          {/* right calum */}
+          <div className="flex flex-col gap-6">
+            <GenericComponent 
+              title="Error 312" 
+              error={{ code: 312, message: "This is the error message" }}
+            />
+
+            <GenericComponent title="Additional information">
+              <p className="text-sm leading-relaxed">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus ullamcorper rhoncus sodales.
+              </p>
+            </GenericComponent>
+            
+            <GenericComponent title="Coming soon">
+              <div className="flex justify-center py-6">
+                <span className="text-stone-600">...</span>
+              </div>
+            </GenericComponent>
+          </div>
+        </div>
+      </div>
+      
     </div>
   );
 };
+
 
 const TournamentListItem = ({
   tournament,
