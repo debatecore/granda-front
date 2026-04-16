@@ -17,7 +17,7 @@ test.describe("routing-based i18n on login page", async () => {
     await expect(loginButton).toBeVisible();
   });
 
-  test.only("pl", async ({ page }) => {
+  test("pl", async ({ page }) => {
     // GIVEN
     await page.goto("/pl/login");
 

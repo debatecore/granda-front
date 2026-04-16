@@ -16,14 +16,10 @@ import kill from "tree-kill";
 import { spawn } from "child_process";
 
 export const test = base.extend<Fixtures>({
-  frontendPort: async ({}, use) => {
+  page: async ({ browser }, use) => {
     const frontendPort = await getPort();
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    await use(frontendPort);
-  },
-  page: async ({ browser, frontendPort }, use) => {
     const containers = new TestContainers();
-    await containers.start();
+    await containers.start(frontendPort);
     const backendPort = containers.server?.getMappedPort(2023);
 
     const page = await browser.newPage({
@@ -32,7 +28,8 @@ export const test = base.extend<Fixtures>({
     const frontendServer = spawn("npm", ["run", "dev"], {
       env: {
         ...process.env,
-        SERVER_URL: `http://localhost:${backendPort}`,
+        CORS_ORIGIN: `http://localhost:${frontendPort}`,
+        BACKEND_URL: `http://localhost:${backendPort}`,
         PORT: frontendPort.toString(),
       },
     });
@@ -54,7 +51,7 @@ export class TestContainers {
   db?: StartedPostgreSqlContainer;
   network?: StartedNetwork;
 
-  async start() {
+  async start(frontendPort: number) {
     const network = await new Network().start();
     const db = await new PostgreSqlContainer("postgres:17.2")
       .withNetwork(network)
@@ -67,7 +64,7 @@ export class TestContainers {
       .withWaitStrategy(Wait.forHttp("/health", 2023))
       .withEnvironment({
         DATABASE_URL: connectionString,
-        FRONTEND_ORIGIN: "http://localhost:3000",
+        FRONTEND_ORIGIN: `http://localhost:${frontendPort}`,
       })
       .start();
     this.server = server;
@@ -104,5 +101,4 @@ export const killFrontendServer = async (pid: number) => {
 
 export type Fixtures = {
   testContainers: TestContainers;
-  frontendPort: number;
 };
