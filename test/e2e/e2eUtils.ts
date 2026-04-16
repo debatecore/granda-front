@@ -13,6 +13,41 @@ import {
 import { test as base } from "@playwright/test";
 import getPort from "get-port";
 import kill from "tree-kill";
+import { spawn } from "child_process";
+
+export const test = base.extend<Fixtures>({
+  frontendPort: async ({}, use) => {
+    const frontendPort = await getPort();
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(frontendPort);
+  },
+  page: async ({ browser, frontendPort }, use) => {
+    const containers = new TestContainers();
+    await containers.start();
+    const backendPort = containers.server?.getMappedPort(2023);
+
+    const page = await browser.newPage({
+      baseURL: `http://localhost:${frontendPort}`,
+    });
+    const frontendServer = spawn("npm", ["run", "dev"], {
+      env: {
+        ...process.env,
+        SERVER_URL: `http://localhost:${backendPort}`,
+        PORT: frontendPort.toString(),
+      },
+    });
+    await waitForServer(`http://localhost:${frontendPort}/en/login`);
+
+    await page.goto("/en/login");
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(page);
+
+    await containers.stop();
+    if (frontendServer.pid) {
+      killFrontendServer(frontendServer.pid);
+    }
+  },
+});
 
 export class TestContainers {
   server?: StartedTestContainer;
@@ -26,7 +61,7 @@ export class TestContainers {
       .withNetworkAliases("postgres")
       .start();
     const connectionString = `postgresql://${db.getUsername()}:${db.getPassword()}@postgres:5432/${db.getDatabase()}`;
-    const server = await new GenericContainer("tau-server-prod:latest")
+    const server = await new GenericContainer("tau:latest")
       .withNetwork(network)
       .withExposedPorts(2023)
       .withWaitStrategy(Wait.forHttp("/health", 2023))
@@ -70,5 +105,4 @@ export const killFrontendServer = async (pid: number) => {
 export type Fixtures = {
   testContainers: TestContainers;
   frontendPort: number;
-  frontendSocket: string;
 };
