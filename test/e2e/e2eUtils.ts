@@ -15,12 +15,14 @@ import getPort from "get-port";
 import kill from "tree-kill";
 import { spawn } from "child_process";
 
+const DEFAULT_BACKEND_PORT = 2023;
+
 export const test = base.extend<Fixtures>({
   page: async ({ browser }, use) => {
     const frontendPort = await getPort();
     const containers = new TestContainers();
     await containers.start(frontendPort);
-    const backendPort = containers.server?.getMappedPort(2023);
+    const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
 
     const page = await browser.newPage({
       baseURL: `http://localhost:${frontendPort}`,
@@ -60,8 +62,8 @@ export class TestContainers {
     const connectionString = `postgresql://${db.getUsername()}:${db.getPassword()}@postgres:5432/${db.getDatabase()}`;
     const server = await new GenericContainer("tau:latest")
       .withNetwork(network)
-      .withExposedPorts(2023)
-      .withWaitStrategy(Wait.forHttp("/health", 2023))
+      .withExposedPorts(DEFAULT_BACKEND_PORT)
+      .withWaitStrategy(Wait.forHttp("/health", DEFAULT_BACKEND_PORT))
       .withEnvironment({
         DATABASE_URL: connectionString,
         FRONTEND_ORIGIN: `http://localhost:${frontendPort}`,
