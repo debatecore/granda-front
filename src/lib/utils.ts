@@ -5,15 +5,11 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-const INTERNAL_BACKEND_SOCKET =
-  process.env.INTERNAL_BACKEND_SOCKET || "http://localhost:2023";
-const BACKEND_SOCKET = process.env.BACKEND_SOCKET || "http://localhost:2023";
-
 export const fetchClientSide = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  return fetch(`${BACKEND_SOCKET}${path}`, {
+  return fetch(`/api${path}`, {
     credentials: "include",
     ...init,
   });
@@ -23,7 +19,8 @@ export const fetchServerside = async (
   path: string | URL | globalThis.Request,
   init?: RequestInit,
 ) => {
-  const input = `${INTERNAL_BACKEND_SOCKET}${path}`;
+  const base = process.env.BACKEND_URL ?? "http://localhost:2023";
+  const input = `${base}${path}`;
   return fetch(input, {
     credentials: "include",
     ...init,

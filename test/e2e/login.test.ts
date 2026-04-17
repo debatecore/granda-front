@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "./e2eUtils";
 
 test.describe("login procedure", () => {
   test.beforeEach(async ({ page }) => {
