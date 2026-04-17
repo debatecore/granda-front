@@ -29,8 +29,6 @@ SECRET=SUPERSECRETSTRINGHERE
 
 # Frontend setup
 BACKEND_SOCKET=http://localhost:2023    # Used for server-side requests
-FRONTEND_DIRECTORY=.                    # Specifies the path of the frontend repository
-BACKEND_DIRECTORY=../tau                # Specifies the path of the backend repository
 FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```

@@ -1,7 +1,7 @@
 services:
   frontend-local:
     build:
-      context: ${FRONTEND_DIRECTORY}
+      context: .
     ports:
       - ${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}
     networks:
