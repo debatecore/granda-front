@@ -17,9 +17,7 @@ services:
       server-prod:
         condition: service_started
   server-prod:
-    build:
-      context: ../tau
-      target: final
+    image: tau:latest
     ports:
       - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
     networks:
