@@ -4,5 +4,5 @@
 
 **Testing**
 
-- [ ] I have covered code introduced by this pull request with e2e tests.
-- [ ] I have run all tests and ensured that they pass consistently.
+- [ ] I have covered code introduced by this pull request with tests.
+- [ ] I have run all tests with `npm run test && npx playwright test` and ensured that they pass consistently.
