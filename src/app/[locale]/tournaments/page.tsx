@@ -7,6 +7,7 @@ import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import { redirect } from "next/navigation";
 import { User, UUID_MAX } from "@/types/User";
+import VerdictPanel from "@/components/VerdictPanel";
 
 export default async function TournamentListPage() {
   const t = await getTranslations("tournaments_list");
@@ -49,6 +50,11 @@ export default async function TournamentListPage() {
       </div>
     );
   }
+  <VerdictPanel
+    userId="ffffffff-ffff-ffff-ffff-ffffffffffff"
+    tournamentId="019da9ec-09ed-75b0-b437-803201f5453f"
+    debateId="example-debate"
+  />;
 
   redirect("/login");
 }
