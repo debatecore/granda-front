@@ -12,11 +12,6 @@ type DebateDetailsPageProps = {
   }>;
 };
 
-type DebateDetails = {
-  id: string;
-  motion?: string | null;
-};
-
 export default async function DebateDetailsPage({
   params,
 }: DebateDetailsPageProps) {
@@ -25,7 +20,6 @@ export default async function DebateDetailsPage({
 
   const cookieHeader = (await cookies()).toString();
 
-  let debate: DebateDetails | null = null;
   let roles: string[] = [];
   let loadError = false;
 
@@ -41,33 +35,24 @@ export default async function DebateDetailsPage({
   } else {
     const currentUser: User = await authRes.json();
 
-    const [debateRes, rolesRes] = await Promise.all([
-      fetchServerside(`/tournaments/${path}/debates/${debate_id}`, {
+    const rolesRes = await fetchServerside(
+      `/users/${currentUser.id}/tournaments/${path}/roles`,
+      {
         cache: "no-store",
         headers: {
           Cookie: cookieHeader,
         },
-      }),
-      fetchServerside(`/users/${currentUser.id}/tournaments/${path}/roles`, {
-        cache: "no-store",
-        headers: {
-          Cookie: cookieHeader,
-        },
-      }),
-    ]);
-
-    if (debateRes.ok) {
-      debate = await debateRes.json();
-    } else {
-      loadError = true;
-    }
+      },
+    );
 
     if (rolesRes.ok) {
       roles = await rolesRes.json();
+    } else {
+      loadError = true;
     }
   }
 
-  if (loadError || !debate) {
+  if (loadError) {
     return (
       <div className="flex w-full flex-col items-center">
         <div className="mt-8 flex w-full max-w-5xl flex-col px-8 sm:mt-16 lg:px-16">
@@ -80,13 +65,10 @@ export default async function DebateDetailsPage({
     );
   }
 
-  const motion = debate.motion?.trim() || t("fallback_motion");
   const canConductDebate =
     roles.includes("Marshal") || roles.includes("Organizer");
 
-  const conductDebateHref = `https://tools.debateco.re/oxford-debate/setup?motion=${encodeURIComponent(
-    motion
-  )}`;
+  const motion = t("fallback_motion");
 
   return (
     <div className="flex w-full flex-col items-center">
@@ -97,20 +79,16 @@ export default async function DebateDetailsPage({
 
         <div className="mt-8 w-full border-t border-b border-stone-700/70 px-8 py-12 sm:mt-16 sm:py-16 lg:px-16">
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold text-white">{motion}</h2>
+            <h2 className="text-2xl font-semibold text-white">
+              {t("fallback_motion")}
+            </h2>
             <p className="text-sm text-stone-400">
-              {t("debate_id")}: {debate.id}
+              {t("debate_id")}: {debate_id}
             </p>
           </div>
         </div>
 
-        {canConductDebate && (
-          <MarshalPanel
-            title={t("marshal_panel_title")}
-            buttonLabel={t("conduct_button")}
-            href={conductDebateHref}
-          />
-        )}
+        {canConductDebate && <MarshalPanel motion={motion} />}
       </div>
     </div>
   );
