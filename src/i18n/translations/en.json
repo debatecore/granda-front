@@ -69,13 +69,5 @@
   "metadata": {
     "title": "granda: Debate Tournament Planner",
     "description": "Computer aided debate tournament organizing experience enrichment."
-  },
-  "debate_details": {
-    "title": "Debate details",
-    "load_error": "Failed to load debate details.",
-    "fallback_motion": "Untitled motion",
-    "debate_id": "Debate ID",
-    "marshal_panel_title": "Marshal buttons",
-    "conduct_button": "Conduct debate!"
   }
 }
