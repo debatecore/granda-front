@@ -79,9 +79,7 @@ export default async function DebateDetailsPage({
 
         <div className="mt-8 w-full border-t border-b border-stone-700/70 px-8 py-12 sm:mt-16 sm:py-16 lg:px-16">
           <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold text-white">
-              Untitled motion
-            </h2>
+            <h2 className="text-2xl font-semibold text-white">{motion}</h2>
             <p className="text-sm text-stone-400">Debate ID: {debate_id}</p>
           </div>
         </div>
