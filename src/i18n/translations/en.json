@@ -69,5 +69,10 @@
   "metadata": {
     "title": "granda: Debate Tournament Planner",
     "description": "Computer aided debate tournament organizing experience enrichment."
+  },
+  "generic": {
+    "error": "Error",
+    "error_loading_content": "An error occurred while loading the content.",
+    "error_message": "Details: {message}"
   }
 }
