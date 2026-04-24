@@ -19,7 +19,7 @@ const GenericComponent = ({
   error,
   children
 }: PropsWithChildren<GenericComponentProps>) => {
-  const t = useTranslations("common");
+  const t = useTranslations("generic");
 
   return (
     <div className={`border ${error ? 'border-[#B15FE8]' : 'border-stone-700'} bg-stone-900/45 rounded-lg p-6 min-h-[100px] ${className}`}>
@@ -29,7 +29,7 @@ const GenericComponent = ({
         )}
       
         <div className="font-['Inter'] font-medium text-[20px] leading-none tracking-normal text-white/60 text-right ml-auto">
-          {error ? `Error ${error.code}` : title}
+          {error ? `${t("error")} ${error.code}` : title}
         </div>
       </div>
 
@@ -37,7 +37,7 @@ const GenericComponent = ({
         <div 
           className="border border-[#B15FE8] bg-[#B15FE8]/10 p-10 rounded-md"
           style={{
-            backgroundColor: 'rgba(177, 95, 232, 0.1)', // #B15FE8 の 10% 透過背景
+            backgroundColor: 'rgba(177, 95, 232, 0.1)',
             backgroundImage: `
               repeating-linear-gradient(
                 45deg,
@@ -46,7 +46,7 @@ const GenericComponent = ({
                 transparent 1px,
                 transparent 4px
               )
-            ` // 45度の角度で 1px の紫色の線を引いてメッシュを再現
+            ` 
           }}
         >
           <div className="text-stone-300 text-lg leading-relaxed">
