@@ -14,7 +14,15 @@ To deploy via Docker:
 └── tau             # cloned from https://github.com/debatecore/tau
 ```
 
-2. Set up an `.env` file and place it in `granda-front`.
+2. From the level of `tau`, run:
+
+```
+docker build -t tau:latest .
+```
+
+This is to provide a backend image (we are planning on providing it via Github Container Registry in the future).
+
+3. Set up an `.env` file and place it in `granda-front`.
 
 You may use this example and adjust it to your needs:
 
@@ -27,14 +35,12 @@ SECRET=SUPERSECRETSTRINGHERE
 FRONTEND_ORIGIN=http://localhost:3000
 
 # Frontend setup
-BACKEND_URL=http://localhost:2023    # Used for server-side requests
+BACKEND_URL=http://localhost:2023       # Used for server-side requests
 FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```
 
-**Note:** due to [Docker networking model](https://docs.docker.com/compose/how-tos/networking/), deployment and development configs are incompatible. Therefore `FRONTEND_ORIGIN` must be set accordingly before building the image. Whenever switching between deployment and development, rebuild your image with `docker compose --profile prod up --build -d --force-recreate server-prod`.
-
-3. From the level of `granda-front`, run:
+4. From the level of `granda-front`, run:
 
 ```bash
 docker compose --profile prod up -d
