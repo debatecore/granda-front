@@ -12,6 +12,7 @@
         "catname": "tournament",
         "overview": "Overview",
         "ladder": "Tournament Ladder",
+        "debates": "Debates",
         "standings": "Tournament Standings"
       },
       "tournament_data": {
@@ -69,5 +70,8 @@
   "metadata": {
     "title": "granda: Debate Tournament Planner",
     "description": "Computer aided debate tournament organizing experience enrichment."
+  },
+  "debates": {
+    "title": "Debates"
   }
 }
