@@ -24,11 +24,10 @@ DOCKER_DB_PASSWORD=THISISAVERYSECUREDBPASSWORD
 DOCKER_DB_ROOT_PASSWORD=ANOTHERSECUREROOTPASSWORD
 DATABASE_URL=postgresql://tau:tau@localhost:5432/tau
 SECRET=SUPERSECRETSTRINGHERE
-# FRONTEND_ORIGIN=http://frontend-local:3000 # uncomment for deployment with Docker
-# FRONTEND_ORIGIN=http://localhost:3000 # uncomment for local development
+FRONTEND_ORIGIN=http://localhost:3000
 
 # Frontend setup
-BACKEND_SOCKET=http://localhost:2023    # Used for server-side requests
+BACKEND_URL=http://localhost:2023    # Used for server-side requests
 FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```
