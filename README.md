@@ -30,12 +30,12 @@ You may use this example and adjust it to your needs:
 # Backend setup (for documentation refer to https://github.com/debatecore/tau?tab=readme-ov-file#environment-setup)
 DOCKER_DB_PASSWORD=THISISAVERYSECUREDBPASSWORD
 DOCKER_DB_ROOT_PASSWORD=ANOTHERSECUREROOTPASSWORD
-DATABASE_URL=postgresql://tau:tau@localhost:5432/tau
+DATABASE_URL=postgresql://tau:tau@db-prod:5432/tau
 SECRET=SUPERSECRETSTRINGHERE
 FRONTEND_ORIGIN=http://localhost:3000
 
 # Frontend setup
-BACKEND_URL=http://localhost:2023       # Used for server-side requests
+BACKEND_URL=http://server-prod:2023     # Used for server-side requests
 FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```
