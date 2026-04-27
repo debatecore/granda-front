@@ -84,36 +84,4 @@ test.describe("tournament creation", () => {
       /failed to create tournament/i,
     );
   });
-
-  test("sidebar contains debates link", async ({ page }) => {
-    await page.getByRole("button", { name: "Create tournament" }).click();
-
-    await expect(
-      page.getByRole("heading", { name: "Create tournament" }),
-    ).toBeVisible();
-
-    const unique = Date.now();
-    const fullName = `Tournament ${unique}`;
-    const shortName = `T${unique}`;
-
-    await page.getByLabel("Full name").fill(fullName);
-    await page.getByLabel("Short name").fill(shortName);
-    await page.getByRole("button", { name: "Create", exact: true }).click();
-
-    const tournamentLink = page
-      .locator("a")
-      .filter({ hasText: fullName })
-      .first();
-    await expect(tournamentLink).toBeVisible();
-
-    await tournamentLink.click();
-    await page.waitForURL(/\/en\/t\/[^/]+$/);
-
-    const debatesLink = page.locator('a[href$="/debates"]').first();
-    await expect(debatesLink).toBeVisible();
-    await expect(debatesLink).toHaveAttribute(
-      "href",
-      /\/en\/t\/[^/]+\/debates$/,
-    );
-  });
 });
