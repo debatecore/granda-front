@@ -18,11 +18,14 @@ export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
   const [infoslide, setInfoslide] = useState("");
 
   const handleApply = async () => {
+    console.log("Applying motion with values:", { motion, infoslide });
     try {
       const payload: Motion = {
         motion,
         adinfo: infoslide || null,
       };
+
+      console.log("testing motion application with payload:", payload);
 
       await createMotion(tournamentId, round, payload);
 
@@ -32,6 +35,7 @@ export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
     }
   };
 
+  console.log("Is handleApply defined?", typeof handleApply);
   return (
     <div className="flex flex-col items-center w-[574px] h-[544px] bg-zinc-950 rounded-md shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline outline-2 outline-offset-[-2px] outline-neutral-600/80 gap-[36px] px-[10px] py-[32px]">
       <div className="w-[574px] h-5 opacity-75 text-center justify-start text-white text-2xl font-semibold pb-[28px]">
