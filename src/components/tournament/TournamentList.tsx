@@ -8,12 +8,12 @@ import { GenericComponent } from "../ui/GenericComponent";
 
 const TournamentsList = async () => {
   let data_tournaments: Tournament[] = [];
- const res = await fetchServerside("/tournaments", {
-  cache: "no-store",
-  headers: {
-    Cookie: (await cookies()).toString(),
-  },
-});
+  const res = await fetchServerside("/tournaments", {
+    cache: "no-store",
+    headers: {
+      Cookie: (await cookies()).toString(),
+    },
+  });
   if (res.ok) {
     data_tournaments = await res.json();
   }
