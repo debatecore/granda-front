@@ -47,14 +47,14 @@ export default async function TournamentListPage() {
             ),
           })}
         </p>
+          <VerdictPanel
+          userId="ffffffff-ffff-ffff-ffff-ffffffffffff"
+          tournamentId="019da9ec-09ed-75b0-b437-803201f5453f"
+          debateId="019dc02f-cc43-74b1-a093-fc281bf009db"
+        />
       </div>
     );
   }
-  <VerdictPanel
-    userId="ffffffff-ffff-ffff-ffff-ffffffffffff"
-    tournamentId="019da9ec-09ed-75b0-b437-803201f5453f"
-    debateId="example-debate"
-  />;
 
   redirect("/login");
 }
