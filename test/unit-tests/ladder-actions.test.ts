@@ -113,7 +113,7 @@ describe("planTournament", () => {
     // THEN
     expect(mockedFetchServerside).toHaveBeenCalledTimes(1);
     expect(mockedFetchServerside).toHaveBeenCalledWith(
-      "/tournament/test-tournament-id/plan",
+      "/tournaments/test-tournament-id/plan",
       {
         method: "POST",
         headers: {
