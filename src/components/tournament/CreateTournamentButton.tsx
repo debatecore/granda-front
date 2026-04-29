@@ -15,7 +15,7 @@ export function CreateTournamentButton() {
 
   const [state, formAction, isPending] = useActionState(
     createTournament,
-    initialState
+    initialState,
   );
 
   useEffect(() => {
@@ -52,37 +52,37 @@ export function CreateTournamentButton() {
             </div>
 
             <form action={formAction} className="flex flex-col gap-4">
-           <div className="flex flex-col">
-  <label
-    htmlFor="full_name"
-    className="mb-1 text-sm text-stone-300"
-  >
-    Full name
-  </label>
-  <input
-    id="full_name"
-    type="text"
-    name="full_name"
-    required
-    className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
-  />
-</div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="full_name"
+                  className="mb-1 text-sm text-stone-300"
+                >
+                  Full name
+                </label>
+                <input
+                  id="full_name"
+                  type="text"
+                  name="full_name"
+                  required
+                  className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+                />
+              </div>
 
-<div className="flex flex-col">
-  <label
-    htmlFor="shortened_name"
-    className="mb-1 text-sm text-stone-300"
-  >
-    Short name
-  </label>
-  <input
-    id="shortened_name"
-    type="text"
-    name="shortened_name"
-    required
-    className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
-  />
-</div>
+              <div className="flex flex-col">
+                <label
+                  htmlFor="shortened_name"
+                  className="mb-1 text-sm text-stone-300"
+                >
+                  Short name
+                </label>
+                <input
+                  id="shortened_name"
+                  type="text"
+                  name="shortened_name"
+                  required
+                  className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+                />
+              </div>
 
               {state.error && (
                 <p className="text-sm text-red-400">{state.error}</p>
