@@ -3,7 +3,6 @@ import {
   LucideCastle,
   LucideFileClock,
   LucideFileImage,
-  LucideIcon,
   LucideLayoutDashboard,
   LucidePaintBucket,
   LucideScale,
@@ -14,16 +13,26 @@ import {
   LucideUsers,
   LucideWaypoints,
 } from "lucide-react";
+import { ComponentType } from "react";
 import { Link } from "@/i18n/navigation";
 import "@/i18n/language-utils";
 import { useTranslations } from "next-intl";
 import { DebatecoreLogo } from "@/components/debatecore/DebatecoreLogo";
 import { GrandaLogo } from "@/components/debatecore/GrandaLogo";
+import { IconDebate } from "@/components/icons/DebateIcon";
+
+type SidebarIconProps = {
+  className?: string;
+};
+
+const DebateSidebarIcon = ({ className }: SidebarIconProps) => {
+  return <IconDebate moreClass={className} />;
+};
 
 type DashSideLink = {
   name: string;
   href: string;
-  icon: LucideIcon;
+  icon: ComponentType<SidebarIconProps>;
   disabled?: boolean;
 };
 
@@ -40,6 +49,7 @@ const DashSide = ({
   path_highlight?: string;
 }) => {
   const t = useTranslations("dash");
+
   const links: DashSidebarLinks = [
     {
       catname: t("sidebar.tournament.catname"),
@@ -53,7 +63,13 @@ const DashSide = ({
           name: t("sidebar.tournament.ladder"),
           href: `/t/${tournament_path}/ladder`,
           icon: LucideBetweenHorizontalStart,
-          disabled: true,
+          disabled: false,
+        },
+        {
+          name: t("sidebar.tournament.debates"),
+          href: `/t/${tournament_path}/debates`,
+          icon: DebateSidebarIcon,
+          disabled: false,
         },
         {
           name: t("sidebar.tournament.standings"),
@@ -129,7 +145,7 @@ const DashSide = ({
 
   return (
     <div className="flex flex-col">
-      <div className="flex items-center pl-6 gap-4 h-20 border-b border-stone-700">
+      <div className="flex h-20 items-center gap-4 border-b border-stone-700 pl-6">
         <LucideWaypoints size={32} />
         <div className="mb-1">
           <GrandaLogo className="text-2xl" subtitle={false} />
@@ -139,35 +155,38 @@ const DashSide = ({
           </p>
         </div>
       </div>
-      <div className="flex flex-col gap-8 pt-4 px-4">
+
+      <div className="flex flex-col gap-8 px-4 pt-4">
         {links.map((category) => {
           return (
             <div
               className="flex flex-col gap-2 font-medium"
               key={category.catname}
             >
-              <p className="text-stone-500 text-sm pl-2">
+              <p className="pl-2 text-sm text-stone-500">
                 {category.catname.toUpperCase()}
               </p>
+
               {category.links.map((link) => {
+                const Icon = link.icon;
+                const isHighlighted = link.name === path_highlight;
+
                 return (
                   <Link
                     key={link.name}
-                    className={`flex flex-row items-center gap-2 border border-transparent hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 text-stone-200 rounded py-1 px-2 ${
-                      link.name === path_highlight && "bg-stone-700/15"
-                    } ${link.disabled && "opacity-35"}`}
-                    href={link.disabled === true ? "" : link.href}
+                    className={`flex flex-row items-center gap-2 rounded border border-transparent px-2 py-1 text-stone-200 hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 ${
+                      isHighlighted ? "bg-stone-700/15" : ""
+                    } ${link.disabled ? "opacity-35" : ""}`}
+                    href={link.disabled ? "" : link.href}
                     aria-disabled={link.disabled === true}
                   >
-                    <link.icon
-                      size={22}
-                      className={`${
-                        link.name === path_highlight
-                          ? "text-stone-400"
-                          : "text-stone-500"
-                      } font-light`}
+                    <Icon
+                      className={`h-[22px] w-[22px] ${
+                        isHighlighted ? "text-stone-400" : "text-stone-500"
+                      }`}
                     />
-                    <span className="tracking-tight font-geist font-medium">
+
+                    <span className="font-geist font-medium tracking-tight">
                       {link.name}
                     </span>
                   </Link>

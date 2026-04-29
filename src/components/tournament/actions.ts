@@ -9,9 +9,21 @@ type CreateTournamentState = {
   error: string | null;
 };
 
+const DEFAULT_TOURNAMENT_CONFIG = {
+  speech_time: 300,
+  end_protected_time: 30,
+  start_protected_time: 0,
+  ad_vocem_time: 60,
+  debate_time_slot: 120,
+  debate_preparation_time: 15,
+  beep_on_speech_end: true,
+  beep_on_protected_time: true,
+  visualize_protected_time: false,
+};
+
 export async function createTournament(
   _prevState: CreateTournamentState,
-  formData: FormData
+  formData: FormData,
 ): Promise<CreateTournamentState> {
   const full_name = formData.get("full_name");
   const shortened_name = formData.get("shortened_name");
@@ -25,15 +37,7 @@ export async function createTournament(
     body: JSON.stringify({
       full_name,
       shortened_name,
-      speech_time: 300,
-      end_protected_time: 30,
-      start_protected_time: 0,
-      ad_vocem_time: 60,
-      debate_time_slot: 120,
-      debate_preparation_time: 15,
-      beep_on_speech_end: true,
-      beep_on_protected_time: true,
-      visualize_protected_time: false,
+      ...DEFAULT_TOURNAMENT_CONFIG,
     }),
   });
 

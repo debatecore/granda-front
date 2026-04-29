@@ -12,6 +12,7 @@
         "catname": "tournament",
         "overview": "Overview",
         "ladder": "Tournament Ladder",
+        "debates": "Debates",
         "standings": "Tournament Standings"
       },
       "tournament_data": {
@@ -74,5 +75,8 @@
     "error": "Error",
     "error_loading_content": "An error occurred while loading the content.",
     "error_message": "Details: {message}"
+  },
+  "debates": {
+    "title": "Debates"
   }
 }
