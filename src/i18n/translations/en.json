@@ -12,6 +12,7 @@
         "catname": "tournament",
         "overview": "Overview",
         "ladder": "Tournament Ladder",
+        "debates": "Debates",
         "standings": "Tournament Standings"
       },
       "tournament_data": {
@@ -71,6 +72,7 @@
     "description": "Computer aided debate tournament organizing experience enrichment."
   },
 
+
   "ladder": {
     "title": "Tournament Ladder",
     "planning_title": "Tournament planning",
@@ -87,5 +89,8 @@
     "validation_power_of_two": "Advancing teams must be a power of 2.",
     "request_failed": "Failed to plan the tournament.",
     "success": "Tournament planning submitted successfully."
+  },
+  "debates": {
+    "title": "Debates"
   }
 }

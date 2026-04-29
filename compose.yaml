@@ -1,0 +1,94 @@
+services:
+  frontend-local:
+    build:
+      context: .
+    ports:
+      - ${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}
+    networks:
+      - dbnetwork
+    profiles:
+      - prod
+    environment:
+      - FRONTEND_PORT=${FRONTEND_PORT:-3000}
+      - BACKEND_PORT=${BACKEND_PORT:-2023}
+      - INTERNAL_BACKEND_SOCKET=http://server-prod:${BACKEND_PORT}
+      - BACKEND_SOCKET=http://${BACKEND_SOCKET:-http://localhost:2023}
+    depends_on:
+      server-prod:
+        condition: service_started
+  server-prod:
+    image: tau:latest
+    ports:
+      - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
+    networks:
+      - dbnetwork
+    profiles:
+      - prod
+    environment:
+      - DATABASE_URL=postgres://tau:${DOCKER_DB_PASSWORD}@db-prod:5432/tau
+      - PORT=${BACKEND_PORT}
+      - SECRET=${SECRET}
+      - FRONTEND_ORIGIN=${FRONTEND_ORIGIN}
+    depends_on:
+      db-prod:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:${PORT}/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  db-prod:
+    image: postgres:17.2
+    restart: always
+    user: postgres
+    networks:
+      - dbnetwork
+    profiles:
+      - prod
+    secrets:
+      - dbpassword
+      - dbrootpassword
+    environment:
+      - DOCKER_DB_PASSWORD_FILE=/run/secrets/dbpassword
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dbrootpassword
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+      - ./dbinit.sh:/docker-entrypoint-initdb.d/dbinit.sh
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  db-dev:
+    image: postgres:17.2
+    user: postgres
+    ports:
+      - "5432:5432"
+    profiles:
+      - dev
+    secrets:
+      - dbrootpassword
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/dbrootpassword
+      - FRONTEND_ORIGIN=http://localhost:3000
+    volumes:
+      - dbdevdata:/var/lib/postgresql/data
+      - ./dbinit-dev.sh:/docker-entrypoint-initdb.d/dbinit-dev.sh
+    healthcheck:
+      test: ["CMD", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dbdata:
+  dbdevdata:
+
+networks:
+  dbnetwork:
+
+secrets:
+  dbpassword:
+    environment: DOCKER_DB_PASSWORD
+  dbrootpassword:
+    environment: DOCKER_DB_ROOT_PASSWORD

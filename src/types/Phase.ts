@@ -5,7 +5,7 @@ type Phase = {
   previous_phase_id: string | null;
   group_size: number | null;
   is_finals: boolean;
-  status: string;
+  status: "Planned" | "Ongoing" | "Finished";
 };
 
 export type { Phase };
