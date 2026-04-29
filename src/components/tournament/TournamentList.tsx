@@ -7,12 +7,12 @@ import MOW2024OlekRelief from "../../../public/S-MOW2024-olekrelief.jpg";
 
 const TournamentsList = async () => {
   let data_tournaments: Tournament[] = [];
- const res = await fetchServerside("/tournaments", {
-  cache: "no-store",
-  headers: {
-    Cookie: (await cookies()).toString(),
-  },
-});
+  const res = await fetchServerside("/tournaments", {
+    cache: "no-store",
+    headers: {
+      Cookie: (await cookies()).toString(),
+    },
+  });
   if (res.ok) {
     data_tournaments = await res.json();
   }
