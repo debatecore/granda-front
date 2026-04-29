@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { Link } from "@/i18n/navigation";
 import MOW2024OlekFinal from "../../../public/S-MOW2024-olekfinal.jpg";
 import MOW2024OlekRelief from "../../../public/S-MOW2024-olekrelief.jpg";
+import { GenericComponent } from "../ui/GenericComponent";
 
 const TournamentsList = async () => {
   let data_tournaments: Tournament[] = [];
@@ -32,12 +33,11 @@ const TournamentsList = async () => {
           })}
         </div>
       ) : (
-        <>
-          <p className="text-stone-500">
-            {"There aren't any tournaments you're a part of yet."}
-          </p>
-        </>
+        <p className="text-stone-500">
+          {"There aren't any tournaments you're a part of yet."}
+        </p>
       )}
+      
     </div>
   );
 };
@@ -72,3 +72,5 @@ const TournamentListItem = ({
 };
 
 export { TournamentsList };
+
+
