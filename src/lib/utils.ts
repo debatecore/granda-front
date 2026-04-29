@@ -32,6 +32,10 @@ export const fetchServerside = async (
   });
 };
 
+{
+  /* Create Motion */
+}
+
 export async function createMotion(
   tournamentId: string,
   round: Round,
@@ -52,6 +56,10 @@ export async function createMotion(
   }
 
   return await response.json();
+}
+
+{
+  /* Create Round */
 }
 
 export async function createRound(

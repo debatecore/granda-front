@@ -1,3 +1,7 @@
+{
+  /* This is the component for a block containing a title, description, and a generic input - eg. Motion; What should this round's topic be?; Text area for the user */
+}
+
 import { GenericInput } from "../ui/GenericInput";
 
 type InputBlockProps = {

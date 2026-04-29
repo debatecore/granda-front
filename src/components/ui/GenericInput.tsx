@@ -1,3 +1,7 @@
+{
+  /* This is basically just a formatted textarea */
+}
+
 type GenericInputProps = {
   value: string;
   onChange: (value: string) => void;

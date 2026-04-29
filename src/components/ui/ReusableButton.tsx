@@ -1,3 +1,7 @@
+{
+  /* Remade button component to match the Figma design */
+}
+
 import { iconprops } from "@/types/iconprops";
 import { JSX, PropsWithChildren } from "react";
 
@@ -8,14 +12,13 @@ export type ButtonColor = (typeof buttonColors)[number];
 
 type SharedButtonProps = {
   text?: string; // text on button
-  disabled?: boolean; // is button disabled
+  disabled?: boolean; // is button disabled?
   //compactOnMobile?: boolean; i dont know
   icon?: (props: iconprops) => JSX.Element;
   defaultSize?: boolean; // w270 h54 from figma design
-  //square?: boolean;
   onClick?: () => void;
   className?: string;
-  hidden?: boolean; // i dont get the difference between hidden and disabled
+  hidden?: boolean;
   color?: ButtonColor;
 };
 
