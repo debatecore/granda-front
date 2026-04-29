@@ -32,8 +32,6 @@ export default async function LadderPage({ params }: LadderPageProps) {
     phases = await res.json();
     shouldShowPlanningForm = phases.length === 0;
     shouldShowPlaceholder = phases.length > 0;
-  } else if (res.status === 404) {
-    shouldShowPlanningForm = true;
   } else {
     loadError = true;
   }
@@ -50,20 +48,7 @@ export default async function LadderPage({ params }: LadderPageProps) {
         )}
 
         {shouldShowPlanningForm && (
-          <TournamentPlanningForm
-            tournamentId={path}
-            planningTitle={t("planning_title")}
-            planningDescription={t("planning_description")}
-            groupPhaseRoundsLabel={t("group_phase_rounds")}
-            groupsCountLabel={t("groups_count")}
-            advancingTeamsLabel={t("advancing_teams")}
-            submitLabel={t("submit")}
-            submittingLabel={t("submitting")}
-            positiveIntegerError={t("validation_positive_integer")}
-            powerOfTwoError={t("validation_power_of_two")}
-            requestFailedError={t("request_failed")}
-            successMessage={t("success")}
-          />
+          <TournamentPlanningForm tournamentId={path} />
         )}
 
         {shouldShowPlaceholder && (

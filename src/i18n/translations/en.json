@@ -82,6 +82,7 @@
     "planning_description": "Set the core parameters to generate the tournament ladder.",
     "group_phase_rounds": "Group phase rounds",
     "groups_count": "Groups count",
+    "total_teams": "Total teams",
     "advancing_teams": "Advancing teams",
     "submit": "Plan tournament",
     "submitting": "Planning...",
