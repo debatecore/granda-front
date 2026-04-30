@@ -15,6 +15,7 @@ export const fetchClientSide = async (
     process.env.NODE_ENV === "production"
       ? `${process.env["NEXT_PUBLIC_API_URL"]}${path}`
       : `http://localhost:2023${path}`;
+
   return fetch(input, {
     credentials: "include",
     ...init,
@@ -26,28 +27,27 @@ export const fetchServerside = async (
   init?: RequestInit,
 ) => {
   const input = `http://localhost:2023${path}`;
+
   return fetch(input, {
     credentials: "include",
     ...init,
   });
 };
 
-{
-  /* Create Motion */
-}
-
 export async function createMotion(
   tournamentId: string,
   round: Round,
   motionData: Motion,
 ) {
-  const isUpdate = !!round.motion_id;
+  const isUpdate = Boolean(round.motion_id);
   const method = isUpdate ? "PATCH" : "POST";
   const path = `/tournaments/${tournamentId}/motions`;
 
-  const response = await fetchServerside(path, {
-    method: method,
-    headers: { "Content-Type": "application/json" },
+  const response = await fetchClientSide(path, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(motionData),
   });
 
@@ -55,11 +55,7 @@ export async function createMotion(
     throw new Error(`Failed to ${method} motion: ${response.statusText}`);
   }
 
-  return await response.json();
-}
-
-{
-  /* Create Round */
+  return response.json();
 }
 
 export async function createRound(
@@ -68,7 +64,7 @@ export async function createRound(
 ) {
   const path = `/tournaments/${tournamentId}/rounds`;
 
-  const response = await fetchServerside(path, {
+  const response = await fetchClientSide(path, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -80,5 +76,5 @@ export async function createRound(
     throw new Error(`Failed to create round: ${response.statusText}`);
   }
 
-  return await response.json();
+  return response.json();
 }

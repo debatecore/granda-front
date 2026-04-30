@@ -1,7 +1,3 @@
-{
-  /* Round type */
-}
-
 type Round = {
   id: string;
   name: string;

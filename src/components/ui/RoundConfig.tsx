@@ -1,12 +1,9 @@
 "use client";
 
-{
-  /* "Minimal round config design - https://www.figma.com/design/YpE2VaLgvXSeJi9NWV0gcw/Semester-Project-UI-UX?node-id=246-465&t=qBOHYsuG8F9PSNqD-0" */
-}
-
-import { ReusableButton } from "../ui/ReusableButton";
-import { InputBlock } from "../ui/InputBlock";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { ReusableButton } from "./ReusableButton";
+import { InputBlock } from "./InputBlock";
 import { Round } from "@/types/Round";
 import { Motion } from "@/types/Motion";
 import { createMotion } from "@/lib/utils";
@@ -18,17 +15,21 @@ type RoundConfigProps = {
 };
 
 export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
+  const t = useTranslations("round_config");
   const [motion, setMotion] = useState("");
   const [infoslide, setInfoslide] = useState("");
 
-  {
-    /* this runs when Apply is clicked */
-  }
+  const isApplyDisabled = motion.trim().length === 0;
+
   const handleApply = async () => {
+    if (isApplyDisabled) {
+      return;
+    }
+
     try {
       const payload: Motion = {
-        motion,
-        adinfo: infoslide || null,
+        motion: motion.trim(),
+        adinfo: infoslide.trim().length > 0 ? infoslide.trim() : null,
       };
 
       await createMotion(tournamentId, round, payload);
@@ -38,28 +39,32 @@ export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
   };
 
   return (
-    <div className="flex flex-col items-center w-[574px] h-[544px] bg-zinc-950 rounded-md shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline outline-2 outline-offset-[-2px] outline-neutral-600/80 gap-[36px] px-[10px] py-[32px]">
-      <div className="w-[574px] h-5 opacity-75 text-center justify-start text-white text-2xl font-semibold pb-[28px]">
-        Round {name} configuration{" "}
-        {/* I guess this should not be hardcoded but the translation thing */}
+    <div className="flex h-[544px] w-[574px] flex-col items-center gap-[36px] rounded-md bg-zinc-950 px-[10px] py-[32px] shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline outline-2 outline-offset-[-2px] outline-neutral-600/80">
+      <div className="h-5 w-[574px] pb-[28px] text-center text-2xl font-semibold text-white opacity-75">
+        {t("title", { name })}
       </div>
 
       <InputBlock
-        title="Motion"
-        description="What should this round's topic be?"
+        title={t("motion_title")}
+        description={t("motion_description")}
         value={motion}
         onChange={setMotion}
-        placeholder="(Required)"
+        placeholder={t("motion_placeholder")}
       />
 
       <InputBlock
-        title="Infoslide"
-        description="Any additional information regarding the motion?"
+        title={t("infoslide_title")}
+        description={t("infoslide_description")}
         value={infoslide}
         onChange={setInfoslide}
       />
 
-      <ReusableButton text="Apply" defaultSize={true} onClick={handleApply} />
+      <ReusableButton
+        text={t("apply")}
+        defaultSize={true}
+        disabled={isApplyDisabled}
+        onClick={handleApply}
+      />
     </div>
   );
 }

@@ -1,8 +1,4 @@
-{
-  /* This is the component for a block containing a title, description, and a generic input - eg. Motion; What should this round's topic be?; Text area for the user */
-}
-
-import { GenericInput } from "../ui/GenericInput";
+import { GenericInput } from "./GenericInput";
 
 type InputBlockProps = {
   title: string;
@@ -20,12 +16,12 @@ export function InputBlock({
   placeholder,
 }: InputBlockProps) {
   return (
-    <div className="flex flex-col items-stretch w-[494px] h-[140px] bg-neutral-900 rounded border-[0.5px] outline-neutral-600/80 px-[10px] py-[12px] gap-2">
-      <div className="flex flex-col items-end w-full">
-        <div className="text-stone-300 text-xl font-medium leading-tight opacity-75">
+    <div className="flex h-[140px] w-[494px] flex-col items-stretch gap-2 rounded border-[0.5px] bg-neutral-900 px-[10px] py-[12px] outline-neutral-600/80">
+      <div className="flex w-full flex-col items-end">
+        <div className="text-xl font-medium leading-tight text-stone-300 opacity-75">
           {title}
         </div>
-        <div className="text-neutral-500 text-xs font-medium opacity-75 py-[2px]">
+        <div className="py-[2px] text-xs font-medium text-neutral-500 opacity-75">
           {description}
         </div>
       </div>

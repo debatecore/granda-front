@@ -1,7 +1,3 @@
-{
-  /* Motion type */
-}
-
 type Motion = {
   motion: string;
   adinfo?: string | null;
