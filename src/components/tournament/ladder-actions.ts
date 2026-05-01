@@ -71,7 +71,6 @@ export async function planTournament(
       error: "request_failed",
     };
   }
-
   return {
     success: true,
     error: null,

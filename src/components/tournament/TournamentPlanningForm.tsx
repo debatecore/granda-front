@@ -1,11 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { planTournament } from "./ladder-actions";
 import { useTranslations } from "next-intl";
 
 type TournamentPlanningFormProps = {
   tournamentId: string;
+  onPlanned: () => void;
 };
 
 const initialState = {
@@ -15,8 +16,9 @@ const initialState = {
 
 export function TournamentPlanningForm({
   tournamentId,
+  onPlanned,
 }: TournamentPlanningFormProps) {
-  const boundPlanTournament = planTournament.bind(null, tournamentId);
+  const boundPlanTournament = planTournament.bind(onPlanned, tournamentId);
 
   const t = useTranslations("ladder");
 
@@ -26,18 +28,20 @@ export function TournamentPlanningForm({
   );
 
   let errorMessage: string | null = null;
-
   if (state.error) {
     errorMessage = t(state.error as string);
   }
 
+  useEffect(() => {
+    if (state.success) {
+      onPlanned();
+    }
+  }, [state.success, onPlanned]);
+
   return (
     <div className="mt-8 w-full border-t border-b border-stone-700/70 px-8 py-12 sm:mt-16 sm:w-fit sm:py-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-md flex-col gap-6">
-        <div className="flex flex-col gap-2 text-center sm:text-left">
-          <h2 className="text-2xl font-semibold text-white">
-            {t("planning_title")}
-          </h2>
+        <div className="flex flex-col gap-2 text-center sm:text-left items-center">
           <p className="text-sm text-stone-400 sm:text-base">
             {t("planning_description")}
           </p>

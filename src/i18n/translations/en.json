@@ -78,7 +78,7 @@
   },
   "ladder": {
     "title": "Tournament Ladder",
-    "planning_title": "Tournament planning",
+    "planning_title": "Tournament Planning",
     "planning_description": "Set the core parameters to generate the tournament ladder.",
     "group_phase_rounds": "Group phase rounds",
     "groups_count": "Groups count",
