@@ -1,5 +1,4 @@
 {
-  /* Remade button component to match the Figma design */
 }
 
 import { iconprops } from "@/types/iconprops";
