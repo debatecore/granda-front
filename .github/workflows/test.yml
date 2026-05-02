@@ -29,3 +29,9 @@ jobs:
 
       - name: Run Jest tests
         run: npm test
+
+      - name: Lint
+        run: npx eslint "src/**"
+
+      - name: Check formatting
+        run: npx prettier . --check
