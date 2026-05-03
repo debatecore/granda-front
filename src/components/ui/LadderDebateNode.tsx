@@ -9,37 +9,6 @@ type LadderDebateNodeProps = {
 
 const LadderDebateNode = ({ isFinals, debate, display_text }: LadderDebateNodeProps) => {
   const href = `/t/${debate.tournament_id}/debates/${debate.id}`;
-  const ELLIPSIS = "…";
-
-  let renderedContent;
-
-  if (isFinals) {
-    const teams = display_text.split(/\s+vs\s+/i);
-    renderedContent = (
-      <div className="flex flex-col items-center leading-tight font-normal text-[14px]">
-        <div className="truncate w-full text-center">{teams[0]}</div>
-        <div className="text-[12px] text-center my-1 uppercase">vs</div>
-        <div className="truncate w-full text-center">{teams[1]}</div>
-      </div>
-    );
-  } else {
-    // 【Group Phase】
-    const items = display_text.split(/:\s*/);
-    const header = items[0] + ":";
-    const teamsPart = items[1] || "";
-    const teams = teamsPart.split(/,\s*/);
-    
-    const displayedTeams = teams.length > 2 
-      ? `${teams[0]}, ${teams[1]}, ${teams[2]}${ELLIPSIS}` 
-      : teams.join(", ");
-
-    renderedContent = (
-      <div className="flex flex-col items-center text-center leading-tight">
-        <div className="text-[14px] font-bold mb-1">{header}</div>
-        <div className="text-[14px] font-normal">{displayedTeams}</div>
-      </div>
-    );
-  }
 
   return (
     <Link 
@@ -55,8 +24,10 @@ const LadderDebateNode = ({ isFinals, debate, display_text }: LadderDebateNodePr
         }
       `}
     >
-      <div className="w-full overflow-hidden">
-        {renderedContent}
+      <div className="w-full overflow-hidden text-center text-[14px]">
+        {display_text.length > 20
+          ? `${display_text.substring(0, 18)}…`
+          : display_text}
       </div>
     </Link>
   );
