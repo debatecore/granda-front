@@ -33,8 +33,8 @@ export const fetchServerside = async (
 export async function createMotion(
   tournamentId: string,
   round: Round,
-  motionData: Motion,
-) {
+  motionData: Partial<Motion>,
+): Promise<Motion> {
   const isUpdate = Boolean(round.motion_id);
   const method = isUpdate ? "PATCH" : "POST";
   const path = isUpdate
@@ -56,18 +56,19 @@ export async function createMotion(
   return response.json();
 }
 
-export async function createRound(
+export async function setRoundMotion(
+  round: Round,
+  motion_id: string,
   tournamentId: string,
-  roundData: Partial<Round>,
 ) {
-  const path = `/tournaments/${tournamentId}/rounds`;
+  const path = `/tournaments/${tournamentId}/phases/${round.phase_id}/rounds/${round.id}`;
 
   const response = await fetchClientSide(path, {
-    method: "POST",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(roundData),
+    body: JSON.stringify({ motion_id }),
   });
 
   if (!response.ok) {

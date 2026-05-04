@@ -45,7 +45,7 @@ export default async function LadderPage({ params }: LadderPageProps) {
   if (motionsRes.ok) {
     motions = await motionsRes.json();
   }
-  console.log(motions);
+  console.log(ladderData.debates);
 
   return (
     <LadderView

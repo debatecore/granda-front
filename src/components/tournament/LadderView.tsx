@@ -27,7 +27,7 @@ export function LadderView({
   const router = useRouter();
 
   return (
-    <div className="flex w-full flex-col items-center">
+    <div className="relative flex w-full flex-col items-center">
       <div className="mt-8 flex w-full max-w-5xl flex-col px-8 sm:mt-16 lg:px-16">
         <h1 className="text-center text-3xl font-semibold text-white sm:text-left">
           {isPlanned ? t("title") : t("planning_title")}

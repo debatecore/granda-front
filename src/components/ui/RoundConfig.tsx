@@ -6,15 +6,14 @@ import { ReusableButton } from "./ReusableButton";
 import { InputBlock } from "./InputBlock";
 import { Round } from "@/types/Round";
 import { Motion } from "@/types/Motion";
-import { createMotion } from "@/lib/utils";
+import { createMotion, setRoundMotion } from "@/lib/utils";
 
 type RoundConfigProps = {
-  name: string;
-  tournamentId: string;
   round: Round;
+  tournamentId: string;
 };
 
-export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
+export function RoundConfig({ tournamentId, round }: RoundConfigProps) {
   const t = useTranslations("round_config");
   const [motion, setMotion] = useState("");
   const [infoslide, setInfoslide] = useState("");
@@ -27,12 +26,13 @@ export function RoundConfig({ name, tournamentId, round }: RoundConfigProps) {
     }
 
     try {
-      const payload: Motion = {
+      const payload: Partial<Motion> = {
         motion: motion.trim(),
-        adinfo: infoslide.trim().length > 0 ? infoslide.trim() : null,
+        adinfo: infoslide.trim().length > 0 ? infoslide.trim() : undefined,
       };
 
-      await createMotion(tournamentId, round, payload);
+      const createdMotion = await createMotion(tournamentId, round, payload);
+      await setRoundMotion(round, createdMotion.id, tournamentId);
     } catch (error) {
       console.error("Error applying motion:", error);
     }
