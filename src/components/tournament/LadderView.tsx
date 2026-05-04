@@ -16,7 +16,7 @@ export function LadderView({
 }: {
   phases?: Phase[];
   rounds?: Round[];
-  debates: Debate[];
+  debates?: Debate[];
   tournamentId: string;
 }) {
   const isPlanned = phases && phases.length > 0;
@@ -36,8 +36,7 @@ export function LadderView({
         )}
         {isPlanned ? (
           <TournamentLadder
-            debates={debates}
-            phases={phases || []}
+            debates={debates || []}
             rounds={rounds || []}
             tournamentId={tournamentId}
           />

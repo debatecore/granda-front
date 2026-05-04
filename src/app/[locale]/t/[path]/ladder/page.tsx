@@ -15,55 +15,27 @@ type LadderPageProps = {
 export default async function LadderPage({ params }: LadderPageProps) {
   const { path } = await params;
 
-  let phases: Phase[] | undefined;
-  const res = await fetchServerside(`/tournaments/${path}/phases`, {
+  const ladderDataRes = await fetchServerside(`/tournament/${path}/ladder`, {
     cache: "no-store",
     headers: {
       Cookie: (await cookies()).toString(),
     },
   });
 
-  if (res.ok) {
-    phases = await res.json();
-  }
-
-  const rounds: Round[] = [];
-
-  await Promise.all(
-    phases?.map(async (phase) => {
-      const res = await fetchServerside(
-        `/tournaments/${path}/phases/${phase.id}/rounds`,
-        {
-          cache: "no-store",
-          headers: {
-            Cookie: (await cookies()).toString(),
-          },
-        },
-      );
-      if (res.ok) {
-        rounds.push(...((await res.json()) as Round[]));
-      }
-      return [];
-    }) ?? [],
-  );
-
-  const debates: Debate[] = [];
-  const debateRes = await fetchServerside(`/tournaments/${path}/debates`, {
-    cache: "no-store",
-    headers: {
-      Cookie: (await cookies()).toString(),
-    },
-  });
-
-  if (debateRes.ok) {
-    debates.push(...(await debateRes.json()));
+  let ladderData: {
+    phases?: Phase[];
+    rounds?: Round[];
+    debates?: Debate[];
+  } = {};
+  if (ladderDataRes.ok) {
+    ladderData = await ladderDataRes.json();
   }
 
   return (
     <LadderView
-      phases={phases}
-      rounds={rounds}
-      debates={debates}
+      phases={ladderData.phases}
+      rounds={ladderData.rounds}
+      debates={ladderData.debates}
       tournamentId={path}
     />
   );
