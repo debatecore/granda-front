@@ -4,6 +4,7 @@ import { Phase } from "@/types/Phase";
 import { LadderView } from "@/components/tournament/LadderView";
 import { Round } from "@/types/Round";
 import { Debate } from "@/types/Debate";
+import { Motion } from "@/types/Motion";
 
 type LadderPageProps = {
   params: Promise<{
@@ -31,12 +32,28 @@ export default async function LadderPage({ params }: LadderPageProps) {
     ladderData = await ladderDataRes.json();
   }
 
+  let motions: Motion[] = [];
+
+  const motionsRes = await fetchServerside(`/tournaments/${path}/motions`, {
+    cache: "no-store",
+    headers: {
+      Cookie: (await cookies()).toString(),
+    },
+  });
+
+  console.log(motionsRes);
+  if (motionsRes.ok) {
+    motions = await motionsRes.json();
+  }
+  console.log(motions);
+
   return (
     <LadderView
       phases={ladderData.phases}
       rounds={ladderData.rounds}
       debates={ladderData.debates}
       tournamentId={path}
+      motions={motions}
     />
   );
 }

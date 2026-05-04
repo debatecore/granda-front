@@ -1,6 +1,7 @@
 type Motion = {
+  id: string;
   motion: string;
-  adinfo?: string | null;
+  adinfo?: string;
 };
 
 export type { Motion };

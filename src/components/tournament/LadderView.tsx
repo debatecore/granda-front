@@ -7,16 +7,19 @@ import { TournamentPlanningForm } from "./TournamentPlanningForm";
 import { useRouter } from "next/navigation";
 import { Round } from "@/types/Round";
 import { Debate } from "@/types/Debate";
+import { Motion } from "@/types/Motion";
 
 export function LadderView({
   phases,
   tournamentId,
   rounds,
   debates,
+  motions,
 }: {
   phases?: Phase[];
   rounds?: Round[];
   debates?: Debate[];
+  motions?: Motion[];
   tournamentId: string;
 }) {
   const isPlanned = phases && phases.length > 0;
@@ -36,8 +39,10 @@ export function LadderView({
         )}
         {isPlanned ? (
           <TournamentLadder
+            phases={phases || []}
             debates={debates || []}
             rounds={rounds || []}
+            motions={motions || []}
             tournamentId={tournamentId}
           />
         ) : (
