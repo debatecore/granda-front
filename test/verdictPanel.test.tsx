@@ -42,8 +42,8 @@ test.describe("VerdictPanel", () => {
 
     await expect(page.getByRole("button", { name: "Proposition" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Opposition" })).toBeVisible();
-    await expect(page.getByRole("button", { name: "Submit Verdict" })).toBeVisible();
-    await expect(page.getByText("You have not submitted a verdict yet.")).toBeVisible();
+    await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+    await expect(page.getByText("There is no verdict yet.")).toBeVisible();
   });
 
   test("shows viewer-only UI when permission is falsy", async ({ page }) => {
@@ -52,8 +52,7 @@ test.describe("VerdictPanel", () => {
 
     await visitVerdictPage(page);
 
-    await expect(page.getByText("You are viewing the verdict as a user.")).toBeVisible();
-    await expect(page.getByText("Total verdicts: 0")).toBeVisible();
+    await expect(page.getByText("Current decision: no verdict")).toBeVisible();
     await expect(page.getByRole("button", { name: "Proposition" })).toHaveCount(0);
     await expect(page.getByRole("button", { name: "Opposition" })).toHaveCount(0);
   });
@@ -61,14 +60,14 @@ test.describe("VerdictPanel", () => {
   test("displays majority verdict from odd verdict count", async ({ page }) => {
     await mockPermission(page, { id: TEST_USER_ID });
     await mockVerdicts(page, [
-      { id: "v1", user_id: "u1", verdict: "proposition" },
-      { id: "v2", user_id: "u2", verdict: "proposition" },
-      { id: "v3", user_id: "u3", verdict: "opposition" },
+      { id: "v1", judge_user_id: "u1", proposition_won: true },
+      { id: "v2", judge_user_id: "u2", proposition_won: true },
+      { id: "v3", judge_user_id: "u3", proposition_won: false },
     ]);
 
     await visitVerdictPage(page);
 
-    await expect(page.getByText("Current decision: Proposition")).toBeVisible();
+    await expect(page.getByText("The Proposition is the winning team!")).toBeVisible();
   });
 
   test("sends POST when judge submits a new verdict", async ({ page }) => {
@@ -96,14 +95,18 @@ test.describe("VerdictPanel", () => {
       if (request.method() === "POST") {
         postCalled = true;
         const body = request.postDataJSON();
-        expect(body).toEqual({ verdict: "proposition" });
+        expect(body).toEqual({ 
+          debate_id: TEST_DEBATE_ID,
+          judge_user_id: TEST_USER_ID,
+          proposition_won: true 
+        });
         route.fulfill({
           status: 201,
           contentType: "application/json",
           body: JSON.stringify({
             id: "new-vote",
-            user_id: TEST_USER_ID,
-            verdict: "proposition",
+            judge_user_id: TEST_USER_ID,
+            proposition_won: true,
           }),
         });
         return;
@@ -115,7 +118,7 @@ test.describe("VerdictPanel", () => {
     await visitVerdictPage(page);
 
     await page.getByRole("button", { name: "Proposition" }).click();
-    await page.getByRole("button", { name: "Submit Verdict" }).click();
+    await page.getByRole("button", { name: "Submit" }).click();
 
     await expect.poll(() => postCalled).toBeTruthy();
   });
@@ -131,7 +134,7 @@ test.describe("VerdictPanel", () => {
           status: 200,
           contentType: "application/json",
           body: JSON.stringify([
-            { id: existingVerdictId, user_id: TEST_USER_ID, verdict: "opposition" },
+            { id: existingVerdictId, judge_user_id: TEST_USER_ID, proposition_won: false },
           ]),
         });
         return;
@@ -144,14 +147,18 @@ test.describe("VerdictPanel", () => {
       if (route.request().method() === "PATCH") {
         patchCalled = true;
         const body = route.request().postDataJSON();
-        expect(body).toEqual({ verdict: "proposition" });
+        expect(body).toEqual({ 
+          debate_id: TEST_DEBATE_ID,
+          judge_user_id: TEST_USER_ID,
+          proposition_won: true 
+        });
         route.fulfill({
           status: 200,
           contentType: "application/json",
           body: JSON.stringify({
             id: existingVerdictId,
-            user_id: TEST_USER_ID,
-            verdict: "proposition",
+            judge_user_id: TEST_USER_ID,
+            proposition_won: true,
           }),
         });
         return;
@@ -162,7 +169,7 @@ test.describe("VerdictPanel", () => {
     await visitVerdictPage(page);
 
     await page.getByRole("button", { name: "Proposition" }).click();
-    await page.getByRole("button", { name: "Update Verdict" }).click();
+    await page.getByRole("button", { name: "Update" }).click();
 
     await expect.poll(() => patchCalled).toBeTruthy();
   });
