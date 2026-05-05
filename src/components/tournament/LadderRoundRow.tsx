@@ -30,7 +30,12 @@ export function LadderRoundRow({
 
   return (
     <div className="w-3xl grid-cols-2">
-      <button onClick={onOpenConfig}>{round.name}</button>
+      <button
+        className="hover:underline hover:cursor-pointer"
+        onClick={onOpenConfig}
+      >
+        {round.name}
+      </button>
       <div className="flex justify-center gap-10">
         {debates.map((debate) => (
           <LadderDebateNode
