@@ -9,16 +9,24 @@ import { Motion } from "@/types/Motion";
 import { createMotion, setRoundMotion } from "@/lib/utils";
 
 type RoundConfigProps = {
+  motion?: Motion;
   round: Round;
   tournamentId: string;
+  onApplyAction: () => void;
 };
 
-export function RoundConfig({ tournamentId, round }: RoundConfigProps) {
+export function RoundConfig({
+  motion,
+  tournamentId,
+  round,
+  onApplyAction: onApply,
+}: RoundConfigProps) {
   const t = useTranslations("round_config");
-  const [motion, setMotion] = useState("");
+  const [motionText, setMotionText] = useState(motion?.motion || "");
   const [infoslide, setInfoslide] = useState("");
+  const name = round.name;
 
-  const isApplyDisabled = motion.trim().length === 0;
+  const isApplyDisabled = motionText.trim().length === 0;
 
   const handleApply = async () => {
     if (isApplyDisabled) {
@@ -27,7 +35,7 @@ export function RoundConfig({ tournamentId, round }: RoundConfigProps) {
 
     try {
       const payload: Partial<Motion> = {
-        motion: motion.trim(),
+        motion: motionText.trim(),
         adinfo: infoslide.trim().length > 0 ? infoslide.trim() : undefined,
       };
 
@@ -36,6 +44,8 @@ export function RoundConfig({ tournamentId, round }: RoundConfigProps) {
     } catch (error) {
       console.error("Error applying motion:", error);
     }
+
+    onApply();
   };
 
   return (
@@ -47,8 +57,8 @@ export function RoundConfig({ tournamentId, round }: RoundConfigProps) {
       <InputBlock
         title={t("motion_title")}
         description={t("motion_description")}
-        value={motion}
-        onChange={setMotion}
+        value={motionText}
+        onChange={setMotionText}
         placeholder={t("motion_placeholder")}
       />
 

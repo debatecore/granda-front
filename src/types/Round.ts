@@ -6,6 +6,7 @@ type Round = {
   planned_start_time?: Date;
   previous_round_id: string;
   status: "Planned" | "Ongoing" | "Finished";
+  motion_id?: string;
 };
 
 export type { Round };

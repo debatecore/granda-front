@@ -72,7 +72,7 @@ export async function setRoundMotion(
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to create round: ${response.statusText}`);
+    throw new Error(`Failed to patch round: ${await response.text()}`);
   }
 
   return response.json();

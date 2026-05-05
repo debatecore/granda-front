@@ -8,18 +8,20 @@ import { RoundConfig } from "../ui/RoundConfig";
 import { useState } from "react";
 
 export function LadderRoundRow({
+  onOpenConfig,
   round,
   debates,
   phase,
   motions,
 }: {
+  onOpenConfig: () => void;
+  configuredRound?: Round;
   round: Round;
   debates: Debate[];
   phase: Phase;
   motions: Motion[];
 }) {
   const t = useTranslations("ladder");
-  const [isRoundConfigOpen, setIsRoundConfigOpen] = useState(false);
 
   const getDisplayText = (debate: Debate) => {
     const debateMotion = motions.find(
@@ -30,10 +32,7 @@ export function LadderRoundRow({
 
   return (
     <div className="w-3xl grid-cols-2">
-      <button onClick={() => setIsRoundConfigOpen(!isRoundConfigOpen)}>
-        {round.name}
-      </button>
-
+      <button onClick={onOpenConfig}>{round.name}</button>
       <div className="flex justify-center gap-10">
         {debates.map((debate) => (
           <LadderDebateNode
@@ -44,16 +43,6 @@ export function LadderRoundRow({
           />
         ))}
       </div>
-
-      {isRoundConfigOpen && (
-        <div className="absolute">
-          <RoundConfig
-            name={round.name}
-            tournamentId={phase.tournament_id}
-            round={round}
-          />
-        </div>
-      )}
     </div>
   );
 }

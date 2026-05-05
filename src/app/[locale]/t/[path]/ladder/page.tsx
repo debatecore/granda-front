@@ -13,6 +13,39 @@ type LadderPageProps = {
   }>;
 };
 
+const sortPhases = (phases: Phase[]) => {
+  const sorted = [];
+  let nextPhase = phases.find((phase) => phase.previous_phase_id == undefined);
+  while (nextPhase) {
+    sorted.push(nextPhase);
+    nextPhase = phases.find(
+      (phase) => phase.previous_phase_id === nextPhase?.id,
+    );
+  }
+  return sorted;
+};
+
+const sortRounds = (rounds: Round[], phases: Phase[]) => {
+  const sorted: Round[] = [];
+  sortPhases(phases).forEach((phase) => {
+    console.log(phase, rounds);
+    const phaseRounds = rounds.filter((round) => {
+      return round.phase_id == phase.id;
+    });
+    console.log("phase rounds", phaseRounds);
+    let nextRound = phaseRounds.find(
+      (round) => round.previous_round_id == undefined,
+    );
+    while (nextRound) {
+      sorted.push(nextRound);
+      nextRound = rounds.find(
+        (round) => round.previous_round_id === nextRound?.id,
+      );
+    }
+  });
+  return sorted;
+};
+
 export default async function LadderPage({ params }: LadderPageProps) {
   const { path } = await params;
 
@@ -32,6 +65,8 @@ export default async function LadderPage({ params }: LadderPageProps) {
     ladderData = await ladderDataRes.json();
   }
 
+  console.log(ladderData.phases);
+
   let motions: Motion[] = [];
 
   const motionsRes = await fetchServerside(`/tournaments/${path}/motions`, {
@@ -45,12 +80,11 @@ export default async function LadderPage({ params }: LadderPageProps) {
   if (motionsRes.ok) {
     motions = await motionsRes.json();
   }
-  console.log(ladderData.debates);
 
   return (
     <LadderView
       phases={ladderData.phases}
-      rounds={ladderData.rounds}
+      rounds={sortRounds(ladderData.rounds || [], ladderData.phases || [])}
       debates={ladderData.debates}
       tournamentId={path}
       motions={motions}
