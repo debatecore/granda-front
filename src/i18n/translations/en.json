@@ -106,5 +106,8 @@
     "infoslide_title": "Infoslide",
     "infoslide_description": "Any additional information regarding the motion?",
     "apply": "Apply"
+  },
+  "debate_details": {
+    "no_motion": "Debate without motion"
   }
 }

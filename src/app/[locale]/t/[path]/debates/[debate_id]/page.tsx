@@ -1,7 +1,10 @@
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { MarshalPanel } from "@/components/tournament/MarshalPanel";
-import { User } from "@/types/User";
+import { User, UUID_MAX } from "@/types/User";
+import { Motion } from "@/types/Motion";
+import { Debate } from "@/types/Debate";
+import { getTranslations } from "next-intl/server";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -16,13 +19,13 @@ export default async function DebateDetailsPage({
 }: DebateDetailsPageProps) {
   const { path, debate_id } = await params;
 
+  const t = await getTranslations("debate_details");
   const cookieHeader = (await cookies()).toString();
 
   let roles: string[] = [];
   let loadError = false;
 
   const authRes = await fetchServerside("/auth/me", {
-    cache: "no-store",
     headers: {
       Cookie: cookieHeader,
     },
@@ -45,10 +48,41 @@ export default async function DebateDetailsPage({
 
     if (rolesRes.ok) {
       roles = await rolesRes.json();
+    } else if (currentUser.id == UUID_MAX) {
+      roles = ["Organizer", "Marshal", "Judge"];
     } else {
       loadError = true;
     }
   }
+  const getDebateById = async (tournament_id: string, debate_id: string) => {
+    const debateRes = await fetchServerside(
+      `/tournaments/${tournament_id}/debates/${debate_id}`,
+      {
+        cache: "no-store",
+        headers: {
+          Cookie: cookieHeader,
+        },
+      },
+    );
+    if (debateRes.ok) {
+      return (await debateRes.json()) as Debate;
+    }
+  };
+
+  const getMotionById = async (tournament_id: string, motion_id: string) => {
+    const motionRes = await fetchServerside(
+      `/tournaments/${tournament_id}/motions${motion_id}`,
+      {
+        cache: "no-store",
+        headers: {
+          Cookie: cookieHeader,
+        },
+      },
+    );
+    if (motionRes.ok) {
+      return (await motionRes.json()) as Motion;
+    }
+  };
 
   if (loadError) {
     return (
@@ -68,7 +102,14 @@ export default async function DebateDetailsPage({
   const canConductDebate =
     roles.includes("Marshal") || roles.includes("Organizer");
 
-  const motion = "Untitled motion";
+  const debate = await getDebateById(path, debate_id);
+  let motion = t("no_motion");
+  if (debate?.motion_id) {
+    const retrievedMoton = await getMotionById(path, debate.motion_id);
+    if (retrievedMoton) {
+      motion = retrievedMoton.motion;
+    }
+  }
 
   return (
     <div className="flex w-full flex-col items-center">
