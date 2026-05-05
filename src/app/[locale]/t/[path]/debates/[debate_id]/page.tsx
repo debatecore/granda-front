@@ -68,24 +68,36 @@ export default async function DebateDetailsPage({
   const canConductDebate =
     roles.includes("Marshal") || roles.includes("Organizer");
 
-  const motion = "Untitled motion";
+  const motion = "This House would do Something";
+  const phaseName = "Phase 1";
+  const roundName = "Round 1"; 
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="mt-8 flex w-full max-w-5xl flex-col px-8 sm:mt-16 lg:px-16">
-        <h1 className="text-center text-3xl font-semibold text-white sm:text-left">
-          Debate details
-        </h1>
+    <div className="mx-auto max-w-[1252px] min-h-[746px] bg-[#070707] p-6 text-white overflow-hidden">
+      <header className="flex justify-between items-center py-4">
+        <h1 className="text-2xl font-semibold opacity-75 max-w-[686px]"> {motion} </h1>
+        <div className="size-[26px] opacity-50 italic">ret</div>
+      </header>
 
-        <div className="mt-8 w-full border-t border-b border-stone-700/70 px-8 py-12 sm:mt-16 sm:py-16 lg:px-16">
-          <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold text-white">{motion}</h2>
-            <p className="text-sm text-stone-400">Debate ID: {debate_id}</p>
-          </div>
+      <div className="py-2 mb-6">
+        <div className="text-[22px] font-semibold text-white/50 opacity-75"> {phaseName} | {roundName} </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-[20px]">
+        
+        <div className="flex flex-col items-center gap-[20px]">
+          <div className="w-full aspect-[594/347] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 opacity-75" />
+          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
+          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
         </div>
 
-        {canConductDebate && <MarshalPanel motion={motion} />}
+        <div className="flex flex-col items-center gap-[20px]">
+          <div className="w-full aspect-[594/347] bg-[#141414] rounded-sm border-[0.5px] border-white/80 flex flex-col justify-end items-center" />
+          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
+        </div>
+
       </div>
+
     </div>
   );
 }
