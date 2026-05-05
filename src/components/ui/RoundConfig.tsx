@@ -24,6 +24,7 @@ export function RoundConfig({
   const t = useTranslations("round_config");
   const [motionText, setMotionText] = useState(motion?.motion || "");
   const [infoslide, setInfoslide] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const name = round.name;
 
   const isApplyDisabled = motionText.trim().length === 0;
@@ -42,14 +43,15 @@ export function RoundConfig({
       const createdMotion = await createMotion(tournamentId, round, payload);
       await setRoundMotion(round, createdMotion.id, tournamentId);
     } catch (error) {
-      console.error("Error applying motion:", error);
+      setErrorMessage(`Error applying motion: ${error}`);
     }
 
+    setErrorMessage("");
     onApply();
   };
 
   return (
-    <div className="mt-40 flex h-[544px] w-[574px] flex-col items-center gap-[36px] rounded-md bg-zinc-950 px-[10px] py-[32px] shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline-2 outline-offset-[-2px] outline-neutral-600/80">
+    <div className="mt-40 flex w-[574px] flex-col items-center gap-[36px] rounded-md bg-zinc-950 px-[10px] py-[32px] shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline-2 outline-offset-[-2px] outline-neutral-600/80">
       <div className="h-5 w-[574px] pb-[28px] text-center text-2xl font-semibold text-white opacity-75">
         {t("title", { name })}
       </div>
@@ -68,6 +70,8 @@ export function RoundConfig({
         value={infoslide}
         onChange={setInfoslide}
       />
+
+      <p className="text-red-500">{errorMessage}</p>
 
       <ReusableButton
         text={t("apply")}

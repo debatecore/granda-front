@@ -29,7 +29,7 @@ export function LadderRoundRow({
   };
 
   return (
-    <div className="w-3xl grid-cols-2">
+    <div className="w-3xl grid-cols-2 mb-2">
       <button
         className="hover:underline hover:cursor-pointer"
         onClick={onOpenConfig}

@@ -69,7 +69,7 @@ export function LadderView({
         >
           <div onClick={(e) => e.stopPropagation()}>
             <RoundConfig
-              onApplyAction={() => {}}
+              onApplyAction={() => router.refresh()}
               tournamentId={tournamentId}
               round={configuredRound}
               motion={motions?.find(

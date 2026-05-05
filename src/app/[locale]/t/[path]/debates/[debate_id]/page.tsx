@@ -71,7 +71,7 @@ export default async function DebateDetailsPage({
 
   const getMotionById = async (tournament_id: string, motion_id: string) => {
     const motionRes = await fetchServerside(
-      `/tournaments/${tournament_id}/motions${motion_id}`,
+      `/tournaments/${tournament_id}/motions/${motion_id}`,
       {
         cache: "no-store",
         headers: {
