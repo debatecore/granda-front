@@ -49,7 +49,7 @@ export function RoundConfig({
   };
 
   return (
-    <div className="sticky mt-40 flex h-[544px] w-[574px] flex-col items-center gap-[36px] rounded-md bg-zinc-950 px-[10px] py-[32px] shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline outline-2 outline-offset-[-2px] outline-neutral-600/80">
+    <div className="mt-40 flex h-[544px] w-[574px] flex-col items-center gap-[36px] rounded-md bg-zinc-950 px-[10px] py-[32px] shadow-[0px_10px_9px_0px_rgba(0,0,0,0.25)] outline-2 outline-offset-[-2px] outline-neutral-600/80">
       <div className="h-5 w-[574px] pb-[28px] text-center text-2xl font-semibold text-white opacity-75">
         {t("title", { name })}
       </div>

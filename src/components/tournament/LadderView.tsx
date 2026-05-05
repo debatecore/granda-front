@@ -64,17 +64,19 @@ export function LadderView({
       </div>
       {isRoundConfigOpen && configuredRound && (
         <div
-          className="w-full fixed inset-0 bg-black/40 left-1/2 -translate-x-1/2 m-auto flex justify-center"
+          className="w-full h-full absolute z-50 bg-black/40 flex justify-center "
           onClick={() => setIsRoundConfigOpen(false)}
         >
-          <RoundConfig
-            onApplyAction={() => {}}
-            tournamentId={tournamentId}
-            round={configuredRound}
-            motion={motions?.find(
-              (motion) => configuredRound.motion_id == motion.id,
-            )}
-          />
+          <div onClick={(e) => e.stopPropagation()}>
+            <RoundConfig
+              onApplyAction={() => {}}
+              tournamentId={tournamentId}
+              round={configuredRound}
+              motion={motions?.find(
+                (motion) => configuredRound.motion_id == motion.id,
+              )}
+            />
+          </div>
         </div>
       )}
     </div>
