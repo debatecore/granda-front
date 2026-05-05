@@ -17,20 +17,13 @@ export default async function VerdictPage({ searchParams }: VerdictPageProps) {
 
   return (
     <div className="flex flex-col w-full items-center p-6">
-      <h1 className="text-2xl font-semibold mb-4">Verdict Panel</h1>
       <div className="w-full max-w-3xl">
         <VerdictPanel
-          userId="ffffffff-ffff-ffff-ffff-ffffffffffff"
-          tournamentId="019da9ec-09ed-75b0-b437-803201f5453f"
-          debateId="019dc02f-cc43-74b1-a093-fc281bf009db"
+          userId={userId}
+          tournamentId={tournamentId}
+          debateId={debateId}
         />
       </div>
     </div>
   );
 }
-// </p>
-//   <VerdictPanel
-//   userId="ffffffff-ffff-ffff-ffff-ffffffffffff"
-//   tournamentId="019da9ec-09ed-75b0-b437-803201f5453f"
-//   debateId="019dc02f-cc43-74b1-a093-fc281bf009db"
-// />
