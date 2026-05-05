@@ -24,7 +24,10 @@ export function RoundConfig({
   const t = useTranslations("round_config");
   const [motionText, setMotionText] = useState(motion?.motion || "");
   const [infoslide, setInfoslide] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [resultMessage, setResultMessage] = useState({
+    message: "",
+    error: false,
+  });
   const name = round.name;
 
   const isApplyDisabled = motionText.trim().length === 0;
@@ -42,11 +45,14 @@ export function RoundConfig({
 
       const createdMotion = await createMotion(tournamentId, round, payload);
       await setRoundMotion(round, createdMotion.id, tournamentId);
+      setResultMessage({ message: "Round config applied", error: false });
     } catch (error) {
-      setErrorMessage(`Error applying motion: ${error}`);
+      setResultMessage({
+        message: `Error applying motion: ${error}`,
+        error: true,
+      });
     }
 
-    setErrorMessage("");
     onApply();
   };
 
@@ -71,7 +77,9 @@ export function RoundConfig({
         onChange={setInfoslide}
       />
 
-      <p className="text-red-500">{errorMessage}</p>
+      <p className={resultMessage.error ? "text-red-400" : "text-green-400"}>
+        {resultMessage.message || " "}
+      </p>
 
       <ReusableButton
         text={t("apply")}
