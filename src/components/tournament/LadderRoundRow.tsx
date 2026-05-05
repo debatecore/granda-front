@@ -4,8 +4,6 @@ import { LadderDebateNode } from "../LadderDebateNode";
 import { Phase } from "@/types/Phase";
 import { Motion } from "@/types/Motion";
 import { useTranslations } from "next-intl";
-import { RoundConfig } from "../ui/RoundConfig";
-import { useState } from "react";
 
 export function LadderRoundRow({
   onOpenConfig,

@@ -28,11 +28,9 @@ const sortPhases = (phases: Phase[]) => {
 const sortRounds = (rounds: Round[], phases: Phase[]) => {
   const sorted: Round[] = [];
   sortPhases(phases).forEach((phase) => {
-    console.log(phase, rounds);
     const phaseRounds = rounds.filter((round) => {
       return round.phase_id == phase.id;
     });
-    console.log("phase rounds", phaseRounds);
     let nextRound = phaseRounds.find(
       (round) => round.previous_round_id == undefined,
     );
@@ -64,8 +62,6 @@ export default async function LadderPage({ params }: LadderPageProps) {
   if (ladderDataRes.ok) {
     ladderData = await ladderDataRes.json();
   }
-
-  console.log(ladderData.phases);
 
   let motions: Motion[] = [];
 

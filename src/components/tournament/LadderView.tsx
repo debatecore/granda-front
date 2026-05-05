@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { Round } from "@/types/Round";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
+import { RoundConfig } from "../ui/RoundConfig";
+import { useState } from "react";
 
 export function LadderView({
   phases,
@@ -25,6 +27,8 @@ export function LadderView({
   const isPlanned = phases && phases.length > 0;
   const t = useTranslations("ladder");
   const router = useRouter();
+  const [configuredRound, setConfiguredRound] = useState<Round | null>(null);
+  const [isRoundConfigOpen, setIsRoundConfigOpen] = useState(false);
 
   return (
     <div className="relative flex w-full flex-col items-center">
@@ -44,6 +48,10 @@ export function LadderView({
             rounds={rounds || []}
             motions={motions || []}
             tournamentId={tournamentId}
+            onOpenConfig={(round) => {
+              setIsRoundConfigOpen(true);
+              setConfiguredRound(round);
+            }}
           />
         ) : (
           <TournamentPlanningForm
@@ -54,6 +62,21 @@ export function LadderView({
           />
         )}
       </div>
+      {isRoundConfigOpen && configuredRound && (
+        <div
+          className="w-full fixed inset-0 bg-black/40 left-1/2 -translate-x-1/2 m-auto flex justify-center"
+          onClick={() => setIsRoundConfigOpen(false)}
+        >
+          <RoundConfig
+            onApplyAction={() => {}}
+            tournamentId={tournamentId}
+            round={configuredRound}
+            motion={motions?.find(
+              (motion) => configuredRound.motion_id == motion.id,
+            )}
+          />
+        </div>
+      )}
     </div>
   );
 }
