@@ -3,15 +3,12 @@ import { LadderRoundRow } from "./LadderRoundRow";
 import { Debate } from "@/types/Debate";
 import { Phase } from "@/types/Phase";
 import { Motion } from "@/types/Motion";
-import { useState } from "react";
-import { RoundConfig } from "../ui/RoundConfig";
 
 export function TournamentLadder({
   debates,
   rounds,
   phases,
   motions,
-  tournamentId,
   onOpenConfig,
 }: {
   tournamentId: string;

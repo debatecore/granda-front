@@ -30,7 +30,7 @@ testInTournamentAsAdmin(
 );
 
 testInTournamentAsAdmin(
-  "round labels show config modal on click",
+  "round labels can be used to open round configs",
   async ({ page }) => {
     // GIVEN
     const groupsCount = 5;
@@ -59,16 +59,14 @@ testInTournamentAsAdmin(
       advancingTeams: 8,
     });
 
-    // Opening round config
     await expect(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
     const configButton = page.getByText("round_1").first();
-    await configButton.click();
     const configHeading = page.getByText("Round round_1 configuration");
+    await configButton.click();
     await expect(configHeading).toBeVisible();
 
-    // Configuring round
     const motionInput = page.getByRole("textbox", { name: "(Required)" });
     const infoslideInput = page.getByRole("textbox").filter({ hasText: /^$/ });
     const applyButton = page.getByRole("button", { name: "Apply" });
@@ -81,34 +79,32 @@ testInTournamentAsAdmin(
     await applyButton.click();
     await expect(successMessage).toBeVisible();
 
-    // Closing the config
+    // Closing the config – it can be exited by clicking on the black backdrop,
+    // but it's difficult to simulate in a test.
     await page.reload();
-
     expect(configHeading).not.toBeVisible();
+
+    const debateNodesDisplayingMotion = page.getByRole("link", { name: "This House Would t…" });
     expect(
-      await page.getByRole("link", { name: "This House Would t…" }).count(),
+      await debateNodesDisplayingMotion.count(),
     ).toBe(5);
 
-    // Reopening the config
     const prefilledMotionInput = page.getByText(testMotion1);
     const prefilledInfoslideInput = page.getByText(testInfoslide1);
-
     await configButton.click();
     await expect(prefilledMotionInput).toBeVisible();
     await expect(prefilledInfoslideInput).toBeVisible();
 
-    // Changing the config
     await prefilledMotionInput.fill(testMotion2);
     await prefilledInfoslideInput.fill(testInfoslide2);
-
     await expect(successMessage).not.toBeVisible();
     await applyButton.click();
     await expect(successMessage).toBeVisible();
 
-    // Checking the config
     await page.reload();
+    const updatedDebateNodes = page.getByRole("link", { name: "This House regrets…" });
     expect(
-      await page.getByRole("link", { name: "This House regrets…" }).count(),
+      await updatedDebateNodes.count(),
     ).toBe(5);
   },
 );
