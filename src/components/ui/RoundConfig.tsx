@@ -23,7 +23,7 @@ export function RoundConfig({
 }: RoundConfigProps) {
   const t = useTranslations("round_config");
   const [motionText, setMotionText] = useState(motion?.motion || "");
-  const [infoslide, setInfoslide] = useState("");
+  const [infoslide, setInfoslide] = useState(motion?.adinfo || "");
   const [resultMessage, setResultMessage] = useState({
     message: "",
     error: false,
