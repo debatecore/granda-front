@@ -129,7 +129,7 @@ describe("planTournament", () => {
           groups_count: 2,
           advancing_teams: 4,
           total_teams: 8,
-          tournament_id
+          tournament_id,
         }),
       },
     );

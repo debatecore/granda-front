@@ -84,10 +84,10 @@ testInTournamentAsAdmin(
     await page.reload();
     expect(configHeading).not.toBeVisible();
 
-    const debateNodesDisplayingMotion = page.getByRole("link", { name: "This House Would t…" });
-    expect(
-      await debateNodesDisplayingMotion.count(),
-    ).toBe(5);
+    const debateNodesDisplayingMotion = page.getByRole("link", {
+      name: "This House Would t…",
+    });
+    expect(await debateNodesDisplayingMotion.count()).toBe(5);
 
     const prefilledMotionInput = page.getByText(testMotion1);
     const prefilledInfoslideInput = page.getByText(testInfoslide1);
@@ -102,10 +102,10 @@ testInTournamentAsAdmin(
     await expect(successMessage).toBeVisible();
 
     await page.reload();
-    const updatedDebateNodes = page.getByRole("link", { name: "This House regrets…" });
-    expect(
-      await updatedDebateNodes.count(),
-    ).toBe(5);
+    const updatedDebateNodes = page.getByRole("link", {
+      name: "This House regrets…",
+    });
+    expect(await updatedDebateNodes.count()).toBe(5);
   },
 );
 
