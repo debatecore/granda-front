@@ -63,10 +63,10 @@ export default async function DebateDetailsPage({
   );
 
   if (!res.ok) {
-    const errorText = await res.text();
-    console.error(errorText);
+    loadError = true;
   } else {
-    data_debate = await res.json();
+    const json = await res.json();
+    data_debate = Array.isArray(json) ? json[0] : json;
   }
 
   if (loadError) {
@@ -87,9 +87,9 @@ export default async function DebateDetailsPage({
   const canConductDebate =
     roles.includes("Marshal") || roles.includes("Organizer");
 
-  const motion = data_debate?.motion?.text || "Untitled motion";
-  const phaseName = data_debate?.round?.phase?.name || "Unknown Phase";
+  const motion = data_debate?.motion?.motion || "Unknown Motion";
   const roundName = data_debate?.round?.name || "Unknown Round";
+  const phaseName = data_debate?.round?.phase?.name || "Unknown Phase";
 
   return (
     <div className="mx-auto max-w-[1252px] min-h-[746px] bg-[#070707] p-6 text-white overflow-hidden">

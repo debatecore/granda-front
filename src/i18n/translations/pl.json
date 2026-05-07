@@ -12,7 +12,8 @@
         "catname": "turniej",
         "overview": "Panel główny",
         "ladder": "Drabinka turniejowa",
-        "standings": "Rankingi"
+        "standings": "Rankingi",
+        "debates": "Debaty"
       },
       "tournament_data": {
         "catname": "informacje o turnieju",
