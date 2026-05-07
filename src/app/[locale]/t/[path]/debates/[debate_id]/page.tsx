@@ -2,6 +2,7 @@ import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { MarshalPanel } from "@/components/tournament/MarshalPanel";
 import { User } from "@/types/User";
+import { GenericComponent } from "@/components/ui/GenericComponent";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -20,6 +21,7 @@ export default async function DebateDetailsPage({
 
   let roles: string[] = [];
   let loadError = false;
+  let data_debate = null;
 
   const authRes = await fetchServerside("/auth/me", {
     cache: "no-store",
@@ -50,6 +52,23 @@ export default async function DebateDetailsPage({
     }
   }
 
+  const res = await fetchServerside(
+    `/tournaments/${path}/debates/${debate_id}`,
+    {
+      cache: "no-store",
+      headers: {
+        Cookie: cookieHeader,
+      },
+    },
+  );
+
+  if (!res.ok) {
+    const errorText = await res.text();
+    console.error(errorText);
+  } else {
+    data_debate = await res.json();
+  }
+
   if (loadError) {
     return (
       <div className="flex w-full flex-col items-center">
@@ -68,36 +87,59 @@ export default async function DebateDetailsPage({
   const canConductDebate =
     roles.includes("Marshal") || roles.includes("Organizer");
 
-  const motion = "This House would do Something";
-  const phaseName = "Phase 1";
-  const roundName = "Round 1"; 
+  const motion = data_debate?.motion?.text || "Untitled motion";
+  const phaseName = data_debate?.round?.phase?.name || "Unknown Phase";
+  const roundName = data_debate?.round?.name || "Unknown Round";
 
   return (
     <div className="mx-auto max-w-[1252px] min-h-[746px] bg-[#070707] p-6 text-white overflow-hidden">
       <header className="flex justify-between items-center py-4">
-        <h1 className="text-2xl font-semibold opacity-75 max-w-[686px]"> {motion} </h1>
+        <h1 className="text-2xl font-semibold opacity-75 max-w-[686px]">
+          {" "}
+          {motion}{" "}
+        </h1>
         <div className="size-[26px] opacity-50 italic">ret</div>
       </header>
 
       <div className="py-2 mb-6">
-        <div className="text-[22px] font-semibold text-white/50 opacity-75"> {phaseName} | {roundName} </div>
+        <div className="text-[22px] font-semibold text-white/50 opacity-75">
+          {" "}
+          {phaseName} | {roundName}{" "}
+        </div>
       </div>
 
       <div className="grid grid-cols-2 gap-[20px]">
-        
         <div className="flex flex-col items-center gap-[20px]">
-          <div className="w-full aspect-[594/347] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 opacity-75" />
-          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
-          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
+          <GenericComponent title="Marshal">
+            <div>
+              {" "}
+              Information about assigned Marshal will be presented here.{" "}
+            </div>
+          </GenericComponent>
+
+          <GenericComponent title="Judges">
+            <div>
+              {" "}
+              Information about assigned Judges will be presented here.{" "}
+            </div>
+          </GenericComponent>
+
+          <GenericComponent title="Teams">
+            <div>
+              {" "}
+              Information about time and place of the debate will be presented
+              here.{" "}
+            </div>
+          </GenericComponent>
         </div>
 
         <div className="flex flex-col items-center gap-[20px]">
-          <div className="w-full aspect-[594/347] bg-[#141414] rounded-sm border-[0.5px] border-white/80 flex flex-col justify-end items-center" />
-          <div className="w-full aspect-[594/264] bg-[#141414] rounded-sm border-[0.5px] border-[#8a8a8a]/80 flex flex-col justify-end items-center" />
+          {canConductDebate && <MarshalPanel motion={motion} />}
+          <GenericComponent title="Verdict panel">
+            <div> Waiting for the component to be ready. </div>
+          </GenericComponent>
         </div>
-
       </div>
-
     </div>
   );
 }
