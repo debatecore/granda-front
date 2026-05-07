@@ -1,7 +1,7 @@
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { Phase } from "@/types/Phase";
-import { LadderView } from "@/components/tournament/LadderView";
+import { LadderView } from "@/components/tournament/ladder/LadderView";
 import { Round } from "@/types/Round";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";

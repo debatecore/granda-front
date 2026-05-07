@@ -1,6 +1,6 @@
 import { Debate } from "@/types/Debate";
 import { Round } from "@/types/Round";
-import { LadderDebateNode } from "../LadderDebateNode";
+import { LadderDebateNode } from "./LadderDebateNode";
 import { Phase } from "@/types/Phase";
 import { Motion } from "@/types/Motion";
 import { useTranslations } from "next-intl";

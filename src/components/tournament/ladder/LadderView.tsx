@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { Round } from "@/types/Round";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
-import { RoundConfig } from "../ui/RoundConfig";
+import { RoundConfig } from "./RoundConfig";
 import { useState } from "react";
 
 export function LadderView({

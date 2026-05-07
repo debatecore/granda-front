@@ -2,8 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { ReusableButton } from "./ReusableButton";
-import { InputBlock } from "./InputBlock";
+import { ReusableButton } from "../../ui/ReusableButton";
+import { InputBlock } from "../../ui/InputBlock";
 import { Round } from "@/types/Round";
 import { Motion } from "@/types/Motion";
 import { createMotion, setRoundMotion } from "@/lib/utils";
