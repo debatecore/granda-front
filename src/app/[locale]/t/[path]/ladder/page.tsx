@@ -47,7 +47,7 @@ const sortRounds = (rounds: Round[], phases: Phase[]) => {
 export default async function LadderPage({ params }: LadderPageProps) {
   const { path } = await params;
 
-  const ladderDataRes = await fetchServerside(`/tournament/${path}/ladder`, {
+  const ladderDataRes = await fetchServerside(`/tournaments/${path}/ladder`, {
     cache: "no-store",
     headers: {
       Cookie: (await cookies()).toString(),
