@@ -1,8 +1,11 @@
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { MarshalPanel } from "@/components/tournament/MarshalPanel";
-import { User } from "@/types/User";
 import { GenericComponent } from "@/components/ui/GenericComponent";
+import { getTranslations } from "next-intl/server";
+import { User, UUID_MAX } from "@/types/User";
+import { Debate } from "@/types/Debate";
+import { Motion } from "@/types/Motion";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -18,10 +21,11 @@ export default async function DebateDetailsPage({
   const { path, debate_id } = await params;
 
   const cookieHeader = (await cookies()).toString();
+  let currentUser: User | null = null;
 
+  const t = await getTranslations("debate_details");
   let roles: string[] = [];
   let loadError = false;
-  let data_debate = null;
 
   const authRes = await fetchServerside("/auth/me", {
     cache: "no-store",
@@ -33,10 +37,10 @@ export default async function DebateDetailsPage({
   if (!authRes.ok) {
     loadError = true;
   } else {
-    const currentUser: User = await authRes.json();
+    currentUser = await authRes.json();
 
     const rolesRes = await fetchServerside(
-      `/users/${currentUser.id}/tournaments/${path}/roles`,
+      `/users/${currentUser?.id}/tournaments/${path}/roles`,
       {
         cache: "no-store",
         headers: {
@@ -47,27 +51,39 @@ export default async function DebateDetailsPage({
 
     if (rolesRes.ok) {
       roles = await rolesRes.json();
-    } else {
-      loadError = true;
     }
   }
 
-  const res = await fetchServerside(
-    `/tournaments/${path}/debates/${debate_id}`,
-    {
-      cache: "no-store",
-      headers: {
-        Cookie: cookieHeader,
+  const getDebateById = async (tournament_id: string, debate_id: string) => {
+    const debateRes = await fetchServerside(
+      `/tournaments/${tournament_id}/debates/${debate_id}`,
+      {
+        cache: "no-store",
+        headers: {
+          Cookie: cookieHeader,
+        },
       },
-    },
-  );
+    );
+    if (debateRes.ok) {
+      return (await debateRes.json()) as Debate;
+    }
+  };
 
-  if (!res.ok) {
-    loadError = true;
-  } else {
-    const json = await res.json();
-    data_debate = Array.isArray(json) ? json[0] : json;
-  }
+  const getMotionById = async (tournament_id: string, motion_id: string) => {
+    const motionRes = await fetchServerside(
+      `/tournaments/${tournament_id}/motions/${motion_id}`,
+      {
+        cache: "no-store",
+        headers: {
+          Cookie: cookieHeader,
+        },
+      },
+    );
+    console.log("motionRes", motionRes);
+    if (motionRes.ok) {
+      return (await motionRes.json()) as Motion;
+    }
+  };
 
   if (loadError) {
     return (
@@ -85,11 +101,20 @@ export default async function DebateDetailsPage({
   }
 
   const canConductDebate =
-    roles.includes("Marshal") || roles.includes("Organizer");
+    roles.includes("Marshal") ||
+    roles.includes("Organizer") ||
+    currentUser?.id === UUID_MAX;
 
-  const motion = data_debate?.motion?.motion || "Unknown Motion";
-  const roundName = data_debate?.round?.name || "Unknown Round";
-  const phaseName = data_debate?.round?.phase?.name || "Unknown Phase";
+  const debate = await getDebateById(path, debate_id);
+  console.log("debate", debate);
+  let motion = t("no_motion");
+  if (debate?.motion_id) {
+    const retrievedMoton = await getMotionById(path, debate.motion_id);
+    console.log("retrievedMoton", retrievedMoton);
+    if (retrievedMoton) {
+      motion = retrievedMoton.motion;
+    }
+  }
 
   return (
     <div className="mx-auto max-w-[1252px] min-h-[746px] bg-[#070707] p-6 text-white overflow-hidden">
@@ -104,7 +129,7 @@ export default async function DebateDetailsPage({
       <div className="py-2 mb-6">
         <div className="text-[22px] font-semibold text-white/50 opacity-75">
           {" "}
-          {phaseName} | {roundName}{" "}
+          {/*{phaseName} | {roundName}{" "}*/}
         </div>
       </div>
 
