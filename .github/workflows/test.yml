@@ -35,3 +35,23 @@ jobs:
 
       - name: Check formatting
         run: npx prettier . --check
+    
+  version-check:
+      name: Check package version
+      runs-on: ubuntu-latest
+
+      if: github.event_name == 'pull_request'
+
+      steps:
+        - name: Check out repository
+          uses: actions/checkout@v4
+          with:
+            fetch-depth: 0
+
+        - name: Fetch base branch
+          run: git fetch origin "${{ github.base_ref }}" --depth=1
+
+        - name: Check package.json and package-lock.json versions
+          run: python scripts/check_version.py "origin/${{ github.base_ref }}"
+
+
