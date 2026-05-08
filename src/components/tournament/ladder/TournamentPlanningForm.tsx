@@ -1,21 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { planTournament } from "./ladder-actions";
+import { useTranslations } from "next-intl";
 
 type TournamentPlanningFormProps = {
   tournamentId: string;
-  groupPhaseRoundsLabel: string;
-  groupsCountLabel: string;
-  advancingTeamsLabel: string;
-  submitLabel: string;
-  submittingLabel: string;
-  planningTitle: string;
-  planningDescription: string;
-  positiveIntegerError: string;
-  powerOfTwoError: string;
-  requestFailedError: string;
-  successMessage: string;
+  onPlanned: () => void;
 };
 
 const initialState = {
@@ -25,19 +16,11 @@ const initialState = {
 
 export function TournamentPlanningForm({
   tournamentId,
-  groupPhaseRoundsLabel,
-  groupsCountLabel,
-  advancingTeamsLabel,
-  submitLabel,
-  submittingLabel,
-  planningTitle,
-  planningDescription,
-  positiveIntegerError,
-  powerOfTwoError,
-  requestFailedError,
-  successMessage,
+  onPlanned,
 }: TournamentPlanningFormProps) {
-  const boundPlanTournament = planTournament.bind(null, tournamentId);
+  const boundPlanTournament = planTournament.bind(onPlanned, tournamentId);
+
+  const t = useTranslations("ladder");
 
   const [state, formAction, isPending] = useActionState(
     boundPlanTournament,
@@ -45,22 +28,22 @@ export function TournamentPlanningForm({
   );
 
   let errorMessage: string | null = null;
-
-  if (state.error === "validation_positive_integer") {
-    errorMessage = positiveIntegerError;
-  } else if (state.error === "validation_power_of_two") {
-    errorMessage = powerOfTwoError;
-  } else if (state.error === "request_failed") {
-    errorMessage = requestFailedError;
+  if (state.error) {
+    errorMessage = t(state.error as string);
   }
+
+  useEffect(() => {
+    if (state.success) {
+      onPlanned();
+    }
+  }, [state.success, onPlanned]);
 
   return (
     <div className="mt-8 w-full border-t border-b border-stone-700/70 px-8 py-12 sm:mt-16 sm:w-fit sm:py-16 lg:px-16">
       <div className="mx-auto flex w-full max-w-md flex-col gap-6">
-        <div className="flex flex-col gap-2 text-center sm:text-left">
-          <h2 className="text-2xl font-semibold text-white">{planningTitle}</h2>
+        <div className="flex flex-col gap-2 text-center sm:text-left items-center">
           <p className="text-sm text-stone-400 sm:text-base">
-            {planningDescription}
+            {t("planning_description")}
           </p>
         </div>
 
@@ -70,7 +53,7 @@ export function TournamentPlanningForm({
               htmlFor="group_phase_rounds"
               className="mb-1 text-sm text-stone-300"
             >
-              {groupPhaseRoundsLabel}
+              {t("group_phase_rounds")}
             </label>
             <input
               id="group_phase_rounds"
@@ -88,7 +71,7 @@ export function TournamentPlanningForm({
               htmlFor="groups_count"
               className="mb-1 text-sm text-stone-300"
             >
-              {groupsCountLabel}
+              {t("groups_count")}
             </label>
             <input
               id="groups_count"
@@ -106,7 +89,25 @@ export function TournamentPlanningForm({
               htmlFor="advancing_teams"
               className="mb-1 text-sm text-stone-300"
             >
-              {advancingTeamsLabel}
+              {t("total_teams")}
+            </label>
+            <input
+              id="total_teams"
+              type="number"
+              name="total_teams"
+              min="2"
+              step="1"
+              required
+              className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label
+              htmlFor="advancing_teams"
+              className="mb-1 text-sm text-stone-300"
+            >
+              {t("advancing_teams")}
             </label>
             <input
               id="advancing_teams"
@@ -124,7 +125,7 @@ export function TournamentPlanningForm({
           )}
 
           {state.success && (
-            <p className="text-sm text-green-400">{successMessage}</p>
+            <p className="text-sm text-green-400">{t("success")}</p>
           )}
 
           <button
@@ -132,7 +133,7 @@ export function TournamentPlanningForm({
             disabled={isPending}
             className="mt-2 rounded-md bg-white/20 px-4 py-2 text-sm font-medium text-white hover:bg-white/30 disabled:opacity-50"
           >
-            {isPending ? submittingLabel : submitLabel}
+            {isPending ? t("submitting") : t("submit")}
           </button>
         </form>
       </div>

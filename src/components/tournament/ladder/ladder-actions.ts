@@ -24,11 +24,13 @@ export async function planTournament(
   const groupPhaseRounds = Number(formData.get("group_phase_rounds"));
   const groupsCount = Number(formData.get("groups_count"));
   const advancingTeams = Number(formData.get("advancing_teams"));
+  const totalTeams = Number(formData.get("total_teams"));
 
   if (
     !isPositiveInteger(groupPhaseRounds) ||
     !isPositiveInteger(groupsCount) ||
-    !isPositiveInteger(advancingTeams)
+    !isPositiveInteger(advancingTeams) ||
+    !isPositiveInteger(totalTeams)
   ) {
     return {
       success: false,
@@ -53,6 +55,8 @@ export async function planTournament(
       group_phase_rounds: groupPhaseRounds,
       groups_count: groupsCount,
       advancing_teams: advancingTeams,
+      total_teams: totalTeams,
+      tournament_id: tournamentId,
     }),
   });
 
@@ -67,7 +71,6 @@ export async function planTournament(
       error: "request_failed",
     };
   }
-
   return {
     success: true,
     error: null,

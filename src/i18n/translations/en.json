@@ -78,10 +78,11 @@
   },
   "ladder": {
     "title": "Tournament Ladder",
-    "planning_title": "Tournament planning",
+    "planning_title": "Tournament Planning",
     "planning_description": "Set the core parameters to generate the tournament ladder.",
     "group_phase_rounds": "Group phase rounds",
     "groups_count": "Groups count",
+    "total_teams": "Total teams",
     "advancing_teams": "Advancing teams",
     "submit": "Plan tournament",
     "submitting": "Planning...",
@@ -91,7 +92,8 @@
     "validation_positive_integer": "This value must be a positive integer.",
     "validation_power_of_two": "Advancing teams must be a power of 2.",
     "request_failed": "Failed to plan the tournament.",
-    "success": "Tournament planning submitted successfully."
+    "success": "Tournament planning submitted successfully.",
+    "no_motion": "No motion"
   },
   "debates": {
     "title": "Debates"
@@ -104,5 +106,8 @@
     "infoslide_title": "Infoslide",
     "infoslide_description": "Any additional information regarding the motion?",
     "apply": "Apply"
+  },
+  "debate_details": {
+    "no_motion": "Debate without motion"
   }
 }

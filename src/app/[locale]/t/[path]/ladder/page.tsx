@@ -1,9 +1,10 @@
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
-import { getTranslations } from "next-intl/server";
 import { Phase } from "@/types/Phase";
-import { TournamentPlanningForm } from "@/components/tournament/TournamentPlanningForm";
-import { TournamentLadderPlaceholder } from "@/components/tournament/TournamentLadderPlaceholder";
+import { LadderView } from "@/components/tournament/ladder/LadderView";
+import { Round } from "@/types/Round";
+import { Debate } from "@/types/Debate";
+import { Motion } from "@/types/Motion";
 
 type LadderPageProps = {
   params: Promise<{
@@ -12,67 +13,77 @@ type LadderPageProps = {
   }>;
 };
 
+const sortPhases = (phases: Phase[]) => {
+  const sorted = [];
+  let nextPhase = phases.find((phase) => phase.previous_phase_id == undefined);
+  while (nextPhase) {
+    sorted.push(nextPhase);
+    nextPhase = phases.find(
+      (phase) => phase.previous_phase_id === nextPhase?.id,
+    );
+  }
+  return sorted;
+};
+
+const sortRounds = (rounds: Round[], phases: Phase[]) => {
+  const sorted: Round[] = [];
+  sortPhases(phases).forEach((phase) => {
+    const phaseRounds = rounds.filter((round) => {
+      return round.phase_id == phase.id;
+    });
+    let nextRound = phaseRounds.find(
+      (round) => round.previous_round_id == undefined,
+    );
+    while (nextRound) {
+      sorted.push(nextRound);
+      nextRound = rounds.find(
+        (round) => round.previous_round_id === nextRound?.id,
+      );
+    }
+  });
+  return sorted;
+};
+
 export default async function LadderPage({ params }: LadderPageProps) {
   const { path } = await params;
-  const t = await getTranslations("ladder");
 
-  let phases: Phase[] = [];
-  let shouldShowPlanningForm = false;
-  let shouldShowPlaceholder = false;
-  let loadError = false;
-
-  const res = await fetchServerside(`/tournaments/${path}/phases`, {
+  const ladderDataRes = await fetchServerside(`/tournaments/${path}/ladder`, {
     cache: "no-store",
     headers: {
       Cookie: (await cookies()).toString(),
     },
   });
 
-  if (res.ok) {
-    phases = await res.json();
-    shouldShowPlanningForm = phases.length === 0;
-    shouldShowPlaceholder = phases.length > 0;
-  } else if (res.status === 404) {
-    shouldShowPlanningForm = true;
-  } else {
-    loadError = true;
+  let ladderData: {
+    phases?: Phase[];
+    rounds?: Round[];
+    debates?: Debate[];
+  } = {};
+  if (ladderDataRes.ok) {
+    ladderData = await ladderDataRes.json();
+  }
+
+  let motions: Motion[] = [];
+
+  const motionsRes = await fetchServerside(`/tournaments/${path}/motions`, {
+    cache: "no-store",
+    headers: {
+      Cookie: (await cookies()).toString(),
+    },
+  });
+
+  console.log(motionsRes);
+  if (motionsRes.ok) {
+    motions = await motionsRes.json();
   }
 
   return (
-    <div className="flex w-full flex-col items-center">
-      <div className="mt-8 flex w-full max-w-5xl flex-col px-8 sm:mt-16 lg:px-16">
-        <h1 className="text-center text-3xl font-semibold text-white sm:text-left">
-          {t("title")}
-        </h1>
-
-        {loadError && (
-          <p className="mt-4 text-sm text-red-400">{t("no_phases_error")}</p>
-        )}
-
-        {shouldShowPlanningForm && (
-          <TournamentPlanningForm
-            tournamentId={path}
-            planningTitle={t("planning_title")}
-            planningDescription={t("planning_description")}
-            groupPhaseRoundsLabel={t("group_phase_rounds")}
-            groupsCountLabel={t("groups_count")}
-            advancingTeamsLabel={t("advancing_teams")}
-            submitLabel={t("submit")}
-            submittingLabel={t("submitting")}
-            positiveIntegerError={t("validation_positive_integer")}
-            powerOfTwoError={t("validation_power_of_two")}
-            requestFailedError={t("request_failed")}
-            successMessage={t("success")}
-          />
-        )}
-
-        {shouldShowPlaceholder && (
-          <TournamentLadderPlaceholder
-            title={t("placeholder_title")}
-            description={t("placeholder_description")}
-          />
-        )}
-      </div>
-    </div>
+    <LadderView
+      phases={ladderData.phases}
+      rounds={sortRounds(ladderData.rounds || [], ladderData.phases || [])}
+      debates={ladderData.debates}
+      tournamentId={path}
+      motions={motions}
+    />
   );
 }

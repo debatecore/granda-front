@@ -1,4 +1,4 @@
-import { planTournament } from "@/components/tournament/ladder-actions";
+import { planTournament } from "@/components/tournament/ladder/ladder-actions";
 import { fetchServerside } from "@/lib/utils";
 import { cookies } from "next/headers";
 
@@ -52,6 +52,7 @@ describe("planTournament", () => {
     formData.set("group_phase_rounds", "2.5");
     formData.set("groups_count", "2");
     formData.set("advancing_teams", "4");
+    formData.set("total_teams", "8");
 
     // WHEN
     const result = await planTournament(
@@ -74,6 +75,7 @@ describe("planTournament", () => {
     formData.set("group_phase_rounds", "3");
     formData.set("groups_count", "2");
     formData.set("advancing_teams", "3");
+    formData.set("total_teams", "8");
 
     // WHEN
     const result = await planTournament(
@@ -92,10 +94,12 @@ describe("planTournament", () => {
 
   test("should call the plan endpoint and return success when backend responds with ok", async () => {
     // GIVEN
+    const tournament_id = "test-tournament-id";
     const formData = new FormData();
     formData.set("group_phase_rounds", "3");
     formData.set("groups_count", "2");
     formData.set("advancing_teams", "4");
+    formData.set("total_teams", "8");
 
     mockedFetchServerside.mockResolvedValue({
       ok: true,
@@ -105,7 +109,7 @@ describe("planTournament", () => {
 
     // WHEN
     const result = await planTournament(
-      "test-tournament-id",
+      tournament_id,
       { success: false, error: null },
       formData,
     );
@@ -124,6 +128,8 @@ describe("planTournament", () => {
           group_phase_rounds: 3,
           groups_count: 2,
           advancing_teams: 4,
+          total_teams: 8,
+          tournament_id,
         }),
       },
     );
@@ -140,6 +146,7 @@ describe("planTournament", () => {
     formData.set("group_phase_rounds", "3");
     formData.set("groups_count", "2");
     formData.set("advancing_teams", "4");
+    formData.set("total_teams", "8");
 
     mockedFetchServerside.mockResolvedValue({
       ok: false,
