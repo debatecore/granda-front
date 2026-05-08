@@ -10,10 +10,11 @@ import {
   Wait,
 } from "testcontainers";
 
-import { test as base } from "@playwright/test";
+import { test as base, Page } from "@playwright/test";
 import getPort from "get-port";
 import kill from "tree-kill";
 import { spawn } from "child_process";
+import { expect } from "@playwright/test";
 
 const DEFAULT_BACKEND_PORT = 2023;
 
@@ -47,6 +48,69 @@ export const test = base.extend<Fixtures>({
     }
   },
 });
+
+export const testInTournamentAsAdmin = base.extend<Fixtures>({
+  page: async ({ browser }, use) => {
+    const frontendPort = await getPort();
+    const containers = new TestContainers();
+    await containers.start(frontendPort);
+    const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
+
+    const page = await browser.newPage({
+      baseURL: `http://localhost:${frontendPort}`,
+    });
+    const frontendServer = spawn("npm", ["run", "dev"], {
+      env: {
+        ...process.env,
+        CORS_ORIGIN: `http://localhost:${frontendPort}`,
+        BACKEND_URL: `http://localhost:${backendPort}`,
+        PORT: frontendPort.toString(),
+      },
+    });
+    await waitForServer(`http://localhost:${frontendPort}/en/login`);
+
+    await logInAsAdmin(page);
+    await createTournament(page);
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(page);
+
+    await containers.stop();
+    if (frontendServer.pid) {
+      killFrontendServer(frontendServer.pid);
+    }
+  },
+});
+
+const logInAsAdmin = async (page: Page) => {
+  await page.goto("/en/login");
+  await page
+    .getByRole("textbox", { name: "Your handle (username)" })
+    .fill("admin");
+
+  await page.getByRole("textbox", { name: "Your password" }).fill("admin");
+  await page.getByRole("button", { name: "Log in" }).click();
+};
+
+const createTournament = async (page: Page) => {
+  await page.waitForURL("/en/tournaments");
+  await page.getByRole("button", { name: "Create tournament" }).click();
+
+  expect(
+    page.getByRole("heading", { name: "Create tournament" }),
+  ).toBeVisible();
+
+  const unique = Date.now();
+  const fullName = `Tournament ${unique}`;
+  const shortName = `T${unique}`;
+
+  await page.getByLabel("Full name").fill(fullName);
+  await page.getByLabel("Short name").fill(shortName);
+  await page.getByRole("button", { name: "Create", exact: true }).click();
+  await page.getByText(fullName).click();
+
+  expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+};
 
 export class TestContainers {
   server?: StartedTestContainer;

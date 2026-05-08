@@ -1,6 +1,4 @@
-export default async function TournamentStaffPage({
-  params,
-}: {
+export default async function TournamentStaffPage({}: {
   params: Promise<{ path: string }>;
 }) {
   return (

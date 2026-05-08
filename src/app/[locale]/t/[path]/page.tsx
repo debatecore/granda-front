@@ -1,8 +1,6 @@
 import { getTranslations } from "next-intl/server";
 
-export default async function TournamentRootPage({
-  params,
-}: {
+export default async function TournamentRootPage({}: {
   params: Promise<{ path: string }>;
 }) {
   const t = await getTranslations("overview");

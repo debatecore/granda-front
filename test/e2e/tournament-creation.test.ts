@@ -1,4 +1,5 @@
-import { test, expect } from "@playwright/test";
+import { expect } from "@playwright/test";
+import { test } from "./e2eUtils";
 
 test.describe("tournament creation", () => {
   test.beforeEach(async ({ page }) => {
@@ -8,9 +9,7 @@ test.describe("tournament creation", () => {
       .getByRole("textbox", { name: "Your handle (username)" })
       .fill("admin");
 
-    await page
-      .getByRole("textbox", { name: "Your password" })
-      .fill("admin");
+    await page.getByRole("textbox", { name: "Your password" }).fill("admin");
 
     await page.getByRole("button", { name: "Log in" }).click();
 
@@ -26,7 +25,7 @@ test.describe("tournament creation", () => {
     await page.getByRole("button", { name: "Create tournament" }).click();
 
     await expect(
-      page.getByRole("heading", { name: "Create tournament" })
+      page.getByRole("heading", { name: "Create tournament" }),
     ).toBeVisible();
     await expect(page.getByLabel("Full name")).toBeVisible();
     await expect(page.getByLabel("Short name")).toBeVisible();
@@ -36,7 +35,7 @@ test.describe("tournament creation", () => {
     await page.getByRole("button", { name: "Create tournament" }).click();
 
     await expect(
-      page.getByRole("heading", { name: "Create tournament" })
+      page.getByRole("heading", { name: "Create tournament" }),
     ).toBeVisible();
 
     const unique = Date.now();
@@ -58,7 +57,7 @@ test.describe("tournament creation", () => {
     await page.getByRole("button", { name: "Create tournament" }).click();
 
     await expect(
-      page.getByRole("heading", { name: "Create tournament" })
+      page.getByRole("heading", { name: "Create tournament" }),
     ).toBeVisible();
 
     await page.getByLabel("Full name").fill(fullName);
@@ -66,7 +65,7 @@ test.describe("tournament creation", () => {
     await page.getByRole("button", { name: "Create", exact: true }).click();
 
     await expect(
-      page.getByRole("heading", { name: "Create tournament" })
+      page.getByRole("heading", { name: "Create tournament" }),
     ).not.toBeVisible();
 
     await expect(page.getByText(fullName)).toBeVisible();
@@ -74,13 +73,15 @@ test.describe("tournament creation", () => {
     await page.getByRole("button", { name: "Create tournament" }).click();
 
     await expect(
-      page.getByRole("heading", { name: "Create tournament" })
+      page.getByRole("heading", { name: "Create tournament" }),
     ).toBeVisible();
 
     await page.getByLabel("Full name").fill(fullName);
     await page.getByLabel("Short name").fill(shortName);
     await page.getByRole("button", { name: "Create", exact: true }).click();
 
-    await expect(page.locator("form")).toContainText(/failed to create tournament/i);
+    await expect(page.locator("form")).toContainText(
+      /failed to create tournament/i,
+    );
   });
 });

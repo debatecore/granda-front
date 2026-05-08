@@ -25,7 +25,7 @@ export default async function TournamentLayout({
       Cookie: (await cookies()).toString(),
     },
   });
-  const res_tournament = await fetchServerside(`/tournament/${path}`, {
+  const res_tournament = await fetchServerside(`/tournaments/${path}`, {
     headers: {
       Cookie: (await cookies()).toString(),
     },

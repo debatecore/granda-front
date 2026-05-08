@@ -1,16 +1,11 @@
-import { LANGUAGE_COOKIE } from "@/i18n/language-utils";
-import { cookies } from "next/headers";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SaveButton } from "@/components/settings/SaveButton";
 
-export default async function TournamentSettingsPage({
-  params,
-}: {
+export default async function TournamentSettingsPage({}: {
   params: Promise<{ path: string }>;
 }) {
   const t = await getTranslations("settings");
-  const store = await cookies();
   const language = await getLocale();
 
   return (

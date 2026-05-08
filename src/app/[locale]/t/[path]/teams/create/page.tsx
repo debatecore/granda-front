@@ -1,6 +1,4 @@
-export default async function TeamCreationView({
-  params,
-}: {
+export default async function TeamCreationView({}: {
   params: Promise<{ path: string }>;
 }) {
   return (
