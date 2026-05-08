@@ -1,9 +1,11 @@
-import { test, expect } from "@playwright/test";
+import { UUID_MAX } from "@/types/User";
+import { expect } from "@playwright/test";
+import { test } from "./e2eUtils";
 
 test.describe("verdict panel", () => {
-  const userId = "judge-user-1";
-  const tournamentId = "tournament-1";
-  const debateId = "debate-1";
+  const userId = UUID_MAX;
+  const tournamentId = "019da9ec-09ed-75b0-b437-803201f5453f";
+  const debateId = "019dc02f-cc43-74b1-a093-fc281bf009db";
   const verdictPageUrl = `/en/tournaments/verdict?userId=${userId}&tournamentId=${tournamentId}&debateId=${debateId}`;
 
   test.beforeEach(async ({ page }) => {
@@ -13,9 +15,7 @@ test.describe("verdict panel", () => {
       .getByRole("textbox", { name: "Your handle (username)" })
       .fill("admin");
 
-    await page
-      .getByRole("textbox", { name: "Your password" })
-      .fill("admin");
+    await page.getByRole("textbox", { name: "Your password" }).fill("admin");
 
     await page.getByRole("button", { name: "Log in" }).click();
 
@@ -25,12 +25,9 @@ test.describe("verdict panel", () => {
   test("judge permission renders verdict submission options", async ({
     page,
   }) => {
-    await page.route(
-      `/users/${userId}`,
-      (route) => {
-        route.abort();
-      }
-    );
+    await page.route(`/users/${userId}`, (route) => {
+      route.abort();
+    });
 
     await page.route(
       `/tournaments/${tournamentId}/debates/${debateId}/verdicts`,
@@ -39,32 +36,29 @@ test.describe("verdict panel", () => {
           status: 200,
           body: JSON.stringify([]),
         });
-      }
+      },
     );
 
     await page.goto(verdictPageUrl);
 
-    await expect(page.getByRole("heading", { name: "Verdict panel" })).toBeVisible();
+    await expect(page.getByText("Verdict panel")).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /proposition/i })
+      page.getByRole("button", { name: /proposition/i }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /opposition/i })
+      page.getByRole("button", { name: /opposition/i }),
     ).toBeVisible();
   });
 
   test("non-judge permission hides verdict submission options", async ({
     page,
   }) => {
-    await page.route(
-      `/users/${userId}`,
-      (route) => {
-        route.fulfill({
-          status: 403,
-          body: JSON.stringify({ error: "Forbidden" }),
-        });
-      }
-    );
+    await page.route(`/users/${userId}`, (route) => {
+      route.fulfill({
+        status: 403,
+        body: JSON.stringify({ error: "Forbidden" }),
+      });
+    });
 
     await page.route(
       `/tournaments/${tournamentId}/debates/${debateId}/verdicts`,
@@ -73,14 +67,14 @@ test.describe("verdict panel", () => {
           status: 200,
           body: JSON.stringify([]),
         });
-      }
+      },
     );
 
     await page.goto(verdictPageUrl);
 
-    await expect(page.getByRole("heading", { name: "Verdict panel" })).toBeVisible();
+    await expect(page.getByText("Verdict panel")).toBeVisible();
     await expect(
-      page.getByRole("button", { name: /proposition/i })
+      page.getByRole("button", { name: /proposition/i }),
     ).not.toBeVisible();
   });
 
@@ -104,7 +98,7 @@ test.describe("verdict panel", () => {
           status: 200,
           body: JSON.stringify(verdicts),
         });
-      }
+      },
     );
 
     await page.goto(verdictPageUrl);
@@ -138,7 +132,7 @@ test.describe("verdict panel", () => {
             body: JSON.stringify([]),
           });
         }
-      }
+      },
     );
 
     await page.goto(verdictPageUrl);
@@ -183,7 +177,7 @@ test.describe("verdict panel", () => {
             ]),
           });
         }
-      }
+      },
     );
 
     await page.route(
@@ -200,7 +194,7 @@ test.describe("verdict panel", () => {
             }),
           });
         }
-      }
+      },
     );
 
     await page.goto(verdictPageUrl);

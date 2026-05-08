@@ -57,7 +57,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
     setLoading(true);
     setError(null);
 
-    const permissionUrl = `/users/${userId}`;
+    const permissionUrl =
+      `/users/${userId}/tournaments/${tournamentId}/permissions` +
+      `?permission_name=SubmitOwnVerdictVote`;
     const verdictsUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts`;
 
     Promise.all([
@@ -79,7 +81,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
 
         const existing = loadedVerdicts.find((v) => v.judge_user_id === userId);
         if (existing) {
-          setSelectedVote(existing.proposition_won ? "proposition" : "opposition");
+          setSelectedVote(
+            existing.proposition_won ? "proposition" : "opposition",
+          );
         } else {
           setSelectedVote(null);
         }
@@ -107,7 +111,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
 
     try {
       if (currentUserVerdict) {
-        const isSameVote = currentUserVerdict.proposition_won === (selectedVote === "proposition");
+        const isSameVote =
+          currentUserVerdict.proposition_won ===
+          (selectedVote === "proposition");
         if (isSameVote) {
           setSubmitting(false);
           return;
@@ -229,42 +235,47 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
                 {"Submit"}
               </div>
             </button>
-            <div className={`w-[559px] h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex flex-col justify-center items-center gap-2.5 overflow-hidden ${majorityVerdict === "Proposition" ? "bg-gradient-to-r from-purple-500/7 via-transparent to-purple-500/7" : majorityVerdict === "Opposition" ? "bg-gradient-to-r from-pink-400/7 via-transparent to-pink-400/7" : ""}`}>
+            <div
+              className={`w-[559px] h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex flex-col justify-center items-center gap-2.5 overflow-hidden ${majorityVerdict === "Proposition" ? "bg-gradient-to-r from-purple-500/7 via-transparent to-purple-500/7" : majorityVerdict === "Opposition" ? "bg-gradient-to-r from-pink-400/7 via-transparent to-pink-400/7" : ""}`}
+            >
               <div className="w-[540px] h-[92px] opacity-50 text-center justify-center items-center whitespace-nowrap flex">
                 {majorityVerdict === "Proposition" ? (
                   <>
                     <span className="text-white/100 text-lg font-medium leading-[26px]">
-                      The{' '}
+                      The{" "}
                     </span>
                     <span className="text-white/100 text-lg font-bold leading-[26px] mx-1.5">
                       Proposition
                     </span>
                     <span className="text-white/100 text-lg font-medium leading-[26px]">
-                      {' '}is the winning team!
+                      {" "}
+                      is the winning team!
                     </span>
                   </>
                 ) : majorityVerdict === "Opposition" ? (
                   <>
                     <span className="text-white/100 text-lg font-medium leading-[26px]">
-                      The 
+                      The
                     </span>
                     <span className="text-white/100 text-lg font-bold leading-[26px] mx-1.5">
                       Opposition
                     </span>
                     <span className="text-white/100 text-lg font-medium leading-[26px]">
-                      {' '}is the winning team!
+                      {" "}
+                      is the winning team!
                     </span>
                   </>
                 ) : (
                   <>
                     <span className="text-white/75 text-lg font-medium leading-[26px]">
-                      There is 
+                      There is
                     </span>
                     <span className="text-white/75 text-lg font-bold leading-[26px] mx-1.5">
                       no verdict
                     </span>
                     <span className="text-white/75 text-lg font-medium leading-[26px]">
-                      {' '}yet.
+                      {" "}
+                      yet.
                     </span>
                   </>
                 )}
@@ -272,42 +283,47 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
             </div>
           </>
         ) : (
-          <div className={`w-[560px] h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex justify-center items-center overflow-hidden ${majorityVerdict === "Proposition" ? "bg-gradient-to-r from-purple-500/20 via-transparent to-purple-500/20" : majorityVerdict === "Opposition" ? "bg-gradient-to-r from-pink-400/20 via-transparent to-pink-400/20" : ""}`}>
+          <div
+            className={`w-[560px] h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex justify-center items-center overflow-hidden ${majorityVerdict === "Proposition" ? "bg-gradient-to-r from-purple-500/20 via-transparent to-purple-500/20" : majorityVerdict === "Opposition" ? "bg-gradient-to-r from-pink-400/20 via-transparent to-pink-400/20" : ""}`}
+          >
             <div className="w-[540px] h-[92px] opacity-50 text-center justify-center items-center whitespace-nowrap flex">
               {majorityVerdict === "Proposition" ? (
                 <>
                   <span className="text-white/100 text-lg font-medium leading-[26px]">
-                    The{' '}
+                    The{" "}
                   </span>
                   <span className="text-white/100 text-lg font-bold leading-[26px] mx-1.5">
                     Proposition
                   </span>
                   <span className="text-white/100 text-lg font-medium leading-[26px]">
-                    {' '}is the winning team!
+                    {" "}
+                    is the winning team!
                   </span>
                 </>
               ) : majorityVerdict === "Opposition" ? (
                 <>
                   <span className="text-white/100 text-lg font-medium leading-[26px]">
-                    The{' '}
+                    The{" "}
                   </span>
                   <span className="text-white/100 text-lg font-bold leading-[26px] mx-1.5">
                     Opposition
                   </span>
                   <span className="text-white/100 text-lg font-medium leading-[26px]">
-                    {' '}is the winning team!
+                    {" "}
+                    is the winning team!
                   </span>
                 </>
               ) : (
                 <>
                   <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    There is{' '}
+                    There is{" "}
                   </span>
                   <span className="text-white/75 text-lg font-bold leading-[26px] mx-1.5">
                     no verdict
                   </span>
                   <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    {' '}yet.
+                    {" "}
+                    yet.
                   </span>
                 </>
               )}
