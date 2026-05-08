@@ -6,6 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { User, UUID_MAX } from "@/types/User";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
+import VerdictPanel from "@/components/VerdictPanel";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -160,9 +161,13 @@ export default async function DebateDetailsPage({
 
         <div className="flex flex-col items-center gap-[20px]">
           {canConductDebate && <MarshalPanel motion={motion} />}
-          <GenericComponent title="Verdict panel">
-            <div> Waiting for the component to be ready. </div>
-          </GenericComponent>
+          {currentUser && (
+            <VerdictPanel
+              userId={currentUser.id}
+              tournamentId={path}
+              debateId={debate_id}
+            />
+          )}
         </div>
       </div>
     </div>
