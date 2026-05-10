@@ -12,7 +12,8 @@
         "catname": "turniej",
         "overview": "Panel główny",
         "ladder": "Drabinka turniejowa",
-        "standings": "Rankingi"
+        "standings": "Rankingi",
+        "debates": "Debaty"
       },
       "tournament_data": {
         "catname": "informacje o turnieju",
@@ -86,5 +87,8 @@
     "validation_power_of_two": "Liczba awansujących drużyn musi być potęgą 2.",
     "request_failed": "Nie udało się zaplanować turnieju.",
     "success": "Planowanie turnieju zakończone powodzeniem."
+  },
+  "debate_details": {
+    "no_motion": "Brak tezy"
   }
 }

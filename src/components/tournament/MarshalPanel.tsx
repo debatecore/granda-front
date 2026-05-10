@@ -1,3 +1,5 @@
+import { GenericComponent } from "@/components/ui/GenericComponent";
+
 type MarshalPanelProps = {
   motion: string;
 };
@@ -8,11 +10,11 @@ export function MarshalPanel({ motion }: MarshalPanelProps) {
   )}`;
 
   return (
-    <div className="mt-8 w-full border border-stone-700 bg-stone-900/60 p-4 sm:mt-10">
-      <div className="mb-3 flex justify-end">
-        <h2 className="text-sm font-medium text-stone-300">Marshal buttons</h2>
-      </div>
-
+    <GenericComponent
+      title="Marshal panel"
+      showActions
+      className="mt-8 w-full max-w-[760px] sm:mt-10"
+    >
       <a
         href={conductDebateHref}
         target="_blank"
@@ -21,6 +23,6 @@ export function MarshalPanel({ motion }: MarshalPanelProps) {
       >
         Conduct debate!
       </a>
-    </div>
+    </GenericComponent>
   );
 }
