@@ -109,7 +109,7 @@ testInTournamentAsAdmin(
   },
 );
 
-async function planTournament({
+export async function planTournament({
   page,
   groupPhaseRounds,
   groupsCount,

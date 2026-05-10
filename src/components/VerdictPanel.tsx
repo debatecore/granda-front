@@ -56,6 +56,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
   useEffect(() => {
     setLoading(true);
     setError(null);
+    console.log(userId + " " + tournamentId + " " + debateId);
 
     const permissionUrl =
       `/users/${userId}/tournaments/${tournamentId}/permissions` +
