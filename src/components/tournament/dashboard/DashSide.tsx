@@ -86,21 +86,25 @@ const DashSide = ({
           name: t("sidebar.tournament_data.competing_teams"),
           href: `/t/${tournament_path}/teams`,
           icon: LucideUsers,
+          disabled: true,
         },
         {
           name: t("sidebar.tournament_data.debate_motions"),
           href: `/t/${tournament_path}/motions`,
           icon: LucideScrollText,
+          disabled: true,
         },
         {
           name: t("sidebar.tournament_data.staff_judges_bias"),
           href: `/t/${tournament_path}/staff`,
           icon: LucideScale,
+          disabled: true,
         },
         {
           name: t("sidebar.tournament_data.physical_infrastructure"),
           href: `/t/${tournament_path}/locations`,
           icon: LucideCastle,
+          disabled: true,
         },
         {
           name: t("sidebar.tournament_data.event_branding"),
@@ -128,11 +132,13 @@ const DashSide = ({
           name: t("sidebar.organisational.audit_log"),
           href: `/t/${tournament_path}/logs`,
           icon: LucideFileClock,
+          disabled: true,
         },
         {
           name: t("sidebar.organisational.users"),
           href: `/t/${tournament_path}/users`,
           icon: LucideUserCog,
+          disabled: true,
         },
         {
           name: t("sidebar.organisational.tournament_settings"),
