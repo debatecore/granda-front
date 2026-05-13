@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { User, UUID_MAX } from "@/types/User";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
-import VerdictPanel from "@/components/VerdictPanel";
+import VerdictPanel from "@/components/tournament/VerdictPanel";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -135,7 +135,7 @@ export default async function DebateDetailsPage({
       </div>
 
       <div className="grid grid-cols-2 gap-[20px]">
-        <div className="flex flex-col items-center gap-[20px]">
+        <div className="flex flex-col gap-[20px]">
           <GenericComponent title="Marshal">
             <div>
               {" "}
@@ -159,7 +159,7 @@ export default async function DebateDetailsPage({
           </GenericComponent>
         </div>
 
-        <div className="flex flex-col items-center gap-[20px]">
+        <div className="flex flex-col gap-[20px]">
           {canConductDebate && <MarshalPanel motion={motion} />}
           {currentUser && (
             <VerdictPanel
