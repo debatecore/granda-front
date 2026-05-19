@@ -89,6 +89,6 @@
     "success": "Planowanie turnieju zakończone powodzeniem."
   },
   "debate_details": {
-    "no_motion": "Brak tezy"
+    "unconfigured_debate": "Debata bez tezy"
   }
 }

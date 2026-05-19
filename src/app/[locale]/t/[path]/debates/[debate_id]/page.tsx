@@ -107,8 +107,7 @@ export default async function DebateDetailsPage({
     currentUser?.id === UUID_MAX;
 
   const debate = await getDebateById(path, debate_id);
-  console.log("debate", debate);
-  let motion = t("no_motion");
+  let motion = t("unconfigured_debate");
   if (debate?.motion_id) {
     const retrievedMoton = await getMotionById(path, debate.motion_id);
     console.log("retrievedMoton", retrievedMoton);
