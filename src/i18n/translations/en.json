@@ -93,7 +93,7 @@
     "validation_power_of_two": "Advancing teams must be a power of 2.",
     "request_failed": "Failed to plan the tournament.",
     "success": "Tournament planning submitted successfully.",
-    "no_motion": "No motion"
+    "unconfigured_debate": "Unconfigured debate"
   },
   "debates": {
     "title": "Debates"
@@ -108,6 +108,6 @@
     "apply": "Apply"
   },
   "debate_details": {
-    "no_motion": "Debate without motion"
+    "unconfigured_debate": "Debate without a motion"
   }
 }

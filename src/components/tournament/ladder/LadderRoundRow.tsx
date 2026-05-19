@@ -25,7 +25,7 @@ export function LadderRoundRow({
     const debateMotion = motions.find(
       (motion) => motion.id == debate.motion_id,
     )?.motion;
-    return debateMotion || t("no_motion");
+    return debateMotion || t("unconfigured_debate");
   };
 
   if (!phase) {
