@@ -1,5 +1,6 @@
-import { expect, Page } from "@playwright/test";
+import { expect } from "@playwright/test";
 import { testInTournamentAsAdmin } from "./e2eUtils";
+import { planTournament } from "./e2eUtils";
 
 testInTournamentAsAdmin(
   "tournament ladder is generated after planning a tournament",
@@ -108,31 +109,3 @@ testInTournamentAsAdmin(
     expect(await updatedDebateNodes.count()).toBe(5);
   },
 );
-
-export async function planTournament({
-  page,
-  groupPhaseRounds,
-  groupsCount,
-  totalTeams,
-  advancingTeams,
-}: {
-  page: Page;
-  groupPhaseRounds: number;
-  groupsCount: number;
-  totalTeams: number;
-  advancingTeams: number;
-}) {
-  await page.getByRole("link", { name: "Tournament Ladder" }).click();
-  await page.waitForURL(/ladder/);
-  await page
-    .getByRole("spinbutton", { name: "Group phase rounds" })
-    .fill(groupPhaseRounds.toString());
-  await page
-    .getByRole("spinbutton", { name: "Groups count" })
-    .fill(groupsCount.toString());
-  await page.locator("#total_teams").fill(totalTeams.toString());
-  await page
-    .getByRole("spinbutton", { name: "Total teams Advancing teams" })
-    .fill(advancingTeams.toString());
-  await page.getByRole("button", { name: "Plan tournament" }).click();
-}

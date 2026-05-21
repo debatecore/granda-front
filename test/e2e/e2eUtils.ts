@@ -82,6 +82,117 @@ export const testInTournamentAsAdmin = base.extend<Fixtures>({
   },
 });
 
+export const testInTournamentAsUser = base.extend<Fixtures>({
+  page: async ({ browser }, use) => {
+    const frontendPort = await getPort();
+    const containers = new TestContainers();
+    await containers.start(frontendPort);
+    const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
+
+    const page = await browser.newPage({
+      baseURL: `http://localhost:${frontendPort}`,
+    });
+    const frontendServer = spawn("npm", ["run", "dev"], {
+      env: {
+        ...process.env,
+        CORS_ORIGIN: `http://localhost:${frontendPort}`,
+        BACKEND_URL: `http://localhost:${backendPort}`,
+        PORT: frontendPort.toString(),
+      },
+    });
+    await waitForServer(`http://localhost:${frontendPort}/en/login`);
+
+    // Login as admin and create a tournament
+    await logInAsAdmin(page);
+    await createTournament(page);
+
+    // GIVEN
+    const groupPhaseRounds = 3;
+    const groupsCount = 5;
+    const totalTeams = 30;
+    const advancingTeams = 16;
+
+    // WHEN
+    await planTournament({
+      page,
+      groupPhaseRounds,
+      groupsCount,
+      totalTeams,
+      advancingTeams,
+    });
+
+    await page.getByRole("link", { name: "No motion" }).first().click();
+    await page.waitForURL(/debates/);
+
+    // Extract tournament id from current URL
+    const currentUrl = new URL(page.url());
+    const segments = currentUrl.pathname.split("/").filter(Boolean);
+    const urlIdIndex = segments.indexOf("t");
+    const tournamentId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
+
+    // Create user via backend
+    const createUserRes = await page.request.post(
+      `http://localhost:${backendPort}/users`,
+      {
+        data: {
+          handle: "user",
+          picture_link: null,
+          password: "user",
+        },
+      },
+    );
+
+    if (!createUserRes.ok()) {
+      console.log(await createUserRes.text());
+      throw new Error(`Failed to create user: ${createUserRes.status()}`);
+    }
+
+    console.log("Create user response:", await createUserRes.text());
+
+    const createdUser = await createUserRes.json();
+    const userId = createdUser?.id ?? createdUser?.user?.id;
+
+    if (!userId) {
+      throw new Error("Could not determine created user id");
+    }
+
+    if (!tournamentId) {
+      throw new Error("Could not determine tournament id from URL");
+    }
+
+    // Assign Marshal role to the user for the tournament
+    const assignRoleRes = await page.request.post(
+      `http://localhost:${backendPort}/users/${userId}/tournaments/${tournamentId}/roles`,
+      {
+        data: ["Marshal"],
+      },
+    );
+
+    if (!assignRoleRes.ok) {
+      throw new Error(`Failed to assign role: ${assignRoleRes.status}`);
+    }
+
+    await page.getByText("admin").click();
+    await page.getByText("Log out").click();
+
+    // Log in as the created user
+    await page
+      .getByRole("textbox", { name: "Your handle (username)" })
+      .fill("user");
+
+    await page.getByRole("textbox", { name: "Your password" }).fill("user");
+    await page.getByRole("button", { name: "Log in" }).click();
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    await use(page);
+
+    await containers.stop();
+    if (frontendServer.pid) {
+      killFrontendServer(frontendServer.pid);
+    }
+  },
+});
+
 const logInAsAdmin = async (page: Page) => {
   await page.goto("/en/login");
   await page
@@ -168,3 +279,117 @@ export const killFrontendServer = async (pid: number) => {
 export type Fixtures = {
   testContainers: TestContainers;
 };
+
+export async function planTournament({
+  page,
+  groupPhaseRounds,
+  groupsCount,
+  totalTeams,
+  advancingTeams,
+}: {
+  page: Page;
+  groupPhaseRounds: number;
+  groupsCount: number;
+  totalTeams: number;
+  advancingTeams: number;
+}) {
+  await page.getByRole("link", { name: "Tournament Ladder" }).click();
+  await page.waitForURL(/ladder/);
+  await page
+    .getByRole("spinbutton", { name: "Group phase rounds" })
+    .fill(groupPhaseRounds.toString());
+  await page
+    .getByRole("spinbutton", { name: "Groups count" })
+    .fill(groupsCount.toString());
+  await page.locator("#total_teams").fill(totalTeams.toString());
+  await page
+    .getByRole("spinbutton", { name: "Total teams Advancing teams" })
+    .fill(advancingTeams.toString());
+  await page.getByRole("button", { name: "Plan tournament" }).click();
+}
+
+// Use right after planTournament!
+export async function createUserAndCastVote({
+  page,
+  numberOfUsers,
+}: {
+  page: Page;
+  numberOfUsers: string;
+}) {
+  const frontendPort = await getPort();
+  const containers = new TestContainers();
+  await containers.start(frontendPort);
+  const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
+
+  let currentUrl = new URL(page.url());
+  let segments = currentUrl.pathname.split("/").filter(Boolean);
+  let urlIdIndex = segments.indexOf("t");
+  const tournamentId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
+
+  await page.getByRole("link", { name: "No motion" }).first().click();
+  await page.waitForURL(/debates/);
+
+  currentUrl = new URL(page.url());
+  segments = currentUrl.pathname.split("/").filter(Boolean);
+  urlIdIndex = segments.indexOf("debates");
+  const debateId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
+
+  for (let i = 0; i < parseInt(numberOfUsers); i++) {
+    const createUserRes = await page.request.post(
+      `http://localhost:${backendPort}/users`,
+      {
+        data: {
+          handle: "user" + (i + 1),
+          picture_link: null,
+          password: "user" + (i + 1),
+        },
+      },
+    );
+
+    if (!createUserRes.ok()) {
+      console.log(await createUserRes.text());
+      throw new Error(`Failed to create user: ${createUserRes.status()}`);
+    }
+
+    console.log("Create user response:", await createUserRes.text());
+
+    const createdUser = await createUserRes.json();
+    const userId = createdUser?.id ?? createdUser?.user?.id;
+
+    if (!userId) {
+      throw new Error("Could not determine created user id");
+    }
+
+    if (!tournamentId) {
+      throw new Error("Could not determine tournament id from URL");
+    }
+
+    // Assign Judge role to the user for the tournament
+    const assignRoleRes = await page.request.post(
+      `http://localhost:${backendPort}/users/${userId}/tournaments/${tournamentId}/roles`,
+      {
+        data: ["Judge"],
+      },
+    );
+
+    if (!assignRoleRes.ok) {
+      throw new Error(`Failed to assign role: ${assignRoleRes.status}`);
+    }
+
+    // Cast the vote as the user
+    const castVoteRes = await page.request.post(
+      `http://localhost:${backendPort}/tournaments/${tournamentId}/debates/${debateId}/verdicts`,
+      {
+        data: {
+          debate_id: debateId,
+          judge_user_id: userId,
+          proposition_won: true,
+        },
+      },
+    );
+
+    if (!castVoteRes.ok) {
+      throw new Error(`Failed to cast vote: ${castVoteRes.status}`);
+    }
+  }
+}
