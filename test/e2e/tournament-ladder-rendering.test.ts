@@ -109,6 +109,23 @@ testInTournamentAsAdmin(
   },
 );
 
+testInTournamentAsAdmin(
+  "tournament planning form should contain explainations",
+  async ({ page }) => {
+    // GIVEN
+    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.waitForURL(/ladder/);
+
+    // WHEN
+    const advancingTeamsInput = page.getByPlaceholder("2, 4, 8, 16…");
+    const otherInputs = page.getByPlaceholder("0");
+
+    // THEN
+    expect(advancingTeamsInput).toBeVisible();
+    expect(await otherInputs.count()).toBe(3);
+  },
+);
+
 async function planTournament({
   page,
   groupPhaseRounds,

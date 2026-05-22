@@ -63,6 +63,7 @@ export function TournamentPlanningForm({
               step="1"
               required
               className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+              placeholder="0"
             />
           </div>
 
@@ -81,6 +82,7 @@ export function TournamentPlanningForm({
               step="1"
               required
               className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+              placeholder="0"
             />
           </div>
 
@@ -99,6 +101,7 @@ export function TournamentPlanningForm({
               step="1"
               required
               className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
+              placeholder="0"
             />
           </div>
 
@@ -113,9 +116,10 @@ export function TournamentPlanningForm({
               id="advancing_teams"
               type="number"
               name="advancing_teams"
-              min="1"
-              step="1"
+              min="2"
+              step="2"
               required
+              placeholder={t("advancing_teams_placeholder")}
               className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
             />
           </div>
