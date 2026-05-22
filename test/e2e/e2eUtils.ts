@@ -50,15 +50,37 @@ export const test = base.extend<Fixtures>({
 });
 
 export const testInTournamentAsAdmin = base.extend<Fixtures>({
-  page: async ({ browser }, use) => {
-    const frontendPort = await getPort();
+  testContainers: async ({}, fixture) => {
     const containers = new TestContainers();
+
+    // frontendPort needed for backend CORS
+    const frontendPort = await getPort();
+
     await containers.start(frontendPort);
-    const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
+
+    await fixture(containers);
+
+    await containers.stop();
+  },
+
+  backendPort: async ({ testContainers }, fixture) => {
+    const backendPort =
+      testContainers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
+
+    if (!backendPort) {
+      throw new Error("Could not determine backend port");
+    }
+
+    await fixture(backendPort);
+  },
+
+  page: async ({ browser, backendPort }, fixture) => {
+    const frontendPort = await getPort();
 
     const page = await browser.newPage({
       baseURL: `http://localhost:${frontendPort}`,
     });
+
     const frontendServer = spawn("npm", ["run", "dev"], {
       env: {
         ...process.env,
@@ -67,15 +89,14 @@ export const testInTournamentAsAdmin = base.extend<Fixtures>({
         PORT: frontendPort.toString(),
       },
     });
+
     await waitForServer(`http://localhost:${frontendPort}/en/login`);
 
     await logInAsAdmin(page);
     await createTournament(page);
 
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    await use(page);
+    await fixture(page);
 
-    await containers.stop();
     if (frontendServer.pid) {
       killFrontendServer(frontendServer.pid);
     }
@@ -102,7 +123,6 @@ export const testInTournamentAsUser = base.extend<Fixtures>({
     });
     await waitForServer(`http://localhost:${frontendPort}/en/login`);
 
-    // Login as admin and create a tournament
     await logInAsAdmin(page);
     await createTournament(page);
 
@@ -278,6 +298,7 @@ export const killFrontendServer = async (pid: number) => {
 
 export type Fixtures = {
   testContainers: TestContainers;
+  backendPort: number;
 };
 
 export async function planTournament({
@@ -308,19 +329,16 @@ export async function planTournament({
   await page.getByRole("button", { name: "Plan tournament" }).click();
 }
 
-// Use right after planTournament!
+// users cast votes in an alternating fashion
 export async function createUserAndCastVote({
   page,
+  backendPort,
   numberOfUsers,
 }: {
   page: Page;
+  backendPort: number;
   numberOfUsers: string;
 }) {
-  const frontendPort = await getPort();
-  const containers = new TestContainers();
-  await containers.start(frontendPort);
-  const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
-
   let currentUrl = new URL(page.url());
   let segments = currentUrl.pathname.split("/").filter(Boolean);
   let urlIdIndex = segments.indexOf("t");
@@ -364,7 +382,6 @@ export async function createUserAndCastVote({
       throw new Error("Could not determine tournament id from URL");
     }
 
-    // Assign Judge role to the user for the tournament
     const assignRoleRes = await page.request.post(
       `http://localhost:${backendPort}/users/${userId}/tournaments/${tournamentId}/roles`,
       {
@@ -376,14 +393,14 @@ export async function createUserAndCastVote({
       throw new Error(`Failed to assign role: ${assignRoleRes.status}`);
     }
 
-    // Cast the vote as the user
+    const propositionWon = i % 2 === 0;
     const castVoteRes = await page.request.post(
       `http://localhost:${backendPort}/tournaments/${tournamentId}/debates/${debateId}/verdicts`,
       {
         data: {
           debate_id: debateId,
           judge_user_id: userId,
-          proposition_won: true,
+          proposition_won: propositionWon,
         },
       },
     );
