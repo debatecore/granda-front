@@ -1,4 +1,4 @@
-import VerdictPanel from "@/components/tournament/VerdictPanel";
+import VerdictPanel from "@/components/VerdictPanel";
 
 interface VerdictPageProps {
   params: { locale: string };

@@ -1,6 +1,6 @@
 {
   "name": "granda-front",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -15,12 +15,13 @@
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.6",
     "@radix-ui/react-select": "^2.2.6",
+    "@swc/helpers": "^0.5.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "flag-icons": "^7.5.0",
     "get-port": "^7.2.0",
     "lucide-react": "^0.482.0",
-    "next": "^16.2.4",
+    "next": "^16.2.5",
     "next-intl": "^4.3.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
