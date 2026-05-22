@@ -126,6 +126,22 @@ testInTournamentAsAdmin(
   },
 );
 
+testInTournamentAsAdmin(
+  "advancing teams input should increment by 2",
+  async ({ page }) => {
+    // GIVEN
+    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.waitForURL(/ladder/);
+    const advancingTeamsInput = page.getByPlaceholder("2, 4, 8, 16…");
+
+    // WHEN
+    await advancingTeamsInput.press("ArrowUp");
+
+    // THEN
+    expect(advancingTeamsInput).toHaveValue("2");
+  },
+);
+
 async function planTournament({
   page,
   groupPhaseRounds,
