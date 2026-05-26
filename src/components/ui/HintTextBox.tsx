@@ -1,3 +1,5 @@
+import { IconTutorial } from "@/components/icons/TutorialIcon";
+
 interface HintTextBoxProps {
   title: string;
   content: string;
@@ -11,6 +13,7 @@ const HintTextBox = ({
   content,
   pointerDirection = "bottom",
   visible,
+  onDismiss,
 }: HintTextBoxProps) => {
   if (!visible) return null;
 
@@ -26,14 +29,24 @@ const HintTextBox = ({
   return (
     <div
       className={`
-        relative inline-block flex-wrap align-top text-justify bg-[#ffffff] leading-[16px] min-w-[330px] max-w-[3400px] py-[18px] px-[24px] rounded-lg
+        relative inline-block flex-wrap align-top text-justify bg-[#ffffff] leading-[16px] min-w-[340px] py-[18px] px-[24px] rounded-md
         
         after:content-[''] after:absolute after:w-0 after:h-0 after:border-transparent ${arrowPosition[pointerDirection]}`}
     >
-      <div className="text-[#333] text-[16px] font-bold pb-[10px]">{title}</div>
-      <div className="text-[#333] text-[12px]">{content}</div>
-      <div className="text-[#333] text-[12px] underline pt-[6px] text-right hover:cursor-pointer">
-        OK
+      <div className="flex items-center justify-between select-none pb-[10px]">
+        <span className="text-[#333] text-[16px] font-bold pt-[2px]">
+          {title}
+        </span>
+        <IconTutorial moreClass="text-pink-500 w-[30px] h-[30px]" />{" "}
+      </div>
+      <div className="text-[#333] text-[12px] select-none">{content}</div>
+      <div className=" pt-[6px] text-right">
+        <span
+          className="text-[#333] text-[12px] underline hover:cursor-pointer select-none pd-[2px]"
+          onClick={onDismiss}
+        >
+          OK
+        </span>
       </div>
     </div>
   );

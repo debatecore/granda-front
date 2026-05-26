@@ -20,17 +20,15 @@ const HintButton = ({ title, content, pointerDirection }: HintButtonProps) => {
     right: "left-full top-1/2 -translate-y-1/2 ml-[10px]",
   };
   return (
-    <div className="relative inline-block">
+    <div className="z-50 relative inline-block">
       <button
-        className="flex items-center justify-center p-[8px] bg-transparent hover:cursor-pointer"
+        className="flex items-center justify-center p-[8px] bg-transparent hover:cursor-pointer focus:outline-none"
         onClick={() => setShowTutorial(!showTutorial)}
       >
         <IconQuestion />
       </button>
 
-      <div
-        className={`absolute w-max z-50 ${textBoxPlacement[pointerDirection]}`}
-      >
+      <div className={`absolute z-50 ${textBoxPlacement[pointerDirection]}`}>
         <HintTextBox
           title={title}
           content={content}
