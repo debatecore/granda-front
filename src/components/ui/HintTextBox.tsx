@@ -3,7 +3,7 @@ import { IconTutorial } from "@/components/icons/TutorialIcon";
 interface HintTextBoxProps {
   title: string;
   content: string;
-  pointerDirection?: "top" | "bottom" | "left" | "right";
+  boxPosition: "top" | "bottom" | "left" | "right";
   visible: boolean;
   onDismiss: () => void;
 }
@@ -11,7 +11,7 @@ interface HintTextBoxProps {
 const HintTextBox = ({
   title,
   content,
-  pointerDirection = "bottom",
+  boxPosition,
   visible,
   onDismiss,
 }: HintTextBoxProps) => {
@@ -31,7 +31,7 @@ const HintTextBox = ({
       className={`
         relative inline-block flex-wrap align-top text-justify bg-[#ffffff] leading-[16px] min-w-[340px] py-[18px] px-[24px] rounded-md
         
-        after:content-[''] after:absolute after:w-0 after:h-0 after:border-transparent ${arrowPosition[pointerDirection]}`}
+        after:content-[''] after:absolute after:w-0 after:h-0 after:border-transparent ${arrowPosition[boxPosition]}`}
     >
       <div className="flex items-center justify-between select-none pb-[10px]">
         <span className="text-[#333] text-[16px] font-bold pt-[2px]">

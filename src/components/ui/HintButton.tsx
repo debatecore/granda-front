@@ -7,10 +7,10 @@ import { HintTextBox } from "./HintTextBox";
 interface HintButtonProps {
   title: string;
   content: string;
-  pointerDirection: "top" | "bottom" | "left" | "right";
+  boxPosition: "top" | "bottom" | "left" | "right";
 }
 
-const HintButton = ({ title, content, pointerDirection }: HintButtonProps) => {
+const HintButton = ({ title, content, boxPosition }: HintButtonProps) => {
   const [showTutorial, setShowTutorial] = useState(false);
 
   const textBoxPlacement = {
@@ -28,12 +28,12 @@ const HintButton = ({ title, content, pointerDirection }: HintButtonProps) => {
         <IconQuestion />
       </button>
 
-      <div className={`absolute z-50 ${textBoxPlacement[pointerDirection]}`}>
+      <div className={`absolute z-50 ${textBoxPlacement[boxPosition]}`}>
         <HintTextBox
           title={title}
           content={content}
           visible={showTutorial}
-          pointerDirection={pointerDirection}
+          boxPosition={boxPosition}
           onDismiss={() => setShowTutorial(false)}
         />
       </div>
