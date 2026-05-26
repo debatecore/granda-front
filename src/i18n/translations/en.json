@@ -91,9 +91,15 @@
     "no_phases_error": "Failed to load tournament phases.",
     "validation_positive_integer": "This value must be a positive integer.",
     "validation_power_of_two": "Advancing teams must be a power of 2.",
+    "validation_groups_and_teams": "Groups count must be lower than the total teams count.",
     "request_failed": "Failed to plan the tournament.",
     "success": "Tournament planning submitted successfully.",
-    "unconfigured_debate": "Unconfigured debate"
+    "unconfigured_debate": "Unconfigured debate",
+    "advancing_teams_placeholder": "2, 4, 8, 16…",
+    "group_rounds_hint": "Determines how many debate rounds will occurr one after another in the group phase.",
+    "groups_count_hint": "Within a group, one debate is held in each round. This number will determine how many simultaneous debates will take place in each round. Must be lower than the total team count.",
+    "total_teams_hint": "The total number of teams taking part in the tournament.",
+    "advancing_teams_hint": "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2."
   },
   "debates": {
     "title": "Debates"
