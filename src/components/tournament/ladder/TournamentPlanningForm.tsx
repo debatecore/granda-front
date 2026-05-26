@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react";
 import { planTournament } from "./ladder-actions";
 import { useTranslations } from "next-intl";
+import { HintButton } from "@/components/ui/HintButton";
 
 type TournamentPlanningFormProps = {
   tournamentId: string;
@@ -49,12 +50,19 @@ export function TournamentPlanningForm({
 
         <form action={formAction} className="flex flex-col gap-4">
           <div className="flex flex-col">
-            <label
-              htmlFor="group_phase_rounds"
-              className="mb-1 text-sm text-stone-300"
-            >
-              {t("group_phase_rounds")}
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="group_phase_rounds"
+                className="mb-1 text-sm text-stone-300"
+              >
+                {t("group_phase_rounds")}
+              </label>
+              <HintButton
+                title={t("group_phase_rounds")}
+                content={t("group_rounds_hint")}
+                boxPosition="top"
+              />
+            </div>
             <input
               id="group_phase_rounds"
               type="number"
@@ -68,12 +76,19 @@ export function TournamentPlanningForm({
           </div>
 
           <div className="flex flex-col">
-            <label
-              htmlFor="groups_count"
-              className="mb-1 text-sm text-stone-300"
-            >
-              {t("groups_count")}
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="groups_count"
+                className="mb-1 text-sm text-stone-300"
+              >
+                {t("groups_count")}
+              </label>
+              <HintButton
+                title={t("groups_count")}
+                content={t("groups_count_hint")}
+                boxPosition="top"
+              />
+            </div>
             <input
               id="groups_count"
               type="number"
@@ -87,12 +102,19 @@ export function TournamentPlanningForm({
           </div>
 
           <div className="flex flex-col">
-            <label
-              htmlFor="advancing_teams"
-              className="mb-1 text-sm text-stone-300"
-            >
-              {t("total_teams")}
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="total_teams"
+                className="mb-1 text-sm text-stone-300"
+              >
+                {t("total_teams")}
+              </label>
+              <HintButton
+                title={t("total_teams")}
+                content={t("total_teams_hint")}
+                boxPosition="top"
+              />
+            </div>
             <input
               id="total_teams"
               type="number"
@@ -106,12 +128,19 @@ export function TournamentPlanningForm({
           </div>
 
           <div className="flex flex-col">
-            <label
-              htmlFor="advancing_teams"
-              className="mb-1 text-sm text-stone-300"
-            >
-              {t("advancing_teams")}
-            </label>
+            <div className="flex items-center justify-between">
+              <label
+                htmlFor="advancing_teams"
+                className="mb-1 text-sm text-stone-300"
+              >
+                {t("advancing_teams")}
+              </label>
+              <HintButton
+                title={t("advancing_teams")}
+                content={t("advancing_teams_hint")}
+                boxPosition="top"
+              />
+            </div>
             <input
               id="advancing_teams"
               type="number"

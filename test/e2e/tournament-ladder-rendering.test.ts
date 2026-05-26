@@ -110,7 +110,7 @@ testInTournamentAsAdmin(
 );
 
 testInTournamentAsAdmin(
-  "tournament planning form should contain explainations",
+  "tournament planning form should contain informative placeholders",
   async ({ page }) => {
     // GIVEN
     await page.getByRole("link", { name: "Tournament Ladder" }).click();
@@ -121,8 +121,49 @@ testInTournamentAsAdmin(
     const otherInputs = page.getByPlaceholder("0");
 
     // THEN
-    expect(advancingTeamsInput).toBeVisible();
+    await expect(advancingTeamsInput).toBeVisible();
     expect(await otherInputs.count()).toBe(3);
+  },
+);
+
+testInTournamentAsAdmin(
+  "tournament planning form should contain clickable hint icons",
+  async ({ page }) => {
+    // GIVEN
+    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.waitForURL(/ladder/);
+
+    // WHEN
+    const hintSelector = page.getByLabel(/^Hint/);
+    const group_rounds_selector = page.getByText(
+      "Determines how many debate rounds will occurr one after another in the group phase.",
+    );
+    const group_count_selector = page.getByText(
+      "Within a group, one debate is held in each round. This number will determine how many simultaneous debates will take place in each round. Must be lower than the total team count.",
+    );
+    const total_teams_selector = page.getByText(
+      "The total number of teams taking part in the tournament.",
+    );
+    const advancing_teams_selector = page.getByText(
+      "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2.",
+    );
+
+    // THEN
+    expect(await hintSelector.count()).toBe(4);
+    await hintSelector.nth(0).click();
+    await expect(group_rounds_selector).toBeVisible();
+
+    await hintSelector.nth(1).click();
+    await expect(group_rounds_selector).not.toBeVisible();
+    await expect(group_count_selector).toBeVisible();
+
+    await hintSelector.nth(2).click();
+    await expect(group_count_selector).not.toBeVisible();
+    await expect(total_teams_selector).toBeVisible();
+
+    await hintSelector.nth(3).click();
+    await expect(total_teams_selector).not.toBeVisible();
+    await expect(advancing_teams_selector).toBeVisible();
   },
 );
 
@@ -138,7 +179,7 @@ testInTournamentAsAdmin(
     await advancingTeamsInput.press("ArrowUp");
 
     // THEN
-    expect(advancingTeamsInput).toHaveValue("2");
+    await expect(advancingTeamsInput).toHaveValue("2");
   },
 );
 
