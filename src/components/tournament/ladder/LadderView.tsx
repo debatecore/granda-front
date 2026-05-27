@@ -41,8 +41,8 @@ export function LadderView({
 
           {isPlanned && (
             <HintButton
-              title="Tournament Ladder"
-              content="Each box represents a debate. You can click on a specific box to see the debate details. The ladder shows the structure and flow of the tournament, including the rounds and how debates are organised."
+              title={t("hint_title")}
+              content={t("hint_content")}
               boxPosition="right"
             />
           )}
