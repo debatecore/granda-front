@@ -1,4 +1,5 @@
 "use client";
+
 import { Tournament } from "@/types/Tournament";
 import olek from "@/../public/S-MOW2024-olekrelief.jpg";
 import { LucideSettings, LucideUserCircle } from "lucide-react";
@@ -19,6 +20,14 @@ import { useLocale, useTranslations } from "next-intl";
 const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
   const t = useTranslations("dash");
   const locale = useLocale();
+
+  const openSettings = () => {
+    redirect({
+      href: `/t/${tournament.id}/settings`,
+      locale,
+    });
+  };
+
   return (
     <>
       <div className="space-x-1 z-40">
@@ -31,38 +40,47 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
         </span>
         {/* this should be the separator between breadcrumb steps.. */}
       </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="ml-auto flex gap-4 px-3 py-1 bg-stone-700/40 hover:bg-stone-600/40 focus:bg-stone-600/40 border border-stone-700 hover:border-stone-500 focus:border-stone-500 rounded z-40 cursor-pointer">
-            <p className="font-semibold tracking-tight">{user.handle}</p>
-            <LucideUserCircle />
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel className="select-none">
-            {t("header.your_account_heading")}
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuGroup>
-            <DropdownMenuItem disabled>
-              <LucideUserCircle /> {t("header.account")}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => {
-                redirect({
-                  href: `/t/${tournament.id}/settings`,
-                  locale,
-                });
-              }}
-              className="cursor-pointer"
-            >
-              <LucideSettings /> {t("header.settings")}
-            </DropdownMenuItem>
-          </DropdownMenuGroup>
-          <DropdownMenuSeparator />
-          <LogOutDashHeaderDropdownButton />
-        </DropdownMenuContent>
-      </DropdownMenu>
+
+      <div className="ml-auto flex items-center gap-2 z-40">
+        <button
+          type="button"
+          aria-label={t("header.settings")}
+          title={t("header.settings")}
+          onClick={openSettings}
+          className="flex items-center justify-center px-3 py-1 bg-stone-700/40 hover:bg-stone-600/40 focus:bg-stone-600/40 border border-stone-700 hover:border-stone-500 focus:border-stone-500 rounded cursor-pointer"
+        >
+          <LucideSettings />
+        </button>
+
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex gap-4 px-3 py-1 bg-stone-700/40 hover:bg-stone-600/40 focus:bg-stone-600/40 border border-stone-700 hover:border-stone-500 focus:border-stone-500 rounded cursor-pointer">
+              <p className="font-semibold tracking-tight">{user.handle}</p>
+              <LucideUserCircle />
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel className="select-none">
+              {t("header.your_account_heading")}
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem disabled>
+                <LucideUserCircle /> {t("header.account")}
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={openSettings}
+                className="cursor-pointer"
+              >
+                <LucideSettings /> {t("header.settings")}
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <LogOutDashHeaderDropdownButton />
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       {/* COMMENT OUT THOSE BOTTOM TWO TO DELETE THE IMAGE FROM THE HEADER.. BOTH! */}
       <div className="absolute top-0 left-0 w-full h-full bg-black/50 z-30" />
       <div
