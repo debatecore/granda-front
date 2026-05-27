@@ -21,7 +21,7 @@ export function MarshalPanel({ motion }: MarshalPanelProps) {
         rel="noreferrer"
         className="block w-full rounded-sm border border-stone-600 bg-white/10 px-6 py-5 text-center text-xl font-semibold text-white transition hover:bg-white/15"
       >
-        Conduct debate!
+        Proceed to Debate!
       </a>
     </GenericComponent>
   );
