@@ -59,23 +59,22 @@ const DashHeader = ({ t: tournament, u: user }: { t: Tournament; u: User }) => {
               <LucideUserCircle />
             </div>
           </DropdownMenuTrigger>
+
           <DropdownMenuContent>
             <DropdownMenuLabel className="select-none">
               {t("header.your_account_heading")}
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
+
             <DropdownMenuGroup>
               <DropdownMenuItem disabled>
                 <LucideUserCircle /> {t("header.account")}
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={openSettings}
-                className="cursor-pointer"
-              >
-                <LucideSettings /> {t("header.settings")}
-              </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
+
             <LogOutDashHeaderDropdownButton />
           </DropdownMenuContent>
         </DropdownMenu>
