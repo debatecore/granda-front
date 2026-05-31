@@ -3,6 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { fetchClientSide } from "@/lib/utils";
 import { GenericComponent } from "../ui/GenericComponent";
+import { useTranslations } from "next-intl";
 
 type VerdictValue = "proposition" | "opposition";
 
@@ -26,9 +27,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
   const [isJudge, setIsJudge] = useState<boolean | null>(null);
   const [verdicts, setVerdicts] = useState<VerdictRecord[]>([]);
   const [selectedVote, setSelectedVote] = useState<VerdictValue | null>(null);
-  // const [loading, setLoading] = useState(true); // can be used to show a loading state if needed
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslations("verdict_panel");
 
   const currentUserVerdict = useMemo(
     () => verdicts.find((verdict) => verdict.judge_user_id === userId) ?? null,
@@ -56,7 +57,6 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
 
   useEffect(() => {
     setError(null);
-    console.log(userId + " " + tournamentId + " " + debateId);
 
     const permissionUrl =
       `/users/${userId}/tournaments/${tournamentId}/permissions` +
@@ -65,11 +65,11 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
 
     Promise.all([
       fetchClientSide(permissionUrl).then((res) => {
-        if (!res.ok) throw new Error("Failed to load permissions");
+        if (!res.ok) throw new Error(t("failed_load_permissions"));
         return res.json();
       }),
       fetchClientSide(verdictsUrl).then((res) => {
-        if (!res.ok) throw new Error("Failed to load verdicts");
+        if (!res.ok) throw new Error(t("failed_load_verdicts"));
         return res.json();
       }),
     ])
@@ -93,14 +93,58 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
         setError(
           fetchError instanceof Error
             ? fetchError.message
-            : "Unable to load verdict information",
+            : t("load_verdicts_error"),
         );
       });
   }, [userId, tournamentId, debateId]);
 
+  const POSTNewVerdict = async () => {
+    const postUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts`;
+    const response = await fetchClientSide(postUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        debate_id: debateId,
+        judge_user_id: userId,
+        proposition_won: selectedVote === "proposition",
+      }),
+    });
+    if (!response.ok) throw new Error(t("failed_submit"));
+    const newVerdict: VerdictRecord = await response.json();
+    setVerdicts((prev) => [...prev, newVerdict]);
+  };
+
+  const PATCHExistingVerdict = async () => {
+    if (!currentUserVerdict) {
+      throw new Error(t("no_existing_verdict"));
+    }
+
+    const patchUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts/${currentUserVerdict.id}`;
+    const response = await fetchClientSide(patchUrl, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        debate_id: debateId,
+        judge_user_id: userId,
+        proposition_won: selectedVote === "proposition",
+      }),
+    });
+    if (!response.ok) throw new Error(t("failed_update"));
+    const updatedVerdict: VerdictRecord = await response.json();
+    setVerdicts((prev) =>
+      prev.map((verdict) =>
+        verdict.id === updatedVerdict.id ? updatedVerdict : verdict,
+      ),
+    );
+  };
+
   const handleSubmit = async () => {
     if (!selectedVote) {
-      setError("Please select a verdict before submitting.");
+      setError(t("select_verdict_error"));
       return;
     }
 
@@ -116,47 +160,13 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
           setSubmitting(false);
           return;
         }
-        const patchUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts/${currentUserVerdict.id}`;
-        const response = await fetchClientSide(patchUrl, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            debate_id: debateId,
-            judge_user_id: userId,
-            proposition_won: selectedVote === "proposition",
-          }),
-        });
-        if (!response.ok) throw new Error("Failed to update verdict");
-        const updatedVerdict: VerdictRecord = await response.json();
-        setVerdicts((prev) =>
-          prev.map((verdict) =>
-            verdict.id === updatedVerdict.id ? updatedVerdict : verdict,
-          ),
-        );
+        await PATCHExistingVerdict();
       } else {
-        const postUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts`;
-        const response = await fetchClientSide(postUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            debate_id: debateId,
-            judge_user_id: userId,
-            proposition_won: selectedVote === "proposition",
-          }),
-        });
-        if (!response.ok) throw new Error("Failed to submit verdict");
-        const newVerdict: VerdictRecord = await response.json();
-        setVerdicts((prev) => [...prev, newVerdict]);
+        await POSTNewVerdict();
       }
     } catch (submitError) {
       setError(
-        submitError instanceof Error
-          ? submitError.message
-          : "Unable to submit verdict",
+        submitError instanceof Error ? submitError.message : t("submit_error"),
       );
     } finally {
       setSubmitting(false);
@@ -167,7 +177,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
     return (
       <section>
         <h2>
-          <b>Verdict panel got an error, oops:</b>
+          <b>{t("panel_error_title")}</b>
         </h2>
         <p role="alert">{error}</p>
       </section>
@@ -196,7 +206,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
                 selectedVote === "proposition" ? "text-white" : "text-white/75"
               }`}
               >
-                Proposition
+                {t("proposition")}
               </div>
             </button>
 
@@ -217,7 +227,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
                 selectedVote === "opposition" ? "text-white" : "text-white/75"
               }`}
               >
-                Opposition
+                {t("opposition")}
               </div>
             </button>
           </div>
@@ -244,7 +254,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
               className={`text-center text-xl font-semibold transition-colors
             ${selectedVote ? "text-white/90" : "text-white/50"}`}
             >
-              Submit
+              {t("submit")}
             </div>
           </button>
 
@@ -261,43 +271,43 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
               {majorityVerdict === "Proposition" ? (
                 <>
                   <span className="text-white text-lg font-medium leading-[26px]">
-                    The
+                    {t("majority.proposition.prefix")}
                   </span>
 
                   <span className="text-white text-lg font-bold leading-[26px] mx-1.5">
-                    Proposition
+                    {t("majority.proposition.highlight")}
                   </span>
 
                   <span className="text-white text-lg font-medium leading-[26px]">
-                    is the winning team!
+                    {t("majority.proposition.suffix")}
                   </span>
                 </>
               ) : majorityVerdict === "Opposition" ? (
                 <>
                   <span className="text-white text-lg font-medium leading-[26px]">
-                    The
+                    {t("majority.opposition.prefix")}
                   </span>
 
                   <span className="text-white text-lg font-bold leading-[26px] mx-1.5">
-                    Opposition
+                    {t("majority.opposition.highlight")}
                   </span>
 
                   <span className="text-white text-lg font-medium leading-[26px]">
-                    is the winning team!
+                    {t("majority.opposition.suffix")}
                   </span>
                 </>
               ) : (
                 <>
                   <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    There is
+                    {t("majority.no_verdict.prefix")}
                   </span>
 
                   <span className="text-white/75 text-lg font-bold leading-[26px] mx-1.5">
-                    no verdict
+                    {t("majority.no_verdict.highlight")}
                   </span>
 
                   <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    yet.
+                    {t("majority.no_verdict.suffix")}
                   </span>
                 </>
               )}

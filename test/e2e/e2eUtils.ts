@@ -53,7 +53,6 @@ export const testInTournamentAsAdmin = base.extend<Fixtures>({
   testContainers: async ({}, fixture) => {
     const containers = new TestContainers();
 
-    // frontendPort needed for backend CORS
     const frontendPort = await getPort();
 
     await containers.start(frontendPort);
@@ -110,6 +109,10 @@ export const testInTournamentAsUser = base.extend<Fixtures>({
     await containers.start(frontendPort);
     const backendPort = containers.server?.getMappedPort(DEFAULT_BACKEND_PORT);
 
+    if (!backendPort) {
+      throw new Error("Could not determine backend port");
+    }
+
     const page = await browser.newPage({
       baseURL: `http://localhost:${frontendPort}`,
     });
@@ -126,13 +129,11 @@ export const testInTournamentAsUser = base.extend<Fixtures>({
     await logInAsAdmin(page);
     await createTournament(page);
 
-    // GIVEN
     const groupPhaseRounds = 3;
     const groupsCount = 5;
     const totalTeams = 30;
     const advancingTeams = 16;
 
-    // WHEN
     await planTournament({
       page,
       groupPhaseRounds,
@@ -141,44 +142,14 @@ export const testInTournamentAsUser = base.extend<Fixtures>({
       advancingTeams,
     });
 
-    await page.getByRole("link", { name: "No motion" }).first().click();
+    await page
+      .getByRole("link", { name: "Unconfigured debate" })
+      .first()
+      .click();
     await page.waitForURL(/debates/);
 
-    // Extract tournament id from current URL
-    const currentUrl = new URL(page.url());
-    const segments = currentUrl.pathname.split("/").filter(Boolean);
-    const urlIdIndex = segments.indexOf("t");
-    const tournamentId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
-
-    // Create user via backend
-    const createUserRes = await page.request.post(
-      `http://localhost:${backendPort}/users`,
-      {
-        data: {
-          handle: "user",
-          picture_link: null,
-          password: "user",
-        },
-      },
-    );
-
-    if (!createUserRes.ok()) {
-      console.log(await createUserRes.text());
-      throw new Error(`Failed to create user: ${createUserRes.status()}`);
-    }
-
-    console.log("Create user response:", await createUserRes.text());
-
-    const createdUser = await createUserRes.json();
-    const userId = createdUser?.id ?? createdUser?.user?.id;
-
-    if (!userId) {
-      throw new Error("Could not determine created user id");
-    }
-
-    if (!tournamentId) {
-      throw new Error("Could not determine tournament id from URL");
-    }
+    const tournamentId = await getTournamentIdFromPage(page);
+    const userId = await createBackendUser(page, backendPort, "user", "user");
 
     // Assign Marshal role to the user for the tournament
     const assignRoleRes = await page.request.post(
@@ -301,6 +272,50 @@ export type Fixtures = {
   backendPort: number;
 };
 
+export async function getTournamentIdFromPage(page: Page) {
+  const currentUrl = new URL(page.url());
+  const segments = currentUrl.pathname.split("/").filter(Boolean);
+  const urlIdIndex = segments.indexOf("t");
+  const tournamentId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
+
+  if (!tournamentId) {
+    throw new Error("Could not determine tournament id from URL");
+  }
+
+  return tournamentId;
+}
+
+export async function createBackendUser(
+  page: Page,
+  backendPort: number,
+  handle: string,
+  password: string,
+) {
+  const createUserRes = await page.request.post(
+    `http://localhost:${backendPort}/users`,
+    {
+      data: {
+        handle,
+        picture_link: null,
+        password,
+      },
+    },
+  );
+
+  if (!createUserRes.ok()) {
+    throw new Error(`Failed to create user: ${createUserRes.status()}`);
+  }
+
+  const createdUser = await createUserRes.json();
+  const userId = createdUser?.id ?? createdUser?.user?.id;
+
+  if (!userId) {
+    throw new Error("Could not determine created user id");
+  }
+
+  return userId;
+}
+
 export async function planTournament({
   page,
   groupPhaseRounds,
@@ -339,48 +354,27 @@ export async function createUserAndCastVote({
   backendPort: number;
   numberOfUsers: string;
 }) {
-  let currentUrl = new URL(page.url());
-  let segments = currentUrl.pathname.split("/").filter(Boolean);
-  let urlIdIndex = segments.indexOf("t");
-  const tournamentId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
+  const tournamentId = await getTournamentIdFromPage(page);
 
-  await page.getByRole("link", { name: "No motion" }).first().click();
+  await page.getByRole("link", { name: "Unconfigured debate" }).first().click();
   await page.waitForURL(/debates/);
 
-  currentUrl = new URL(page.url());
-  segments = currentUrl.pathname.split("/").filter(Boolean);
-  urlIdIndex = segments.indexOf("debates");
+  const currentUrl = new URL(page.url());
+  const segments = currentUrl.pathname.split("/").filter(Boolean);
+  const urlIdIndex = segments.indexOf("debates");
   const debateId = urlIdIndex >= 0 ? segments[urlIdIndex + 1] : undefined;
 
+  if (!debateId) {
+    throw new Error("Could not determine debate id from URL");
+  }
+
   for (let i = 0; i < parseInt(numberOfUsers); i++) {
-    const createUserRes = await page.request.post(
-      `http://localhost:${backendPort}/users`,
-      {
-        data: {
-          handle: "user" + (i + 1),
-          picture_link: null,
-          password: "user" + (i + 1),
-        },
-      },
+    const userId = await createBackendUser(
+      page,
+      backendPort,
+      `user${i + 1}`,
+      `user${i + 1}`,
     );
-
-    if (!createUserRes.ok()) {
-      console.log(await createUserRes.text());
-      throw new Error(`Failed to create user: ${createUserRes.status()}`);
-    }
-
-    console.log("Create user response:", await createUserRes.text());
-
-    const createdUser = await createUserRes.json();
-    const userId = createdUser?.id ?? createdUser?.user?.id;
-
-    if (!userId) {
-      throw new Error("Could not determine created user id");
-    }
-
-    if (!tournamentId) {
-      throw new Error("Could not determine tournament id from URL");
-    }
 
     const assignRoleRes = await page.request.post(
       `http://localhost:${backendPort}/users/${userId}/tournaments/${tournamentId}/roles`,

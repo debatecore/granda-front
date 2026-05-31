@@ -26,10 +26,14 @@ test.describe("verdict panel", () => {
         advancingTeams,
       });
 
-      await page.getByRole("link", { name: "No motion" }).first().click();
+      // THEN
+      await page
+        .getByRole("link", { name: "Unconfigured debate" })
+        .first()
+        .click();
       await page.waitForURL(/debates/);
 
-      await page.getByRole("button", { name: "Proposition" }).click();
+      await expect(page.getByText("Proposition")).toBeVisible();
     },
   );
 
@@ -40,7 +44,10 @@ test.describe("verdict panel", () => {
       await page.getByRole("link", { name: "Tournament" }).click();
 
       await page.getByRole("link", { name: "Tournament Ladder" }).click();
-      await page.getByRole("link", { name: "No motion" }).first().click();
+      await page
+        .getByRole("link", { name: "Unconfigured debate" })
+        .first()
+        .click();
 
       await expect(page.getByText("Verdict panel")).toBeVisible();
       await expect(page.getByText("Opposition")).not.toBeVisible();
@@ -71,8 +78,12 @@ test.describe("verdict panel", () => {
         numberOfUsers: "3",
       });
 
+      // THEN
       await page.getByRole("link", { name: "Tournament Ladder" }).click();
-      await page.getByRole("link", { name: "No motion" }).first().click();
+      await page
+        .getByRole("link", { name: "Unconfigured debate" })
+        .first()
+        .click();
       await page.waitForURL(/debates/);
 
       const winningText = page.getByText("ThePropositionis the winning");
@@ -98,8 +109,13 @@ test.describe("verdict panel", () => {
         advancingTeams,
       });
 
-      await page.getByRole("link", { name: "No motion" }).first().click();
+      // THEN
+      await page
+        .getByRole("link", { name: "Unconfigured debate" })
+        .first()
+        .click();
       await page.waitForURL(/debates/);
+      await expect(page.getByText("the winning")).not.toBeVisible();
 
       await page.getByRole("button", { name: "Proposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
@@ -127,8 +143,13 @@ test.describe("verdict panel", () => {
         advancingTeams,
       });
 
-      await page.getByRole("link", { name: "No motion" }).first().click();
+      // THEN
+      await page
+        .getByRole("link", { name: "Unconfigured debate" })
+        .first()
+        .click();
       await page.waitForURL(/debates/);
+      await expect(page.getByText("the winning")).not.toBeVisible();
 
       await page.getByRole("button", { name: "Proposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
@@ -136,7 +157,6 @@ test.describe("verdict panel", () => {
       const winningText = page.getByText("ThePropositionis the winning");
       await expect(winningText).toBeVisible();
 
-      // PATCH check
       await page.getByRole("button", { name: "Opposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
 
