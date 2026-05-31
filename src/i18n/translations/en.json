@@ -109,5 +109,12 @@
   },
   "debate_details": {
     "unconfigured_debate": "Debate without a motion"
+  },
+  "create_tournament": {
+    "title": "Create Tournament",
+    "full_name": "Full name",
+    "short_name": "Short name",
+    "close": "Close",
+    "full_name_placeholder": "(Required)"
   }
 }

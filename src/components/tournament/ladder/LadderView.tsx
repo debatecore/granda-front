@@ -64,7 +64,7 @@ export function LadderView({
       </div>
       {isRoundConfigOpen && configuredRound && (
         <div
-          className="w-full h-full absolute z-50 bg-black/40 flex justify-center "
+          className="w-full h-full absolute z-50 bg-black/50 flex justify-center "
           onClick={() => setIsRoundConfigOpen(false)}
         >
           <div onClick={(e) => e.stopPropagation()}>
