@@ -93,7 +93,9 @@
     "validation_power_of_two": "Advancing teams must be a power of 2.",
     "request_failed": "Failed to plan the tournament.",
     "success": "Tournament planning submitted successfully.",
-    "unconfigured_debate": "Unconfigured debate"
+    "unconfigured_debate": "Unconfigured debate",
+    "hint_title": "Tournament Ladder",
+    "hint_content": "Each box represents a debate. You can click on a specific box to see the debate details. The ladder shows the structure and flow of the tournament, including the rounds and how debates are organised."
   },
   "debates": {
     "title": "Debates"
