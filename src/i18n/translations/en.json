@@ -116,5 +116,35 @@
     "short_name": "Short name",
     "close": "Close",
     "full_name_placeholder": "(Required)"
+  "verdict_panel": {
+    "proposition": "Proposition",
+    "opposition": "Opposition",
+    "submit": "Submit",
+    "select_verdict_error": "Please select a verdict before submitting.",
+    "submit_error": "Unable to submit verdict",
+    "failed_submit": "Failed to submit verdict",
+    "failed_update": "Failed to update verdict",
+    "no_existing_verdict": "No existing verdict to update",
+    "failed_load_permissions": "Failed to load permissions",
+    "failed_load_verdicts": "Failed to load verdicts",
+    "load_verdicts_error": "Unable to load verdict information",
+    "panel_error_title": "Verdict panel got an error, oops:",
+    "majority": {
+      "proposition": {
+        "prefix": "The",
+        "highlight": "Proposition",
+        "suffix": "is the winning team!"
+      },
+      "opposition": {
+        "prefix": "The",
+        "highlight": "Opposition",
+        "suffix": "is the winning team!"
+      },
+      "no_verdict": {
+        "prefix": "There is",
+        "highlight": "no verdict",
+        "suffix": "yet."
+      }
+    }
   }
 }
