@@ -116,6 +116,7 @@
     "short_name": "Short name",
     "close": "Close",
     "full_name_placeholder": "(Required)"
+  },
   "verdict_panel": {
     "proposition": "Proposition",
     "opposition": "Opposition",
