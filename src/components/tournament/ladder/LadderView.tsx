@@ -10,6 +10,7 @@ import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
 import { RoundConfig } from "./RoundConfig";
 import { useState } from "react";
+import { HintButton } from "@/components/ui/HintButton";
 
 export function LadderView({
   phases,
@@ -33,14 +34,26 @@ export function LadderView({
   return (
     <div className="relative flex w-full flex-col items-center">
       <div className="mt-8 flex w-full max-w-5xl flex-col px-8 sm:mt-16 lg:px-16">
-        <h1 className="text-center text-3xl font-semibold text-white sm:text-left">
-          {isPlanned ? t("title") : t("planning_title")}
-        </h1>
+        <div className="flex items-center justify-center gap-2 sm:justify-start">
+          <h1 className="text-center text-3xl font-semibold text-white sm:text-left">
+            {isPlanned ? t("title") : t("planning_title")}
+          </h1>
+
+          {isPlanned && (
+            <HintButton
+              title={t("hint_title")}
+              content={t("hint_content")}
+              boxPosition="right"
+            />
+          )}
+        </div>
+
         {phases ? (
           ""
         ) : (
           <p className="mt-4 text-sm text-red-400">{t("no_phases_error")}</p>
         )}
+
         {isPlanned ? (
           <TournamentLadder
             phases={phases || []}
@@ -62,6 +75,7 @@ export function LadderView({
           />
         )}
       </div>
+
       {isRoundConfigOpen && configuredRound && (
         <div
           className="w-full h-full absolute z-50 bg-black/40 flex justify-center "
