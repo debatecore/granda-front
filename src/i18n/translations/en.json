@@ -108,7 +108,9 @@
     "apply": "Apply"
   },
   "debate_details": {
-    "unconfigured_debate": "Debate without a motion"
+    "unconfigured_debate": "Debate without a motion",
+    "proceed_to_debate": "Proceed to Debate!",
+    "marshal_panel": "Marshal Panel"
   },
   "verdict_panel": {
     "proposition": "Proposition",
