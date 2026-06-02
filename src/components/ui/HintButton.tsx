@@ -39,6 +39,7 @@ const HintButton = ({ title, content, boxPosition }: HintButtonProps) => {
   return (
     <div ref={wrapperRef} className="z-50 relative inline-block">
       <button
+        type="button"
         className="flex items-center justify-center p-2 bg-transparent hover:cursor-pointer focus:outline-none"
         onClick={() => setShowTutorial(!showTutorial)}
         aria-label={`Hint: ${title}`}

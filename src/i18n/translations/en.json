@@ -99,7 +99,9 @@
     "group_rounds_hint": "Determines how many debate rounds will occurr one after another in the group phase.",
     "groups_count_hint": "Within a group, one debate is held in each round. This number will determine how many simultaneous debates will take place in each round. Must be lower than the total team count.",
     "total_teams_hint": "The total number of teams taking part in the tournament.",
-    "advancing_teams_hint": "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2."
+    "advancing_teams_hint": "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2.",
+    "hint_title": "Tournament Ladder",
+    "hint_content": "Each box represents a debate. You can click on a specific box to see the debate details. The ladder shows the structure and flow of the tournament, including the rounds and how debates are organised."
   },
   "debates": {
     "title": "Debates"
@@ -114,6 +116,39 @@
     "apply": "Apply"
   },
   "debate_details": {
-    "unconfigured_debate": "Debate without a motion"
+    "unconfigured_debate": "Debate without a motion",
+    "proceed_to_debate": "Proceed to Debate!",
+    "marshal_panel": "Marshal Panel"
+  },
+  "verdict_panel": {
+    "proposition": "Proposition",
+    "opposition": "Opposition",
+    "submit": "Submit",
+    "select_verdict_error": "Please select a verdict before submitting.",
+    "submit_error": "Unable to submit verdict",
+    "failed_submit": "Failed to submit verdict",
+    "failed_update": "Failed to update verdict",
+    "no_existing_verdict": "No existing verdict to update",
+    "failed_load_permissions": "Failed to load permissions",
+    "failed_load_verdicts": "Failed to load verdicts",
+    "load_verdicts_error": "Unable to load verdict information",
+    "panel_error_title": "Verdict panel got an error, oops:",
+    "majority": {
+      "proposition": {
+        "prefix": "The",
+        "highlight": "Proposition",
+        "suffix": "is the winning team!"
+      },
+      "opposition": {
+        "prefix": "The",
+        "highlight": "Opposition",
+        "suffix": "is the winning team!"
+      },
+      "no_verdict": {
+        "prefix": "There is",
+        "highlight": "no verdict",
+        "suffix": "yet."
+      }
+    }
   }
 }

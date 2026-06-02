@@ -1,5 +1,5 @@
-import { expect, Page } from "@playwright/test";
-import { testInTournamentAsAdmin } from "./e2eUtils";
+import { expect } from "@playwright/test";
+import { planTournament, testInTournamentAsAdmin } from "./e2eUtils";
 
 testInTournamentAsAdmin(
   "tournament ladder is generated after planning a tournament",
@@ -26,6 +26,50 @@ testInTournamentAsAdmin(
 
     const roundLabel = page.getByText(/^round.?\d/i);
     expect(await roundLabel.count()).toBe(7);
+  },
+);
+
+testInTournamentAsAdmin(
+  "tournament ladder hint explains debate boxes and can be dismissed",
+  async ({ page }) => {
+    // GIVEN
+    await planTournament({
+      page,
+      groupPhaseRounds: 3,
+      groupsCount: 5,
+      totalTeams: 30,
+      advancingTeams: 16,
+    });
+
+    await expect(
+      page.getByRole("heading", { name: "Tournament Ladder" }),
+    ).toBeVisible();
+
+    const hintButton = page.getByRole("button", {
+      name: "Tournament Ladder",
+    });
+
+    await expect(hintButton).toBeVisible();
+
+    // WHEN
+    await hintButton.click();
+
+    // THEN
+    await expect(page.getByText("Each box represents a debate.")).toBeVisible();
+    await expect(
+      page.getByText("You can click on a specific box"),
+    ).toBeVisible();
+    await expect(
+      page.getByText("The ladder shows the structure and flow"),
+    ).toBeVisible();
+
+    // WHEN
+    await page.getByText("OK").click();
+
+    // THEN
+    await expect(
+      page.getByText("Each box represents a debate."),
+    ).not.toBeVisible();
   },
 );
 
@@ -62,8 +106,10 @@ testInTournamentAsAdmin(
     await expect(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
+
     const configButton = page.getByText("round_1").first();
     const configHeading = page.getByText("Round round_1 configuration");
+
     await configButton.click();
     await expect(configHeading).toBeVisible();
 
@@ -82,7 +128,7 @@ testInTournamentAsAdmin(
     // Closing the config – it can be exited by clicking on the black backdrop,
     // but it's difficult to simulate in a test.
     await page.reload();
-    expect(configHeading).not.toBeVisible();
+    await expect(configHeading).not.toBeVisible();
 
     const debateNodesDisplayingMotion = page.getByRole("link", {
       name: "This House Would t…",
@@ -91,17 +137,20 @@ testInTournamentAsAdmin(
 
     const prefilledMotionInput = page.getByText(testMotion1);
     const prefilledInfoslideInput = page.getByText(testInfoslide1);
+
     await configButton.click();
     await expect(prefilledMotionInput).toBeVisible();
     await expect(prefilledInfoslideInput).toBeVisible();
 
     await prefilledMotionInput.fill(testMotion2);
     await prefilledInfoslideInput.fill(testInfoslide2);
+
     await expect(successMessage).not.toBeVisible();
     await applyButton.click();
     await expect(successMessage).toBeVisible();
 
     await page.reload();
+
     const updatedDebateNodes = page.getByRole("link", {
       name: "This House regrets…",
     });
@@ -183,30 +232,33 @@ testInTournamentAsAdmin(
   },
 );
 
-async function planTournament({
-  page,
-  groupPhaseRounds,
-  groupsCount,
-  totalTeams,
-  advancingTeams,
-}: {
-  page: Page;
-  groupPhaseRounds: number;
-  groupsCount: number;
-  totalTeams: number;
-  advancingTeams: number;
-}) {
-  await page.getByRole("link", { name: "Tournament Ladder" }).click();
-  await page.waitForURL(/ladder/);
-  await page
-    .getByRole("spinbutton", { name: "Group phase rounds" })
-    .fill(groupPhaseRounds.toString());
-  await page
-    .getByRole("spinbutton", { name: "Groups count" })
-    .fill(groupsCount.toString());
-  await page.locator("#total_teams").fill(totalTeams.toString());
-  await page
-    .getByRole("spinbutton", { name: "Total teams Advancing teams" })
-    .fill(advancingTeams.toString());
-  await page.getByRole("button", { name: "Plan tournament" }).click();
-}
+testInTournamentAsAdmin(
+  "Round config can be closed by pressing the close button",
+  async ({ page }) => {
+    // GIVEN
+    const groupsCount = 5;
+
+    await planTournament({
+      page,
+      groupsCount,
+      groupPhaseRounds: 2,
+      totalTeams: 22,
+      advancingTeams: 8,
+    });
+
+    await expect(
+      page.getByRole("heading", { name: "Tournament Ladder" }),
+    ).toBeVisible();
+
+    const configButton = page.getByText("round_1").first();
+    const configHeading = page.getByText("Round round_1 configuration");
+
+    await configButton.click();
+    await expect(configHeading).toBeVisible();
+
+    await page
+      .getByRole("button", { name: "Close round configuration" })
+      .click();
+    await expect(configHeading).not.toBeVisible();
+  },
+);
