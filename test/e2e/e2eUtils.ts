@@ -211,7 +211,10 @@ const createTournament = async (page: Page) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.getByText(fullName).click();
 
-  expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+  await page.waitForURL(/\/en\/t\/[^/]+/);
+  await page.getByRole("link", { name: "Overview" }).click();
+
+  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
 };
 
 export class TestContainers {
