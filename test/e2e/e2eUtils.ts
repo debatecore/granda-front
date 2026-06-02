@@ -342,7 +342,7 @@ export async function planTournament({
     .fill(groupsCount.toString());
   await page.locator("#total_teams").fill(totalTeams.toString());
   await page
-    .getByRole("spinbutton", { name: "Total teams Advancing teams" })
+    .getByRole("spinbutton", { name: "Advancing teams" })
     .fill(advancingTeams.toString());
   await page.getByRole("button", { name: "Plan tournament" }).click();
 }
