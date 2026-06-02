@@ -129,7 +129,7 @@ testInTournamentAsAdmin(
     // Closing the config – it can be exited by clicking on the black backdrop,
     // but it's difficult to simulate in a test.
     await page.reload();
-    expect(configHeading).not.toBeVisible();
+    await expect(configHeading).not.toBeVisible();
 
     const debateNodesDisplayingMotion = page.getByRole("link", {
       name: "This House Would t…",
@@ -156,5 +156,36 @@ testInTournamentAsAdmin(
       name: "This House regrets…",
     });
     expect(await updatedDebateNodes.count()).toBe(5);
+  },
+);
+
+testInTournamentAsAdmin(
+  "Round config can be closed by pressing the close button",
+  async ({ page }) => {
+    // GIVEN
+    const groupsCount = 5;
+
+    await planTournament({
+      page,
+      groupsCount,
+      groupPhaseRounds: 2,
+      totalTeams: 22,
+      advancingTeams: 8,
+    });
+
+    await expect(
+      page.getByRole("heading", { name: "Tournament Ladder" }),
+    ).toBeVisible();
+
+    const configButton = page.getByText("round_1").first();
+    const configHeading = page.getByText("Round round_1 configuration");
+
+    await configButton.click();
+    await expect(configHeading).toBeVisible();
+
+    await page
+      .getByRole("button", { name: "Close round configuration" })
+      .click();
+    await expect(configHeading).not.toBeVisible();
   },
 );
