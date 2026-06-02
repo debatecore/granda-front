@@ -76,7 +76,7 @@ export function RoundConfig({
         type="button"
         aria-label="Close round configuration"
         onClick={onClose}
-        className="absolute right-4 top-4 rounded border border-stone-700 bg-stone-700/40 p-1 text-stone-300 hover:border-stone-500 hover:bg-stone-600/40 hover:text-white focus:border-stone-500 focus:bg-stone-600/40"
+        className="absolute right-4 top-4 rounded border border-stone-700 bg-stone-700/40 p-1 text-stone-300 hover:border-stone-500 hover:bg-stone-600/40 hover:text-white focus:border-stone-500 focus:bg-stone-600/40 cursor-pointer"
       >
         <LucideX size={20} />
       </button>
