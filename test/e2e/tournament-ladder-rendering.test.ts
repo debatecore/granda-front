@@ -127,7 +127,7 @@ testInTournamentAsAdmin(
     await expect(successMessage).toBeVisible();
 
     await page
-      .getByRole("button", { name: "'Close round configuration'" })
+      .getByRole("button", { name: "Close round configuration" })
       .click();
     await expect(configHeading).not.toBeVisible();
 
