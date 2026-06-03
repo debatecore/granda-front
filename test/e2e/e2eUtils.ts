@@ -211,7 +211,10 @@ const createTournament = async (page: Page) => {
   await page.getByRole("button", { name: "Create", exact: true }).click();
   await page.getByText(fullName).click();
 
-  expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+  await page.waitForURL(/\/en\/t\/[^/]+/);
+  await page.getByRole("link", { name: "Overview" }).click();
+
+  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
 };
 
 export class TestContainers {
@@ -339,7 +342,7 @@ export async function planTournament({
     .fill(groupsCount.toString());
   await page.locator("#total_teams").fill(totalTeams.toString());
   await page
-    .getByRole("spinbutton", { name: "Total teams Advancing teams" })
+    .getByRole("spinbutton", { name: "Advancing teams" })
     .fill(advancingTeams.toString());
   await page.getByRole("button", { name: "Plan tournament" }).click();
 }

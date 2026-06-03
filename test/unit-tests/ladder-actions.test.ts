@@ -92,6 +92,29 @@ describe("planTournament", () => {
     expect(mockedFetchServerside).not.toHaveBeenCalled();
   });
 
+  test("should return validation_groups_and_teams when groups count is not lower than teams count", async () => {
+    // GIVEN
+    const formData = new FormData();
+    formData.set("group_phase_rounds", "2");
+    formData.set("groups_count", "8");
+    formData.set("advancing_teams", "4");
+    formData.set("total_teams", "8");
+
+    // WHEN
+    const result = await planTournament(
+      "test-tournament-id",
+      { success: false, error: null },
+      formData,
+    );
+
+    // THEN
+    expect(result).toEqual({
+      success: false,
+      error: "validation_groups_and_teams",
+    });
+    expect(mockedFetchServerside).not.toHaveBeenCalled();
+  });
+
   test("should call the plan endpoint and return success when backend responds with ok", async () => {
     // GIVEN
     const tournament_id = "test-tournament-id";
