@@ -17,7 +17,7 @@ services:
       server-prod:
         condition: service_started
   server-prod:
-    image: tau:latest
+    image: ghcr.io/debatecore/tau:latest
     ports:
       - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
     networks:
