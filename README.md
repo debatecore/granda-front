@@ -6,7 +6,7 @@ granda (Polish for fracas) is a web application for Oxford Debate tournament man
 
 To deploy via Docker:
 
-Set up an `.env` file to configure your deployment. You may use this example and adjust it to your needs:
+1. Set up an `.env` file to configure your deployment. You may use this example and adjust it to your needs:
 
 ```env
 # Backend setup (for documentation refer to https://github.com/debatecore/tau?tab=readme-ov-file#environment-setup)
@@ -22,17 +22,40 @@ FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```
 
-Then you can simply run:
+2. Then you can simply run:
 
 ```bash
 docker compose --profile prod up -d
 ```
 
-Once the containers are built and started, you can access the application from http://localhost:3000 (or other address, depending on your `FRONTEND_PORT` variable).
+3. Once the containers are built and started, you can access the application from http://localhost:3000 (or other address, depending on your `FRONTEND_PORT` variable).
 
 ## Local development
 
-To develop the application locally, set create an `.env` file containing **only** backend-related variables, e.g.:
+In this scenario, you will deploy the backend via Docker, allowing you to start the frontend locally, e.g. using a Node development server.
+
+```mermaid
+architecture-beta
+			group your_machine(server)[Your machine]
+
+ 	group docker[Docker] in your_machine
+ 					service backend_container(server)[tau:latest (Backend)] in docker
+ 					service db_container(database)[postgres (Database)] in docker
+
+backend_container:R -- L:db_container
+
+service ghcr(cloud)[GitHub Container Registry]
+ghcr:T -- B:backend_container
+
+service npm(server)[npm (granda-front)] in your_machine
+npm:T -- B:backend_container
+
+service env(disk)[.env file or shell variables] in your_machine
+env:T -- B:backend_container
+env:T -- B:db_container
+```
+
+1. Create an `.env` file containing **only** backend-related variables, e.g.:
 
 ```env
 DOCKER_DB_PASSWORD=THISISAVERYSECUREDBPASSWORD
@@ -42,16 +65,16 @@ SECRET=SUPERSECRETSTRINGHERE
 FRONTEND_ORIGIN=http://localhost:3000
 ```
 
-Then, start the backend:
+2. Start the backend:
 
 ```
 docker compose --profile dev up -d
 ```
 
-Once the backend is up, you can run the Node development server:
+3. Once the backend is up, you can run the Node development server:
 
 ```bash
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
