@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createTournament } from "./actions";
+import { useTranslations } from "next-intl";
 
 const initialState = {
   success: false,
@@ -12,6 +13,7 @@ const initialState = {
 export function CreateTournamentButton() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const t = useTranslations("create_tournament");
 
   const [state, formAction, isPending] = useActionState(
     createTournament,
@@ -32,22 +34,20 @@ export function CreateTournamentButton() {
         onClick={() => setOpen(true)}
         className="inline-flex items-center rounded-md bg-white/10 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/20"
       >
-        Create tournament
+        {t("title")}
       </button>
 
       {open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
           <div className="w-full max-w-md rounded-xl border border-white/10 bg-neutral-900 p-6 shadow-xl">
             <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-white">
-                Create tournament
-              </h2>
+              <h2 className="text-xl font-semibold text-white">{t("title")}</h2>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
                 className="text-sm text-stone-400 hover:text-white"
               >
-                Close
+                {t("close")}
               </button>
             </div>
 
@@ -57,12 +57,13 @@ export function CreateTournamentButton() {
                   htmlFor="full_name"
                   className="mb-1 text-sm text-stone-300"
                 >
-                  Full name
+                  {t("full_name")}
                 </label>
                 <input
                   id="full_name"
                   type="text"
                   name="full_name"
+                  placeholder={t("full_name_placeholder")}
                   required
                   className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
                 />
@@ -73,13 +74,12 @@ export function CreateTournamentButton() {
                   htmlFor="shortened_name"
                   className="mb-1 text-sm text-stone-300"
                 >
-                  Short name
+                  {t("short_name")}
                 </label>
                 <input
                   id="shortened_name"
                   type="text"
                   name="shortened_name"
-                  required
                   className="rounded-md bg-white/10 px-3 py-2 text-sm text-white outline-none focus:ring-2 focus:ring-white/30"
                 />
               </div>
