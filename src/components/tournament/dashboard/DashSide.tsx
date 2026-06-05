@@ -49,12 +49,16 @@ const DashSide = ({ tournament_path }: { tournament_path: string }) => {
   const currentPathname = usePathname() ?? "";
 
   const matchPaths = (str: string, target: string) => {
-    const getParam = (p: string) =>
-      p.match(
-        /(?<=\/t\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/)[^\/]+/,
-      )?.[0];
+    const getParam = (p: string) => {
+      const parts = p.split(
+        /\/t\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/,
+      );
+      if (parts.length < 2) return undefined;
+      return parts[1].replace(/^\/|\/$/g, "").split("/")[0];
+    };
+
     const s = getParam(str);
-    return !!s && s === getParam(target);
+    return s !== undefined && s === getParam(target);
   };
 
   const links: DashSidebarLinks = [
