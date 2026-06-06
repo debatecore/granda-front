@@ -96,7 +96,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
             : t("load_verdicts_error"),
         );
       });
-  }, [userId, tournamentId, debateId]);
+  }, [userId, tournamentId, debateId, t]);
 
   const POSTNewVerdict = async () => {
     const postUrl = `/tournaments/${tournamentId}/debates/${debateId}/verdicts`;
@@ -193,7 +193,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
               type="button"
               onClick={() => setSelectedVote("proposition")}
               className={`flex-1 min-w-0 h-[54px] py-5 rounded outline outline-[0.50px] outline-offset-[-0.50px]
-            flex justify-center items-center transition-all 
+            flex justify-center items-center transition-all
             ${
               selectedVote === "proposition"
                 ? "bg-purple-500/15 outline-purple-400/60"
