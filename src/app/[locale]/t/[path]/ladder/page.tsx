@@ -72,7 +72,6 @@ export default async function LadderPage({ params }: LadderPageProps) {
     },
   });
 
-  console.log(motionsRes);
   if (motionsRes.ok) {
     motions = await motionsRes.json();
   }

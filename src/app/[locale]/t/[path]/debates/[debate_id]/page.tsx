@@ -80,7 +80,6 @@ export default async function DebateDetailsPage({
         },
       },
     );
-    console.log("motionRes", motionRes);
     if (motionRes.ok) {
       return (await motionRes.json()) as Motion;
     }
@@ -110,7 +109,6 @@ export default async function DebateDetailsPage({
   let motion = t("unconfigured_debate");
   if (debate?.motion_id) {
     const retrievedMoton = await getMotionById(path, debate.motion_id);
-    console.log("retrievedMoton", retrievedMoton);
     if (retrievedMoton) {
       motion = retrievedMoton.motion;
     }
