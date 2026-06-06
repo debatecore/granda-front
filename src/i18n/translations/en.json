@@ -120,6 +120,13 @@
     "proceed_to_debate": "Proceed to Debate!",
     "marshal_panel": "Marshal Panel"
   },
+  "create_tournament": {
+    "title": "Create Tournament",
+    "full_name": "Full name",
+    "short_name": "Short name",
+    "close": "Close",
+    "full_name_placeholder": "(Required)"
+  },
   "verdict_panel": {
     "proposition": "Proposition",
     "opposition": "Opposition",
