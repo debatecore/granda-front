@@ -3,6 +3,7 @@ import {
   Funnel_Display,
   Geist,
   Geist_Mono,
+  Inter,
   Lexend,
   Newsreader,
 } from "next/font/google";
@@ -14,24 +15,28 @@ import { notFound } from "next/navigation";
 
 const FontGeistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
 });
 const FontGeistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
 });
 const FontNewsreader = Newsreader({
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
   variable: "--font-newsreader",
 });
 const FontLogo = Funnel_Display({
   weight: ["700"],
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
   variable: "--font-funnel-display",
 });
 const FontLexend = Lexend({
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
   variable: "--font-lexend",
+});
+const FontInter = Inter({
+  subsets: ["latin-ext"],
+  variable: "--font-inter",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -56,7 +61,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body
-        className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontLexend.variable} ${FontNewsreader.variable} ${FontLogo.variable} dark font-sans antialiased bg-stone-950 text-stone-100`}
+        className={`${FontGeistSans.variable} ${FontGeistMono.variable} ${FontLexend.variable} ${FontNewsreader.variable} ${FontLogo.variable} ${FontInter} dark font-sans antialiased bg-stone-950 text-stone-100`}
       >
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
       </body>
