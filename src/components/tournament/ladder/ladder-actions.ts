@@ -45,6 +45,13 @@ export async function planTournament(
     };
   }
 
+  if (groupsCount >= totalTeams) {
+    return {
+      success: false,
+      error: "validation_groups_and_teams",
+    };
+  }
+
   const res = await fetchServerside(`/tournaments/${tournamentId}/plan`, {
     method: "POST",
     headers: {
