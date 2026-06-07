@@ -44,7 +44,11 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
 
+ARG BACKEND_URL
 ENV NODE_ENV=production
+ENV BACKEND_URL=${BACKEND_URL}
+
+RUN test -n "$BACKEND_URL" || (echo "BACKEND_URL is missing at build time" && exit 1)
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
