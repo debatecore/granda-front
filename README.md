@@ -36,23 +36,21 @@ In this scenario, you will deploy the backend via Docker, allowing you to start 
 
 ```mermaid
 architecture-beta
-			group your_machine(server)[Your machine]
+    group your_machine(server)[Your machine]
+    group docker(cloud)[Docker] in your_machine
 
- 	group docker[Docker] in your_machine
- 					service backend_container(server)[tau:latest (Backend)] in docker
- 					service db_container(database)[postgres (Database)] in docker
+    service backend_container(server)[tau backend] in docker
+    service db_container(database)[Postgres database] in docker
+    service ghcr(cloud)[GitHub Container Registry] in your_machine
+    service npm(server)[node server] in your_machine
+    service env(disk)[env or shell variables] in your_machine
 
-backend_container:R -- L:db_container
-
-service ghcr(cloud)[GitHub Container Registry]
-ghcr:T -- B:backend_container
-
-service npm(server)[npm (granda-front)] in your_machine
-npm:T -- B:backend_container
-
-service env(disk)[.env file or shell variables] in your_machine
-env:T -- B:backend_container
-env:T -- B:db_container
+    backend_container:R -- L:db_container
+    ghcr:B -- T:backend_container
+    npm:T -- B:backend_container
+    env:T -- B:backend_container
+    env:T -- B:db_container
+    env:L -- R:npm
 ```
 
 1. Create an `.env` file containing **only** backend-related variables, e.g.:
