@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     ports:
-      - ${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}
+      - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
     networks:
       - dbnetwork
     profiles:
@@ -21,12 +21,13 @@ services:
     depends_on:
       server-prod:
         condition: service_started
+
   tau-prod:
     env_file:
-        - .env
+      - .env
     image: ghcr.io/debatecore/tau:latest
     ports:
-      - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
+      - "${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}"
     networks:
       - dbnetwork
     profiles:
@@ -39,6 +40,7 @@ services:
     depends_on:
       db-prod:
         condition: service_healthy
+
   db-prod:
     image: postgres:17.2
     restart: always
@@ -61,11 +63,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   tau-dev:
     image: ghcr.io/debatecore/tau:latest
     pull_policy: always
     ports:
-      - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
+      - "${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}"
     networks:
       - dbnetwork
     profiles:
@@ -78,6 +81,7 @@ services:
     depends_on:
       db-dev:
         condition: service_healthy
+
   db-dev:
     image: postgres:17.2
     user: postgres
