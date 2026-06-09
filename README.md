@@ -17,7 +17,8 @@ SECRET=SUPERSECRETSTRINGHERE
 FRONTEND_ORIGIN=http://localhost:3000
 
 # Frontend setup
-BACKEND_URL=http://tau-prod:2023        # Used for server-side requests
+BACKEND_NAME=server-prod
+BACKEND_URL=http://${BACKEND_NAME}:2023 # Used for server-side requests
 FRONTEND_PORT=3000                      # Port with the frontend to be exposed
 BACKEND_PORT=2023                       # Port with the backend to be exposed
 ```

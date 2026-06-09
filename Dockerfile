@@ -44,7 +44,13 @@ COPY --from=dependencies /app/node_modules ./node_modules
 # Copy application source code
 COPY . .
 
+ARG BACKEND_URL
+ARG FRONTEND_PORT
 ENV NODE_ENV=production
+ENV BACKEND_URL=${BACKEND_URL}
+ENV FRONTEND_PORT=${FRONTEND_PORT}
+
+RUN test -n "$BACKEND_URL" || (echo "BACKEND_URL is missing at build time" && exit 1)
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -78,7 +84,7 @@ WORKDIR /app
 
 # Set production environment variables
 ENV NODE_ENV=production
-ENV PORT=3000
+ENV PORT=${FRONTEND_PORT}
 ENV HOSTNAME="0.0.0.0"
 
 # Next.js collects completely anonymous telemetry data about general usage.
@@ -107,7 +113,7 @@ COPY --from=builder --chown=node:node /app/src/i18n ./src/i18n
 USER node
 
 # Expose port 3000 to allow HTTP traffic
-EXPOSE 3000
+EXPOSE ${FRONTEND_PORT}
 
 # Start Next.js standalone server
 CMD ["node", "server.js"]
