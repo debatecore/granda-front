@@ -1,4 +1,12 @@
 services:
+  frontend-nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 8080:8080
+    profiles:
+      - nginx
   frontend-local:
     build:
       context: .
@@ -24,6 +32,7 @@ services:
       - dbnetwork
     profiles:
       - prod
+      - nginx
     environment:
       - DATABASE_URL=postgres://tau:${DOCKER_DB_PASSWORD}@db-prod:5432/tau
       - PORT=${BACKEND_PORT}
@@ -40,6 +49,7 @@ services:
       - dbnetwork
     profiles:
       - prod
+      - nginx
     secrets:
       - dbpassword
       - dbrootpassword
