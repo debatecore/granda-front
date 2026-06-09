@@ -19,7 +19,7 @@ services:
       - INTERNAL_BACKEND_URL=http://${BACKEND_NAME}:${BACKEND_PORT}
       - BACKEND_URL=${BACKEND_URL:-http://localhost:2023}
     depends_on:
-      server-prod:
+      tau-prod:
         condition: service_started
 
   tau-prod:
