@@ -5,6 +5,7 @@ import {
 import {
   GenericContainer,
   Network,
+  PullPolicy,
   StartedNetwork,
   StartedTestContainer,
   Wait,
@@ -151,7 +152,6 @@ export const testInTournamentAsUser = base.extend<Fixtures>({
     const tournamentId = await getTournamentIdFromPage(page);
     const userId = await createBackendUser(page, backendPort, "user", "user");
 
-    // Assign Marshal role to the user for the tournament
     const assignRoleRes = await page.request.post(
       `http://localhost:${backendPort}/users/${userId}/tournaments/${tournamentId}/roles`,
       {
@@ -229,7 +229,8 @@ export class TestContainers {
       .withNetworkAliases("postgres")
       .start();
     const connectionString = `postgresql://${db.getUsername()}:${db.getPassword()}@postgres:5432/${db.getDatabase()}`;
-    const server = await new GenericContainer("tau:latest")
+    const server = await new GenericContainer("ghcr.io/debatecore/tau:latest")
+      .withPullPolicy(PullPolicy.alwaysPull())
       .withNetwork(network)
       .withExposedPorts(DEFAULT_BACKEND_PORT)
       .withWaitStrategy(Wait.forHttp("/health", DEFAULT_BACKEND_PORT))
