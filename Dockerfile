@@ -112,7 +112,7 @@ COPY --from=builder --chown=node:node /app/src/i18n ./src/i18n
 # Switch to non-root user for security best practices
 USER node
 
-# Expose port 3000 to allow HTTP traffic
+# Expose port to allow HTTP traffic
 EXPOSE ${FRONTEND_PORT}
 
 # Start Next.js standalone server
