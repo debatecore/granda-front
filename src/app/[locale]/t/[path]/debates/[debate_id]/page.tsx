@@ -6,7 +6,7 @@ import { getTranslations } from "next-intl/server";
 import { User, UUID_MAX } from "@/types/User";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
-import VerdictPanel from "@/components/VerdictPanel";
+import VerdictPanel from "@/components/tournament/VerdictPanel";
 
 type DebateDetailsPageProps = {
   params: Promise<{
@@ -80,7 +80,6 @@ export default async function DebateDetailsPage({
         },
       },
     );
-    console.log("motionRes", motionRes);
     if (motionRes.ok) {
       return (await motionRes.json()) as Motion;
     }
@@ -110,7 +109,6 @@ export default async function DebateDetailsPage({
   let motion = t("unconfigured_debate");
   if (debate?.motion_id) {
     const retrievedMoton = await getMotionById(path, debate.motion_id);
-    console.log("retrievedMoton", retrievedMoton);
     if (retrievedMoton) {
       motion = retrievedMoton.motion;
     }
@@ -158,7 +156,7 @@ export default async function DebateDetailsPage({
           </GenericComponent>
         </div>
 
-        <div className="flex flex-col items-center gap-[20px]">
+        <div className="flex flex-col gap-[20px]">
           {canConductDebate && <MarshalPanel motion={motion} />}
           {currentUser && (
             <VerdictPanel
