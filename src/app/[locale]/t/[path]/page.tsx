@@ -53,14 +53,16 @@ export default async function TournamentRootPage({
             {t("welcome", { tournamentName })}
           </h1>
           <p className="text-stone-400 text-sm leading-relaxed">
-            {t("get_started_1")}{" "}
-            <Link
-              href={`/${locale}/t/${path}/ladder`}
-              className="text-stone-100 hover:text-stone-300 underline font-medium"
-            >
-              Tournament Ladder
-            </Link>{" "}
-            {t("get_started_2")}
+            {t.rich("get_started", {
+              ladderLink: (chunks) => (
+                <Link
+                  href={`/${locale}/t/${path}/ladder`}
+                  className="text-stone-100 hover:text-stone-300 underline font-medium"
+                >
+                  {chunks}
+                </Link>
+              ),
+            })}
           </p>
         </div>
       </div>

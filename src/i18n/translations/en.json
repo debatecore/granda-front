@@ -67,8 +67,7 @@
   "overview": {
     "title": "Overview",
     "welcome": "Welcome to {tournamentName}!",
-    "get_started_1": "To get started, go to",
-    "get_started_2": "to define the structure of your tournament, which will be generated automatically."
+    "get_started": "To get started, go to <ladderLink>Tournament Ladder</ladderLink> to define the structure of your tournament, which will be generated automatically."
   },
   "metadata": {
     "title": "granda: Debate Tournament Planner",

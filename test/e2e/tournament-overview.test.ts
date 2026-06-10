@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import { testInTournamentAsAdmin } from "./e2eUtils";
+import { testInTournamentAsAdmin, planTournament } from "./e2eUtils";
 
 testInTournamentAsAdmin(
   "should present the welcome screen when the tournament plan does not exist",
@@ -9,9 +9,13 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: /Welcome to/i }),
     ).toBeVisible();
 
+    // WHEN
+    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.waitForURL(/ladder/);
+
     // THEN
     await expect(
-      page.getByRole("link", { name: "Tournament Ladder" }),
+      page.getByRole("heading", { name: "Tournament Planning" }),
     ).toBeVisible();
   },
 );
@@ -25,23 +29,15 @@ testInTournamentAsAdmin(
     ).toBeVisible();
 
     // WHEN
-    await page.getByRole("link", { name: "Tournament Ladder" }).click();
-    await page.waitForURL(/ladder/);
+    await planTournament({
+      page,
+      groupPhaseRounds: 2,
+      groupsCount: 2,
+      totalTeams: 8,
+      advancingTeams: 4,
+    });
 
-    await page
-      .getByRole("spinbutton", { name: "Group phase rounds" })
-      .fill("2");
-    await page.getByRole("spinbutton", { name: "Groups count" }).fill("2");
-    await page.locator("#total_teams").fill("8");
-    await page
-      .getByRole("spinbutton", { name: "Total teams Advancing teams" })
-      .fill("4");
-    await page.getByRole("button", { name: "Plan tournament" }).click();
-
-    await expect(
-      page.getByRole("heading", { name: "Tournament Ladder" }),
-    ).toBeVisible();
-
+    // Overview
     await page.getByRole("link", { name: "Overview" }).click();
 
     // THEN
