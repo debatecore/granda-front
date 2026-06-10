@@ -65,7 +65,10 @@
     "footer_text": "Computer aided debate enrichment provided by <debatecore></debatecore>."
   },
   "overview": {
-    "title": "Overview"
+    "title": "Overview",
+    "welcome": "Welcome to {tournamentName}!",
+    "get_started_1": "To get started, go to",
+    "get_started_2": "to define the structure of your tournament, which will be generated automatically."
   },
   "metadata": {
     "title": "granda: Debate Tournament Planner",
