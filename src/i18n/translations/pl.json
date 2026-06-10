@@ -116,7 +116,23 @@
   "debate_details": {
     "unconfigured_debate": "Debata bez tezy",
     "proceed_to_debate": "Przejdź do debaty!",
-    "marshal_panel": "Panel marszałka"
+    "marshal_panel": "Panel marszałka",
+    "marshal_info": {
+      "title": "Marszałek",
+      "placeholder_text": "Informacja o marszałku przypisanym do debaty pojawi się tutaj."
+    },
+    "judges_info": {
+      "title": "Sędziowie",
+      "placeholder_text": "Informacje o panelu sędziowskim przypisanym do tej debaty pojawią się tutaj."
+    },
+    "time_and_place_info": {
+      "title": "Czas i miejsce",
+      "placeholder_text": "Informacje o czasie oraz miejscu debaty pojawią się tutaj."
+    },
+    "teams_info": {
+      "title": "Teams",
+      "placeholder_text": "Informacje o drużynach biorących udział w debacie pojawią się tutaj."
+    }
   },
   "create_tournament": {
     "title": "Utwórz turniej",
@@ -126,6 +142,7 @@
     "full_name_placeholder": "(Wymagane)"
   },
   "verdict_panel": {
+    "title": "Werdykt",
     "proposition": "Propozycja",
     "opposition": "Opozycja",
     "submit": "Wyślij",

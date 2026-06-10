@@ -185,7 +185,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
   }
 
   return (
-    <GenericComponent title="Verdict Panel">
+    <GenericComponent title={t("title")}>
       {isJudge ? (
         <div className="flex flex-col gap-4">
           <div className="w-full inline-flex justify-center items-center gap-5">
