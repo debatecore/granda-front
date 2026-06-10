@@ -71,24 +71,77 @@
     "title": "granda: Zaplanuj swój turniej debat",
     "description": "Komputerowo wspomagane planowanie turniejów debat."
   },
+  "generic": {
+    "error": "Błąd",
+    "error_loading_content": "Wystąpił błąd.",
+    "error_message": "Szczegóły: {message}"
+  },
   "ladder": {
     "title": "Drabinka turniejowa",
     "planning_title": "Planowanie turnieju",
     "planning_description": "Ustaw podstawowe parametry, aby wygenerować drabinkę turniejową.",
     "group_phase_rounds": "Liczba rund fazy grupowej",
     "groups_count": "Liczba grup",
+    "total_teams": "Łączna liczba drużyn",
     "advancing_teams": "Liczba awansujących drużyn",
     "submit": "Zaplanuj turniej",
     "submitting": "Planowanie...",
-    "placeholder_title": "Drabinka turniejowa",
-    "placeholder_description": "Placeholder drabinki turniejowej.",
     "no_phases_error": "Nie udało się pobrać faz turnieju.",
-    "validation_positive_integer": "Ta wartość musi być dodatnią liczbą całkowitą.",
+    "validation_positive_integer": "Parametry muszą być dodatnimi liczbami całkowitymi.",
     "validation_power_of_two": "Liczba awansujących drużyn musi być potęgą 2.",
+    "validation_groups_and_teams": "Liczba grup nie może być mniejsza niż łączna liczba drużyn.",
     "request_failed": "Nie udało się zaplanować turnieju.",
-    "success": "Planowanie turnieju zakończone powodzeniem."
+    "success": "Planowanie turnieju zakończone powodzeniem.",
+    "unconfigured_debate": "Nieskonfigurowana debata",
+    "advancing_teams_placeholder": "2, 4, 8, 16…",
+    "group_rounds_hint": "Określa, ile rund nastąpi po sobie w fazie grupowej.",
+    "groups_count_hint": "Podczas każdej rundy w każdej grupie odbywa się osobna debata. Ta liczba określa, ile debat odbędzie się jednocześnie. Musi być mniejsza niż łączna liczba drużyn.",
+    "total_teams_hint": "Łączna liczba drużyn biorących udział w turnieju.",
+    "advancing_teams_hint": "Liczba drużyn, które awansują do fazy pucharowej. Musi być potęgą 2.",
+    "hint_title": "Drabinka turniejowa",
+    "hint_content": "Każdy kafelek reprezentuje debatę. Możesz kliknąć na kafelek, by zobaczyć szczegóły debaty. Drabinka przedstawia przebieg turnieju."
+  },
+  "debates": {
+    "title": "Debaty"
+  },
+  "round_config": {
+    "title": "Konfiguracja rundy {name}",
+    "motion_title": "Teza",
+    "motion_description": "O czym będzie ta debata?",
+    "motion_placeholder": "(Wymagane)",
+    "infoslide_title": "Infoslajd",
+    "infoslide_description": "Dodatkowe informacje na temat tezy",
+    "apply": "Zastosuj"
   },
   "debate_details": {
-    "unconfigured_debate": "Debata bez tezy"
+    "unconfigured_debate": "Debata bez tezy",
+    "proceed_to_debate": "Przejdź do debaty!",
+    "marshal_panel": "Panel marszałka"
+  },
+  "create_tournament": {
+    "title": "Utwórz turniej",
+    "full_name": "Pełna nazwa",
+    "short_name": "Skrócona nazwa",
+    "close": "Zamknij",
+    "full_name_placeholder": "(Wymagane)"
+  },
+  "verdict_panel": {
+    "proposition": "Propozycja",
+    "opposition": "Opozycja",
+    "submit": "Wyślij",
+    "select_verdict_error": "Wybierz stronę przed wysłaniem werdyktu.",
+    "submit_error": "Nie udało się wysłać werdyktu",
+    "failed_submit": "Nie udało się utworzyć werdyktu",
+    "failed_update": "Nie udało się zaktualizować werdyktu",
+    "no_existing_verdict": "Aktualizowany werdykt nie istnieje",
+    "failed_load_permissions": "Nie udało się wczytać uprawnień",
+    "failed_load_verdicts": "Nie udało się wczytać werdyktów",
+    "load_verdicts_error": "Nie udało się wczytać informacji o werdykcie",
+    "panel_error_title": "Błąd w panelu werdyktu",
+    "majority": {
+      "proposition": "Wygrała drużyna <highlight>Propozycji</highlight>!",
+      "opposition": "Wygrała drużyna <highlight>Opozycji</highlight>!",
+      "no_verdict": "Jeszcze <highlight>nie opublikowano werdyktu</highlight>"
+    }
   }
 }
