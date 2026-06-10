@@ -50,9 +50,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
       return null;
     }
 
-    if (counts.proposition > counts.opposition) return "Proposition";
-    if (counts.opposition > counts.proposition) return "Opposition";
-    return "Tie";
+    if (counts.proposition > counts.opposition) return "proposition";
+    if (counts.opposition > counts.proposition) return "opposition";
+    return "no_verdict";
   }, [verdicts]);
 
   useEffect(() => {
@@ -260,66 +260,34 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
 
           <div
             className={`w-full min-h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex flex-col justify-center items-center overflow-hidden ${
-              majorityVerdict === "Proposition"
+              majorityVerdict === "proposition"
                 ? "bg-gradient-to-r from-purple-500/15 via-transparent to-purple-500/15"
-                : majorityVerdict === "Opposition"
+                : majorityVerdict === "opposition"
                   ? "bg-gradient-to-r from-pink-400/15 via-transparent to-pink-400/15"
                   : ""
             }`}
           >
             <div className="w-full opacity-50 text-center flex justify-center items-center flex-wrap px-4 py-6">
-              {majorityVerdict === "Proposition" ? (
-                <>
-                  <span className="text-white text-lg font-medium leading-[26px]">
-                    {t("majority.proposition.prefix")}
-                  </span>
-
-                  <span className="text-white text-lg font-bold leading-[26px] mx-1.5">
-                    {t("majority.proposition.highlight")}
-                  </span>
-
-                  <span className="text-white text-lg font-medium leading-[26px]">
-                    {t("majority.proposition.suffix")}
-                  </span>
-                </>
-              ) : majorityVerdict === "Opposition" ? (
-                <>
-                  <span className="text-white text-lg font-medium leading-[26px]">
-                    {t("majority.opposition.prefix")}
-                  </span>
-
-                  <span className="text-white text-lg font-bold leading-[26px] mx-1.5">
-                    {t("majority.opposition.highlight")}
-                  </span>
-
-                  <span className="text-white text-lg font-medium leading-[26px]">
-                    {t("majority.opposition.suffix")}
-                  </span>
-                </>
-              ) : (
-                <>
-                  <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    {t("majority.no_verdict.prefix")}
-                  </span>
-
-                  <span className="text-white/75 text-lg font-bold leading-[26px] mx-1.5">
-                    {t("majority.no_verdict.highlight")}
-                  </span>
-
-                  <span className="text-white/75 text-lg font-medium leading-[26px]">
-                    {t("majority.no_verdict.suffix")}
-                  </span>
-                </>
-              )}
+              <>
+                <span className="text-white text-lg font-medium leading-[26px]">
+                  {t.rich(`majority.${majorityVerdict ?? "no_verdict"}`, {
+                    highlight: (chunks) => (
+                      <span className="text-white text-lg font-bold leading-[26px]">
+                        {chunks}
+                      </span>
+                    ),
+                  })}
+                </span>
+              </>
             </div>
           </div>
         </div>
       ) : (
         <div
           className={`w-full min-h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex justify-center items-center overflow-hidden ${
-            majorityVerdict === "Proposition"
+            majorityVerdict === "proposition"
               ? "bg-gradient-to-r from-purple-500/15 via-transparent to-purple-500/15"
-              : majorityVerdict === "Opposition"
+              : majorityVerdict === "opposition"
                 ? "bg-gradient-to-r from-pink-400/15 via-transparent to-pink-400/15"
                 : ""
           }`}
