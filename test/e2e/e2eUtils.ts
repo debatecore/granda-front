@@ -214,7 +214,7 @@ const createTournament = async (page: Page) => {
   await page.waitForURL(/\/en\/t\/[^/]+/);
   await page.getByRole("link", { name: "Overview" }).click();
 
-  await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Overview" })).toBeVisible();
 };
 
 export class TestContainers {
