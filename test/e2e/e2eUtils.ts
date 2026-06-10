@@ -229,7 +229,7 @@ export class TestContainers {
       .withNetworkAliases("postgres")
       .start();
     const connectionString = `postgresql://${db.getUsername()}:${db.getPassword()}@postgres:5432/${db.getDatabase()}`;
-    const server = await new GenericContainer("tau:latest")
+    const server = await new GenericContainer("ghcr.io/debatecore/tau:latest")
       .withNetwork(network)
       .withExposedPorts(DEFAULT_BACKEND_PORT)
       .withWaitStrategy(Wait.forHttp("/health", DEFAULT_BACKEND_PORT))
