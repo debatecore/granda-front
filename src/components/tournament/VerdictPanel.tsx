@@ -24,7 +24,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
   tournamentId,
   debateId,
 }) => {
-  const [isJudge, setIsJudge] = useState<boolean | null>(null);
+  const [canSubmitVerdict, setCanSubmitVerdit] = useState<boolean | null>(null);
   const [verdicts, setVerdicts] = useState<VerdictRecord[]>([]);
   const [selectedVote, setSelectedVote] = useState<VerdictValue | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -74,7 +74,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
       }),
     ])
       .then(([permissionData, verdictsData]) => {
-        setIsJudge(Boolean(permissionData));
+        setCanSubmitVerdit(Boolean(permissionData));
         const loadedVerdicts: VerdictRecord[] = Array.isArray(verdictsData)
           ? verdictsData
           : [];
@@ -184,9 +184,37 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
     );
   }
 
+  const VerdictInformation = () => {
+    return (
+      <div
+        className={`w-full min-h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex flex-col justify-center items-center overflow-hidden ${
+          majorityVerdict === "proposition"
+            ? "bg-gradient-to-r from-purple-500/15 via-transparent to-purple-500/15"
+            : majorityVerdict === "opposition"
+              ? "bg-gradient-to-r from-pink-400/15 via-transparent to-pink-400/15"
+              : ""
+        }`}
+      >
+        <div className="w-full opacity-50 text-center flex justify-center items-center flex-wrap px-4 py-6">
+          <>
+            <span className="text-white text-lg font-medium leading-[26px]">
+              {t.rich(`majority.${majorityVerdict ?? "no_verdict"}`, {
+                highlight: (chunks) => (
+                  <span className="text-white text-lg font-bold leading-[26px]">
+                    {chunks}
+                  </span>
+                ),
+              })}
+            </span>
+          </>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <GenericComponent title={t("title")}>
-      {isJudge ? (
+      {canSubmitVerdict ? (
         <div className="flex flex-col gap-4">
           <div className="w-full inline-flex justify-center items-center gap-5">
             <button
@@ -257,41 +285,10 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
               {t("submit")}
             </div>
           </button>
-
-          <div
-            className={`w-full min-h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex flex-col justify-center items-center overflow-hidden ${
-              majorityVerdict === "proposition"
-                ? "bg-gradient-to-r from-purple-500/15 via-transparent to-purple-500/15"
-                : majorityVerdict === "opposition"
-                  ? "bg-gradient-to-r from-pink-400/15 via-transparent to-pink-400/15"
-                  : ""
-            }`}
-          >
-            <div className="w-full opacity-50 text-center flex justify-center items-center flex-wrap px-4 py-6">
-              <>
-                <span className="text-white text-lg font-medium leading-[26px]">
-                  {t.rich(`majority.${majorityVerdict ?? "no_verdict"}`, {
-                    highlight: (chunks) => (
-                      <span className="text-white text-lg font-bold leading-[26px]">
-                        {chunks}
-                      </span>
-                    ),
-                  })}
-                </span>
-              </>
-            </div>
-          </div>
+          <VerdictInformation />
         </div>
       ) : (
-        <div
-          className={`w-full min-h-[93px] px-[5px] rounded outline outline-[0.50px] outline-offset-[-0.50px] outline-[#8a8a8a]/40 flex justify-center items-center overflow-hidden ${
-            majorityVerdict === "proposition"
-              ? "bg-gradient-to-r from-purple-500/15 via-transparent to-purple-500/15"
-              : majorityVerdict === "opposition"
-                ? "bg-gradient-to-r from-pink-400/15 via-transparent to-pink-400/15"
-                : ""
-          }`}
-        ></div>
+        <VerdictInformation />
       )}
     </GenericComponent>
   );
