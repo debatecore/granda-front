@@ -29,6 +29,9 @@ testInTournamentAsAdmin(
     ).toBeVisible();
 
     // WHEN
+    await page.getByRole("link", { name: "Tournament Ladder" }).nth(1).click();
+    await page.waitForURL(/ladder/);
+
     await planTournament({
       page,
       groupPhaseRounds: 2,
