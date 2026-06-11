@@ -4,17 +4,16 @@ import { testInTournamentAsAdmin, planTournament } from "./e2eUtils";
 testInTournamentAsAdmin(
   "should present the welcome screen when the tournament plan does not exist",
   async ({ page }) => {
-    // GIVEN - Initial welcome view
+    // GIVEN
     await expect(
       page.getByRole("heading", { name: /Welcome to/i }),
     ).toBeVisible();
 
-    // WHEN - Click the Tournament Ladder link in the main welcome text (the 2nd link)
-    // 💡 .nth(1) をつけることで、サイドバーではなく中央のリンクを狙い撃ちします
+    // WHEN
     await page.getByRole("link", { name: "Tournament Ladder" }).nth(1).click();
     await page.waitForURL(/ladder/);
 
-    // THEN - The tournament creation/planning form should be visible
+    // THEN
     await expect(
       page.getByRole("heading", { name: "Tournament Planning" }),
     ).toBeVisible();
@@ -29,7 +28,7 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: /Welcome to/i }),
     ).toBeVisible();
 
-    // WHEN - Use the existing utility function to plan the tournament
+    // WHEN
     await planTournament({
       page,
       groupPhaseRounds: 2,
@@ -38,10 +37,9 @@ testInTournamentAsAdmin(
       advancingTeams: 4,
     });
 
-    // Go back to the Overview page
     await page.getByRole("link", { name: "Overview" }).click();
 
-    // THEN - Ensure all 4 informational panels are displayed
+    // THEN
     await expect(
       page.getByText("Team leaderboard (to be implemented)"),
     ).toBeVisible();

@@ -75,32 +75,23 @@ export default async function TournamentRootPage({
         <h1 className="text-2xl font-logo mb-6">{t("title")}</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="rounded border border-stone-700 h-64 bg-stone-700/25 flex flex-col gap-4 p-4">
-            <p className="font-logo">Team leaderboard (to be implemented)</p>
-            <p className="text-sm text-stone-400">
-              The leaderboard will be presented here.
-            </p>
+            <p className="font-logo">{t("leaderboard_placeholder")}</p>
+            <p className="text-sm text-stone-400">{t("leaderboard_desc")}</p>
           </div>
 
           <div className="rounded border border-stone-700 h-64 bg-stone-700/25 flex flex-col gap-4 p-4">
-            <p className="font-logo">Upcoming debates (to be implemented)</p>
-            <p className="text-sm text-stone-400">
-              Information about debates starting soon will be presented here.
-            </p>
+            <p className="font-logo">{t("debates_placeholder")}</p>
+            <p className="text-sm text-stone-400">{t("debates_desc")}</p>
           </div>
 
           <div className="rounded border border-stone-700 h-64 bg-stone-700/25 flex flex-col gap-4 p-4">
-            <p className="font-logo">Event log (to be implemented)</p>
-            <p className="text-sm text-stone-400">
-              Most recent actions performed by the app users will be reported
-              here.
-            </p>
+            <p className="font-logo">{t("event_log_placeholder")}</p>
+            <p className="text-sm text-stone-400">{t("event_log_desc")}</p>
           </div>
 
           <div className="rounded border border-stone-700 h-64 bg-stone-700/25 flex flex-col gap-4 p-4">
-            <p className="font-logo">Tournament rules (to be implemented)</p>
-            <p className="text-sm text-stone-400">
-              Rules of the tournament will be presented here.
-            </p>
+            <p className="font-logo">{t("rules_placeholder")}</p>
+            <p className="text-sm text-stone-400">{t("rules_desc")}</p>
           </div>
         </div>
       </div>
