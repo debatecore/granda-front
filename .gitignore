@@ -50,3 +50,5 @@ node_modules/
 
 # eslint
 .eslintcache
+scripts/i18ndiffer/.pytest_cache/
+scripts/i18ndiffer/src/__pycache__/

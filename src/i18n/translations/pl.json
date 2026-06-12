@@ -65,7 +65,17 @@
     "footer_text": "Komputerowe wspomaganie debat dostarcza <debatecore></debatecore>."
   },
   "overview": {
-    "title": "Panel główny"
+    "title": "Panel główny",
+    "welcome": "Witaj w turnieju {tournamentName}!",
+    "get_started": "Aby rozpocząć, przejdź do <ladderLink>Drabinki Turniejowej</ladderLink>, aby zaplanować przebieg turnieju.",
+    "leaderboard_placeholder": "Wyniki drużyn (już wkrótce!)",
+    "leaderboard_desc": "Tutaj znajdzie się tabela z wynikami drużyn biorących udział w turnieju.",
+    "debates_placeholder": "Nadchodzące debaty (już wkrótce!)",
+    "debates_desc": "Tutaj znajdą się informacje o najbliższych zaplanowanych debatach.",
+    "event_log_placeholder": "Dziennik zdarzeń (już wkrótce!)",
+    "event_log_desc": "Tutaj zapisywane będą działania wykonywane przez użytkowników biorących udział w turnieju.",
+    "rules_placeholder": "Zasady turnieju (już wkrótce!)",
+    "rules_desc": "Tutaj pojawią się skrócone zasady turnieju."
   },
   "metadata": {
     "title": "granda: Zaplanuj swój turniej debat",
