@@ -2,8 +2,13 @@ services:
   frontend-local:
     build:
       context: .
+      args:
+        BACKEND_URL: ${BACKEND_URL:-http://localhost:2023}
+        FRONTEND_PORT: ${FRONTEND_PORT:-3000}
+    env_file:
+      - .env
     ports:
-      - ${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}
+      - "${FRONTEND_PORT:-3000}:${FRONTEND_PORT:-3000}"
     networks:
       - dbnetwork
     profiles:
@@ -11,15 +16,19 @@ services:
     environment:
       - FRONTEND_PORT=${FRONTEND_PORT:-3000}
       - BACKEND_PORT=${BACKEND_PORT:-2023}
-      - INTERNAL_BACKEND_SOCKET=http://server-prod:${BACKEND_PORT}
-      - BACKEND_SOCKET=http://${BACKEND_SOCKET:-http://localhost:2023}
+      - INTERNAL_BACKEND_URL=http://${BACKEND_NAME}:${BACKEND_PORT}
+      - BACKEND_URL=${BACKEND_URL:-http://localhost:2023}
+      - PORT=${FRONTEND_PORT:-3000}
     depends_on:
-      server-prod:
+      tau-prod:
         condition: service_started
+
   tau-prod:
+    env_file:
+      - .env
     image: ghcr.io/debatecore/tau:latest
     ports:
-      - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
+      - "${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}"
     networks:
       - dbnetwork
     profiles:
@@ -32,6 +41,7 @@ services:
     depends_on:
       db-prod:
         condition: service_healthy
+
   db-prod:
     image: postgres:17.2
     restart: always
@@ -54,11 +64,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
   tau-dev:
     image: ghcr.io/debatecore/tau:latest
     pull_policy: always
     ports:
-      - ${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}
+      - "${BACKEND_PORT:-2023}:${BACKEND_PORT:-2023}"
     networks:
       - dbnetwork
     profiles:
@@ -71,6 +82,7 @@ services:
     depends_on:
       db-dev:
         condition: service_healthy
+
   db-dev:
     image: postgres:17.2
     user: postgres
@@ -84,7 +96,7 @@ services:
       - dbrootpassword
     environment:
       - POSTGRES_PASSWORD_FILE=/run/secrets/dbrootpassword
-      - FRONTEND_ORIGIN=http://localhost:3000
+      - FRONTEND_ORIGIN=http://localhost:${FRONTEND_PORT}
     volumes:
       - dbdevdata:/var/lib/postgresql/data
       - ./dbinit-dev.sh:/docker-entrypoint-initdb.d/dbinit-dev.sh

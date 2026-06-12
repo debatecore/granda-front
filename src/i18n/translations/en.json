@@ -65,7 +65,17 @@
     "footer_text": "Computer aided debate enrichment provided by <debatecore></debatecore>."
   },
   "overview": {
-    "title": "Overview"
+    "title": "Overview",
+    "welcome": "Welcome to {tournamentName}!",
+    "get_started": "To get started, go to <ladderLink>Tournament Ladder</ladderLink> to define the structure of your tournament, which will be generated automatically.",
+    "leaderboard_placeholder": "Team leaderboard (to be implemented)",
+    "leaderboard_desc": "The leaderboard will be presented here.",
+    "debates_placeholder": "Upcoming debates (to be implemented)",
+    "debates_desc": "Information about debates starting soon will be presented here.",
+    "event_log_placeholder": "Event log (to be implemented)",
+    "event_log_desc": "Most recent actions performed by the app users will be reported here.",
+    "rules_placeholder": "Tournament rules (to be implemented)",
+    "rules_desc": "Rules of the tournament will be presented here."
   },
   "metadata": {
     "title": "granda: Debate Tournament Planner",
