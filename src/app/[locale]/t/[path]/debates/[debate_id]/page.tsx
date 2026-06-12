@@ -121,7 +121,6 @@ export default async function DebateDetailsPage({
           {" "}
           {motion}{" "}
         </h1>
-        <div className="size-[26px] opacity-50 italic">ret</div>
       </header>
 
       <div className="py-2 mb-6">
