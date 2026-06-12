@@ -87,6 +87,10 @@ export function LadderView({
               onClose={() => setIsRoundConfigOpen(false)}
               tournamentId={tournamentId}
               round={configuredRound}
+              phase={phases?.find((p) => p.id == configuredRound.phase_id)}
+              debates={
+                debates?.filter((d) => d.round_id == configuredRound.id) || []
+              }
               motion={motions?.find(
                 (motion) => configuredRound.motion_id == motion.id,
               )}

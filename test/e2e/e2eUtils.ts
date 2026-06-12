@@ -332,7 +332,7 @@ export async function planTournament({
   totalTeams: number;
   advancingTeams: number;
 }) {
-  await page.getByRole("link", { name: "Tournament Ladder" }).click();
+  await page.getByRole("link", { name: "Tournament Ladder" }).first().click();
   await page.waitForURL(/ladder/);
   await page
     .getByRole("spinbutton", { name: "Group phase rounds" })

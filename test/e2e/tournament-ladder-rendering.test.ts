@@ -24,8 +24,8 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
 
-    const roundLabel = page.getByText(/^round.?\d/i);
-    expect(await roundLabel.count()).toBe(7);
+    const groupRoundLabel = page.getByText(/^Round \d+$/i);
+    expect(await groupRoundLabel.count()).toBe(3);
   },
 );
 
