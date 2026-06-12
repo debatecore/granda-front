@@ -112,12 +112,20 @@
     "advancing_teams_hint": "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2.",
     "hint_title": "Tournament Ladder",
     "hint_content": "Each box represents a debate. You can click on a specific box to see the debate details. The ladder shows the structure and flow of the tournament, including the rounds and how debates are organised."
+    ,
+    "round": "Round {n}",
+    "finals": {
+      "final": "Finale",
+      "semi_final": "Semi-finals",
+      "quarter_final": "Quarter-finals",
+      "nth_final": "1/{n}-finals"
+    }
   },
   "debates": {
     "title": "Debates"
   },
   "round_config": {
-    "title": "Round {name} configuration",
+    "title": "{name} configuration",
     "motion_title": "Motion",
     "motion_description": "What should this round's topic be?",
     "motion_placeholder": "(Required)",
