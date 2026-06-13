@@ -15,7 +15,6 @@ export function MarshalPanel({ motion }: MarshalPanelProps) {
   return (
     <GenericComponent
       title={t("marshal_panel")}
-      showActions
       className="w-full max-w-[760px]"
     >
       <a

@@ -50,3 +50,5 @@ node_modules/
 
 # eslint
 .eslintcache
+.pytest_cache/
+__pycache__/
