@@ -24,7 +24,9 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
   tournamentId,
   debateId,
 }) => {
-  const [canSubmitVerdict, setCanSubmitVerdit] = useState<boolean | null>(null);
+  const [canSubmitVerdict, setCanSubmitVerdict] = useState<boolean | null>(
+    null,
+  );
   const [verdicts, setVerdicts] = useState<VerdictRecord[]>([]);
   const [selectedVote, setSelectedVote] = useState<VerdictValue | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -74,7 +76,7 @@ const VerdictPanel: React.FC<VerdictPanelProps> = ({
       }),
     ])
       .then(([permissionData, verdictsData]) => {
-        setCanSubmitVerdit(Boolean(permissionData));
+        setCanSubmitVerdict(Boolean(permissionData));
         const loadedVerdicts: VerdictRecord[] = Array.isArray(verdictsData)
           ? verdictsData
           : [];
