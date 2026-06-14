@@ -4,6 +4,8 @@ import { LadderDebateNode } from "./LadderDebateNode";
 import { Phase } from "@/types/Phase";
 import { Motion } from "@/types/Motion";
 import { useTranslations } from "next-intl";
+import { GenericButton } from "@/components/ui/GenericButton";
+import { getRoundLabel } from "@/lib/utils";
 
 export function LadderRoundRow({
   onOpenConfig,
@@ -36,12 +38,24 @@ export function LadderRoundRow({
 
   return (
     <div className="w-3xl grid-cols-2 mb-2">
-      <button
-        className="hover:underline hover:cursor-pointer"
-        onClick={onOpenConfig}
+      <GenericButton
+        smol
+        className="w-fit hover:underline cursor-pointer"
+        onClick={() => {
+          onOpenConfig();
+
+          setTimeout(() => {
+            document
+              .querySelector("[data-round-config-popup]")
+              ?.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+              });
+          }, 50);
+        }}
       >
-        {round.name}
-      </button>
+        {getRoundLabel(round, phase, debates, t)}
+      </GenericButton>
       <div className="flex justify-center gap-10">
         {debates.map((debate) => (
           <LadderDebateNode

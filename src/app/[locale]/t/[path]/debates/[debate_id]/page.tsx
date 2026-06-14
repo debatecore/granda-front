@@ -120,7 +120,6 @@ export default async function DebateDetailsPage({
         <h1 className="text-2xl font-semibold opacity-75 max-w-[686px]">
           {motion}
         </h1>
-        <div className="size-[26px] opacity-50 italic">ret</div>
       </header>
 
       <div className="py-2 mb-6"></div>

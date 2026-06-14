@@ -5,7 +5,9 @@ testInTournamentAsAdmin(
   "settings shortcut redirects to settings page and is removed from account dropdown",
   async ({ page }) => {
     // GIVEN
-    await expect(page.getByRole("heading", { name: "Overview" })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Welcome to" }),
+    ).toBeVisible();
 
     const settingsShortcut = page.getByRole("button", { name: "Settings" });
 

@@ -24,8 +24,8 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
 
-    const roundLabel = page.getByText(/^round.?\d/i);
-    expect(await roundLabel.count()).toBe(7);
+    const groupRoundLabel = page.getByText(/^Round \d+$/i);
+    expect(await groupRoundLabel.count()).toBe(3);
   },
 );
 
@@ -60,7 +60,7 @@ testInTournamentAsAdmin(
       page.getByText("You can click on a specific box"),
     ).toBeVisible();
     await expect(
-      page.getByText("The ladder visualizes the flow of the tournament"),
+      page.getByText("The ladder shows the structure"),
     ).toBeVisible();
 
     // WHEN
@@ -107,8 +107,8 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
 
-    const configButton = page.getByText("round_1").first();
-    const configHeading = page.getByText("Round round_1 configuration");
+    const configButton = page.getByText("Round 1");
+    const configHeading = page.getByText("Round 1 configuration");
 
     await configButton.click();
     await expect(configHeading).toBeVisible();
@@ -162,7 +162,7 @@ testInTournamentAsAdmin(
   "tournament planning form should contain informative placeholders",
   async ({ page }) => {
     // GIVEN
-    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.getByRole("link", { name: "Tournament Ladder" }).first().click();
     await page.waitForURL(/ladder/);
 
     // WHEN
@@ -179,7 +179,7 @@ testInTournamentAsAdmin(
   "tournament planning form should contain clickable hint icons",
   async ({ page }) => {
     // GIVEN
-    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.getByRole("link", { name: "Tournament Ladder" }).first().click();
     await page.waitForURL(/ladder/);
 
     // WHEN
@@ -220,7 +220,7 @@ testInTournamentAsAdmin(
   "advancing teams input should increment by 2",
   async ({ page }) => {
     // GIVEN
-    await page.getByRole("link", { name: "Tournament Ladder" }).click();
+    await page.getByRole("link", { name: "Tournament Ladder" }).first().click();
     await page.waitForURL(/ladder/);
     const advancingTeamsInput = page.getByPlaceholder("2, 4, 8, 16…");
 
@@ -250,8 +250,8 @@ testInTournamentAsAdmin(
       page.getByRole("heading", { name: "Tournament Ladder" }),
     ).toBeVisible();
 
-    const configButton = page.getByText("round_1").first();
-    const configHeading = page.getByText("Round round_1 configuration");
+    const configButton = page.getByText("Round 1");
+    const configHeading = page.getByText("Round 1 configuration");
 
     await configButton.click();
     await expect(configHeading).toBeVisible();

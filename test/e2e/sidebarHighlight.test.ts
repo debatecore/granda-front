@@ -6,9 +6,9 @@ testInTournamentAsAdmin(
   async ({ page }) => {
     // GIVEN
     const overviewSidebarItem = page.getByRole("link", { name: "Overview" });
-    const tournamentSidebarItem = page.getByRole("link", {
-      name: "Tournament Ladder",
-    });
+    const tournamentSidebarItem = page
+      .getByRole("link", { name: "Tournament Ladder" })
+      .first();
     const debatesSidebarItem = page.getByRole("link", { name: "Debates" });
 
     await expect(overviewSidebarItem).toHaveClass(/border-stone-600/);

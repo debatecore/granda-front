@@ -45,7 +45,7 @@ const GenericButton = (
         props.hidden
           ? "hidden"
           : `
-        cursor-pointer p-1 text-center block w-full rounded px-2 border
+        cursor-pointer p-1 text-center block rounded px-2 border
         ${!props.smol ? "px-12 w-full" : ""}
         ${!props.square ? "rounded-lg" : "rounded"}
         disabled:opacity-50 disabled:cursor-not-allowed

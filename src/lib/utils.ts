@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { Motion } from "@/types/Motion";
 import { Round } from "@/types/Round";
+import { Debate } from "@/types/Debate";
+import { Phase } from "@/types/Phase";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -76,4 +78,42 @@ export async function setRoundMotion(
   }
 
   return response.json();
+}
+
+type Translator = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
+
+export function getRoundLabel(
+  round: Round,
+  phase: Phase,
+  debates: Debate[],
+  t: Translator,
+): string {
+  if (phase.is_finals) {
+    const matches = debates.length;
+
+    if (matches === 1) return t("finals.final");
+    if (matches === 2) return t("finals.semi_final");
+    if (matches === 4) return t("finals.quarter_final");
+
+    if (matches > 0 && (matches & (matches - 1)) === 0) {
+      return t("finals.nth_final", { n: matches * 2 });
+    }
+
+    return round.name;
+  }
+
+  const matchRoundName = round.name.match(/^round_(\d+)$/i);
+
+  if (matchRoundName) {
+    const roundNumber = Number(matchRoundName[1]);
+
+    if (!Number.isNaN(roundNumber)) {
+      return t("round", { n: roundNumber });
+    }
+  }
+
+  return round.name;
 }

@@ -6,7 +6,6 @@ import {
   LucideFileClock,
   LucideFileImage,
   LucideLayoutDashboard,
-  LucidePaintBucket,
   LucideScale,
   LucideScrollText,
   LucideSettings,
@@ -121,17 +120,6 @@ const DashSide = ({ tournament_path }: { tournament_path: string }) => {
           name: t("sidebar.tournament_data.event_branding"),
           href: `/t/${tournament_path}/event-branding`,
           icon: LucideFileImage,
-          disabled: true,
-        },
-      ],
-    },
-    {
-      catname: t("sidebar.shareable.catname"),
-      links: [
-        {
-          name: t("sidebar.shareable.image_generation"),
-          href: `/t/${tournament_path}/image-generation`,
-          icon: LucidePaintBucket,
           disabled: true,
         },
       ],
