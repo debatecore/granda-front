@@ -60,7 +60,7 @@ testInTournamentAsAdmin(
       page.getByText("You can click on a specific box"),
     ).toBeVisible();
     await expect(
-      page.getByText("The ladder shows the structure and flow"),
+      page.getByText("The ladder visualizes the flow of the tournament"),
     ).toBeVisible();
 
     // WHEN

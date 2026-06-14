@@ -118,40 +118,28 @@ export default async function DebateDetailsPage({
     <div className="mx-auto max-w-[1252px] min-h-[746px] bg-[#070707] p-6 text-white overflow-hidden">
       <header className="flex justify-between items-center py-4">
         <h1 className="text-2xl font-semibold opacity-75 max-w-[686px]">
-          {" "}
-          {motion}{" "}
+          {motion}
         </h1>
       </header>
 
-      <div className="py-2 mb-6">
-        <div className="text-[22px] font-semibold text-white/50 opacity-75">
-          {" "}
-          {/*{phaseName} | {roundName}{" "}*/}
-        </div>
-      </div>
+      <div className="py-2 mb-6"></div>
 
       <div className="grid grid-cols-2 gap-[20px]">
         <div className="flex flex-col items-center gap-[20px]">
-          <GenericComponent title="Marshal">
-            <div>
-              {" "}
-              Information about assigned Marshal will be presented here.{" "}
-            </div>
+          <GenericComponent title={t("time_and_place_info.title")}>
+            <div>{t("time_and_place_info.placeholder_text")}</div>
           </GenericComponent>
 
-          <GenericComponent title="Judges">
-            <div>
-              {" "}
-              Information about assigned Judges will be presented here.{" "}
-            </div>
+          <GenericComponent title={t("teams_info.title")}>
+            <div>{t("teams_info.placeholder_text")}</div>
           </GenericComponent>
 
-          <GenericComponent title="Teams">
-            <div>
-              {" "}
-              Information about time and place of the debate will be presented
-              here.{" "}
-            </div>
+          <GenericComponent title={t("marshal_info.title")}>
+            <div>{t("marshal_info.placeholder_text")}</div>
+          </GenericComponent>
+
+          <GenericComponent title={t("judges_info.title")}>
+            <div>{t("judges_info.placeholder_text")}</div>
           </GenericComponent>
         </div>
 

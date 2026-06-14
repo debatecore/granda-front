@@ -96,8 +96,6 @@
     "advancing_teams": "Advancing teams",
     "submit": "Plan tournament",
     "submitting": "Planning...",
-    "placeholder_title": "Tournament ladder",
-    "placeholder_description": "Tournament ladder placeholder.",
     "no_phases_error": "Failed to load tournament phases.",
     "validation_positive_integer": "This value must be a positive integer.",
     "validation_power_of_two": "Advancing teams must be a power of 2.",
@@ -135,7 +133,23 @@
   "debate_details": {
     "unconfigured_debate": "Debate without a motion",
     "proceed_to_debate": "Proceed to Debate!",
-    "marshal_panel": "Marshal Panel"
+    "marshal_panel": "Marshal Panel",
+    "marshal_info": {
+      "title": "Marshal",
+      "placeholder_text": "Information about assigned Marshal will be presented here."
+    },
+    "judges_info": {
+      "title": "Judges",
+      "placeholder_text": "Information about assigned Judges will be presented here."
+    },
+    "time_and_place_info": {
+      "title": "Time and place",
+      "placeholder_text": "Information about time and place of the debate will be presented here"
+    },
+    "teams_info": {
+      "title": "Teams",
+      "placeholder_text": "Information about competing teams will be presented here"
+    }
   },
   "create_tournament": {
     "title": "Create Tournament",
@@ -145,6 +159,7 @@
     "full_name_placeholder": "(Required)"
   },
   "verdict_panel": {
+    "title": "Verdict",
     "proposition": "Proposition",
     "opposition": "Opposition",
     "submit": "Submit",
@@ -158,21 +173,9 @@
     "load_verdicts_error": "Unable to load verdict information",
     "panel_error_title": "Verdict panel got an error, oops:",
     "majority": {
-      "proposition": {
-        "prefix": "The",
-        "highlight": "Proposition",
-        "suffix": "is the winning team!"
-      },
-      "opposition": {
-        "prefix": "The",
-        "highlight": "Opposition",
-        "suffix": "is the winning team!"
-      },
-      "no_verdict": {
-        "prefix": "There is",
-        "highlight": "no verdict",
-        "suffix": "yet."
-      }
+      "proposition": "The <highlight>Proposition</highlight> is the winning team!",
+      "opposition": "The <highlight>Opposition</highlight> is the winning team!",
+      "no_verdict": "There is <highlight>no verdict</highlight> available yet."
     }
   }
 }

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   LucideBetweenHorizontalStart,
   LucideCastle,
@@ -15,6 +17,7 @@ import {
 import { ComponentType } from "react";
 import { Link } from "@/i18n/navigation";
 import "@/i18n/language-utils";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { DebatecoreLogo } from "@/components/debatecore/DebatecoreLogo";
 import { GrandaLogo } from "@/components/debatecore/GrandaLogo";
@@ -40,14 +43,22 @@ type DashSidebarLinks = {
   links: DashSideLink[];
 }[];
 
-const DashSide = ({
-  tournament_path,
-  path_highlight,
-}: {
-  tournament_path: string;
-  path_highlight?: string;
-}) => {
+const DashSide = ({ tournament_path }: { tournament_path: string }) => {
   const t = useTranslations("dash");
+  const currentPathname = usePathname() ?? "";
+
+  const matchPaths = (str: string, target: string) => {
+    const getParam = (p: string) => {
+      const parts = p.split(
+        /\/t\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/,
+      );
+      if (parts.length < 2) return undefined;
+      return parts[1].replace(/^\/|\/$/g, "").split("/")[0];
+    };
+
+    const s = getParam(str);
+    return s !== undefined && s === getParam(target);
+  };
 
   const links: DashSidebarLinks = [
     {
@@ -163,13 +174,15 @@ const DashSide = ({
 
               {category.links.map((link) => {
                 const Icon = link.icon;
-                const isHighlighted = link.name === path_highlight;
+                const isHighlighted = matchPaths(currentPathname, link.href);
 
                 return (
                   <Link
                     key={link.name}
-                    className={`flex flex-row items-center gap-2 rounded border border-transparent px-2 py-1 text-stone-200 hover:border-stone-700 hover:bg-stone-700/25 focus:border-stone-700 focus:bg-stone-700/25 ${
-                      isHighlighted ? "bg-stone-700/15" : ""
+                    className={`flex flex-row items-center gap-2 rounded border px-2 py-1.5 text-stone-200 hover:border-stone-700 hover:bg-stone-700/25 ${
+                      isHighlighted
+                        ? "bg-stone-700/25 border-stone-600"
+                        : "border-transparent"
                     } ${link.disabled ? "opacity-35" : ""}`}
                     href={link.disabled ? "" : link.href}
                     aria-disabled={link.disabled === true}
