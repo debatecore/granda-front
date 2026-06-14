@@ -113,24 +113,6 @@ const DashSide = ({
         },
       ],
     },
-    // i commented this out because if there's enough links on the sidebar that you
-    // have to scroll to see them all, it will then look visually broken when you
-    // scroll to the bottom.
-    // and commenting this out removes the need to scroll to see all the links,
-    // at least for my display and scaling (1080p), which silently hides this visual bug.
-    // should maybe get this fixed some day, though it's super low priority xd
-    //
-    // {
-    //   catname: t("sidebar.shareable.catname"),
-    //   links: [
-    //     {
-    //       name: t("sidebar.shareable.image_generation"),
-    //       href: `/t/${tournament_path}/image-generation`,
-    //       icon: LucidePaintBucket,
-    //       disabled: true,
-    //     },
-    //   ],
-    // },
     {
       catname: t("sidebar.organisational.catname"),
       links: [

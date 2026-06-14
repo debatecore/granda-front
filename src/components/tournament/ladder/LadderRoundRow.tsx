@@ -5,6 +5,7 @@ import { Phase } from "@/types/Phase";
 import { Motion } from "@/types/Motion";
 import { useTranslations } from "next-intl";
 import { GenericButton } from "@/components/ui/GenericButton";
+import { getRoundLabel } from "@/lib/utils";
 
 export function LadderRoundRow({
   onOpenConfig,
@@ -27,30 +28,6 @@ export function LadderRoundRow({
       (motion) => motion.id == debate.motion_id,
     )?.motion;
     return debateMotion || t("unconfigured_debate");
-  };
-
-  const getRoundLabel = (round: Round, phase: Phase, debates: Debate[]) => {
-    // finals: determine label based on number of debates
-    if (phase.is_finals) {
-      const matches = debates.length;
-      if (matches === 1) return t("finals.final");
-      if (matches === 2) return t("finals.semi_final");
-      if (matches === 4) return t("finals.quarter_final");
-      if (matches > 0 && (matches & (matches - 1)) === 0) {
-        const n = matches * 2;
-        return t("finals.nth_final", { n });
-      }
-      return round.name;
-    }
-
-    // non-finals
-    const m = round.name.match(/^round_(\d+)$/i);
-    if (m) {
-      const roundNumber = Number(m[1]);
-      if (!Number.isNaN(roundNumber)) return t("round", { n: roundNumber });
-    }
-
-    return round.name;
   };
 
   if (!phase) {
@@ -77,7 +54,7 @@ export function LadderRoundRow({
           }, 50);
         }}
       >
-        {getRoundLabel(round, phase, debates)}
+        {getRoundLabel(round, phase, debates, t)}
       </GenericButton>
       <div className="flex justify-center gap-10">
         {debates.map((debate) => (

@@ -125,7 +125,6 @@
   },
   "round_config": {
     "title": "{name} configuration",
-    "title": "{name} configuration",
     "motion_title": "Motion",
     "motion_description": "What should this round's topic be?",
     "motion_placeholder": "(Required)",

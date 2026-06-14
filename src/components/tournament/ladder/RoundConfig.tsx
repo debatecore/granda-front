@@ -10,12 +10,13 @@ import { Phase } from "@/types/Phase";
 import { Debate } from "@/types/Debate";
 import { Motion } from "@/types/Motion";
 import { createMotion, setRoundMotion } from "@/lib/utils";
+import { getRoundLabel } from "@/lib/utils";
 
 type RoundConfigProps = {
   motion?: Motion;
   round: Round;
   tournamentId: string;
-  phase?: Phase;
+  phase: Phase;
   debates?: Debate[];
   onApplyAction: () => void;
   onClose: () => void;
@@ -39,31 +40,8 @@ export function RoundConfig({
     message: "",
     error: false,
   });
-  const getRoundLabel = (round: Round) => {
-    // finals naming when phase is finals
-    if (phase?.is_finals) {
-      const matches = (debates || []).length;
-      if (matches === 1) return tLadder("finals.final");
-      if (matches === 2) return tLadder("finals.semi_final");
-      if (matches === 4) return tLadder("finals.quarter_final");
-      if (matches > 0 && (matches & (matches - 1)) === 0) {
-        const n = matches * 2;
-        return tLadder("finals.nth_final", { n });
-      }
-      return round.name;
-    }
 
-    const m = round.name.match(/^round_(\d+)$/i);
-    if (m) {
-      const roundNumber = Number(m[1]);
-      if (!Number.isNaN(roundNumber))
-        return tLadder("round", { n: roundNumber });
-    }
-
-    return round.name;
-  };
-
-  const name = getRoundLabel(round);
+  const name = getRoundLabel(round, phase, debates, tLadder);
 
   const isApplyDisabled = motionText.trim().length === 0 || isApplying;
 
