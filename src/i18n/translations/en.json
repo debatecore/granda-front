@@ -65,7 +65,17 @@
     "footer_text": "Computer aided debate enrichment provided by <debatecore></debatecore>."
   },
   "overview": {
-    "title": "Overview"
+    "title": "Overview",
+    "welcome": "Welcome to {tournamentName}!",
+    "get_started": "To get started, go to <ladderLink>Tournament Ladder</ladderLink> to define the structure of your tournament, which will be generated automatically.",
+    "leaderboard_placeholder": "Team leaderboard (to be implemented)",
+    "leaderboard_desc": "The leaderboard will be presented here.",
+    "debates_placeholder": "Upcoming debates (to be implemented)",
+    "debates_desc": "Information about debates starting soon will be presented here.",
+    "event_log_placeholder": "Event log (to be implemented)",
+    "event_log_desc": "Most recent actions performed by the app users will be reported here.",
+    "rules_placeholder": "Tournament rules (to be implemented)",
+    "rules_desc": "Rules of the tournament will be presented here."
   },
   "metadata": {
     "title": "granda: Debate Tournament Planner",
@@ -86,8 +96,6 @@
     "advancing_teams": "Advancing teams",
     "submit": "Plan tournament",
     "submitting": "Planning...",
-    "placeholder_title": "Tournament ladder",
-    "placeholder_description": "Tournament ladder placeholder.",
     "no_phases_error": "Failed to load tournament phases.",
     "validation_positive_integer": "This value must be a positive integer.",
     "validation_power_of_two": "Advancing teams must be a power of 2.",
@@ -101,7 +109,7 @@
     "total_teams_hint": "The total number of teams taking part in the tournament.",
     "advancing_teams_hint": "Defines how many teams advance from the group phase to the finals phase. Must be a power of 2.",
     "hint_title": "Tournament Ladder",
-    "hint_content": "Each box represents a debate. You can click on a specific box to see the debate details. The ladder shows the structure and flow of the tournament, including the rounds and how debates are organised."
+    "hint_content": "Each box represents a debate. You can click on a specific box to see the debate details. The ladder visualizes the flow of the tournament."
   },
   "debates": {
     "title": "Debates"
@@ -118,7 +126,23 @@
   "debate_details": {
     "unconfigured_debate": "Debate without a motion",
     "proceed_to_debate": "Proceed to Debate!",
-    "marshal_panel": "Marshal Panel"
+    "marshal_panel": "Marshal Panel",
+    "marshal_info": {
+      "title": "Marshal",
+      "placeholder_text": "Information about assigned Marshal will be presented here."
+    },
+    "judges_info": {
+      "title": "Judges",
+      "placeholder_text": "Information about assigned Judges will be presented here."
+    },
+    "time_and_place_info": {
+      "title": "Time and place",
+      "placeholder_text": "Information about time and place of the debate will be presented here"
+    },
+    "teams_info": {
+      "title": "Teams",
+      "placeholder_text": "Information about competing teams will be presented here"
+    }
   },
   "create_tournament": {
     "title": "Create Tournament",
@@ -128,6 +152,7 @@
     "full_name_placeholder": "(Required)"
   },
   "verdict_panel": {
+    "title": "Verdict",
     "proposition": "Proposition",
     "opposition": "Opposition",
     "submit": "Submit",
@@ -141,21 +166,9 @@
     "load_verdicts_error": "Unable to load verdict information",
     "panel_error_title": "Verdict panel got an error, oops:",
     "majority": {
-      "proposition": {
-        "prefix": "The",
-        "highlight": "Proposition",
-        "suffix": "is the winning team!"
-      },
-      "opposition": {
-        "prefix": "The",
-        "highlight": "Opposition",
-        "suffix": "is the winning team!"
-      },
-      "no_verdict": {
-        "prefix": "There is",
-        "highlight": "no verdict",
-        "suffix": "yet."
-      }
+      "proposition": "The <highlight>Proposition</highlight> is the winning team!",
+      "opposition": "The <highlight>Opposition</highlight> is the winning team!",
+      "no_verdict": "There is <highlight>no verdict</highlight> available yet."
     }
   }
 }

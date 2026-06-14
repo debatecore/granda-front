@@ -7,6 +7,9 @@ import {
   createUserAndCastVote,
 } from "./e2eUtils";
 
+const PROPOSITION_WINNING_TEXT = "The Proposition is the";
+const OPPOSITION_WINNING_TEXT = "The Opposition is the";
+
 test.describe("verdict panel", () => {
   testInTournamentAsAdmin(
     "judge permission renders verdict submission options",
@@ -49,8 +52,9 @@ test.describe("verdict panel", () => {
         .first()
         .click();
 
-      await expect(page.getByText("Verdict panel")).toBeVisible();
+      await expect(page.getByText("Verdict", { exact: true })).toBeVisible();
       await expect(page.getByText("Opposition")).not.toBeVisible();
+      await expect(page.getByText("no verdict")).toBeVisible();
     },
   );
 
@@ -86,8 +90,7 @@ test.describe("verdict panel", () => {
         .click();
       await page.waitForURL(/debates/);
 
-      const winningText = page.getByText("ThePropositionis the winning");
-      await expect(winningText).toBeVisible();
+      await expect(page.getByText(PROPOSITION_WINNING_TEXT)).toBeVisible();
     },
   );
 
@@ -120,8 +123,7 @@ test.describe("verdict panel", () => {
       await page.getByRole("button", { name: "Proposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
 
-      const winningText = page.getByText("ThePropositionis the winning");
-      await expect(winningText).toBeVisible();
+      await expect(page.getByText(PROPOSITION_WINNING_TEXT)).toBeVisible();
     },
   );
 
@@ -154,14 +156,12 @@ test.describe("verdict panel", () => {
       await page.getByRole("button", { name: "Proposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
 
-      const winningText = page.getByText("ThePropositionis the winning");
-      await expect(winningText).toBeVisible();
+      await expect(page.getByText(PROPOSITION_WINNING_TEXT)).toBeVisible();
 
       await page.getByRole("button", { name: "Opposition" }).click();
       await page.getByRole("button", { name: "Submit" }).click();
 
-      const otherWinningText = page.getByText("TheOppositionis the winning");
-      await expect(otherWinningText).toBeVisible();
+      await expect(page.getByText(OPPOSITION_WINNING_TEXT)).toBeVisible();
     },
   );
 });
