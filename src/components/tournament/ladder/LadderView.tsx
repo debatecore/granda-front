@@ -30,6 +30,10 @@ export function LadderView({
   const router = useRouter();
   const [configuredRound, setConfiguredRound] = useState<Round | null>(null);
   const [isRoundConfigOpen, setIsRoundConfigOpen] = useState(false);
+  let phase: Phase | undefined;
+  if (configuredRound) {
+    phase = phases?.find((p) => p.id == configuredRound.phase_id);
+  }
 
   return (
     <div className="relative flex w-full flex-col items-center">
@@ -76,7 +80,7 @@ export function LadderView({
         )}
       </div>
 
-      {isRoundConfigOpen && configuredRound && (
+      {isRoundConfigOpen && configuredRound && phase && (
         <div
           className="w-full h-full absolute z-50 bg-black/50 flex justify-center "
           onClick={() => setIsRoundConfigOpen(false)}
@@ -87,7 +91,7 @@ export function LadderView({
               onClose={() => setIsRoundConfigOpen(false)}
               tournamentId={tournamentId}
               round={configuredRound}
-              phase={phases?.find((p) => p.id == configuredRound.phase_id)}
+              phase={phase}
               debates={
                 debates?.filter((d) => d.round_id == configuredRound.id) || []
               }
