@@ -1,0 +1,44 @@
+name: CI/CD Frontend
+
+on:
+  pull_request:
+    branches: [ master ]
+  push:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Testy i budowanie Frontendu
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm ci
+      - run: npm run build
+
+  deploy:
+    name: Wdrożenie Frontendu na AWS
+    needs: test
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Aktualizacja kontenera frontend przez SSM
+        run: |
+          aws ssm send-command \
+            --document-name "AWS-RunShellScript" \
+            --targets "Key=tag:Name,Values=granda-app" \
+            --parameters 'commands=[
+              "cd /opt/granda/frontend",
+              "git remote set-url origin https://github.com/oliviam555/granda-front.git",
+              "git pull origin master",
+              "cd /opt/granda && DOCKER_BUILDKIT=1 docker compose up -d --build frontend"
+            ]'
