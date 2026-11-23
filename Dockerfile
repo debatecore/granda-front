@@ -5,7 +5,8 @@
 # IMPORTANT: Node.js Version Maintenance
 # This Dockerfile uses Node.js 24.13.0-slim, which was the latest LTS version at the time of writing.
 # To ensure security and compatibility, regularly update the NODE_VERSION ARG to the latest LTS version.
-ARG NODE_VERSION=24.13.0-slim
+# L6: obraz bazowy podbity z 24.13.0-slim (Trivy: 19 HIGH/CRITICAL w pakietach Debiana)
+ARG NODE_VERSION=24.22.2-slim
 
 FROM node:${NODE_VERSION} AS dependencies
 
@@ -108,6 +109,14 @@ COPY --from=builder --chown=node:node /app/src/i18n ./src/i18n
 # If you want to persist the fetch cache generated during the build so that
 # cached responses are available immediately on startup, uncomment this line:
 # COPY --from=builder --chown=node:node /app/.next/cache ./.next/cache
+
+# L6: usunięcie menedżerów pakietów z obrazu produkcyjnego.
+# Aplikacja startuje przez `node server.js` i nie potrzebuje npm/yarn/corepack,
+# a ich wewnętrzne zależności (tar, minimatch, glob...) to ~30 podatności wg Trivy.
+# Mniej oprogramowania w obrazie = mniejsza powierzchnia ataku.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/lib/node_modules/corepack \
+    /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack \
+    /usr/local/bin/yarn /usr/local/bin/yarnpkg /opt/yarn-v*
 
 # Switch to non-root user for security best practices
 USER node
