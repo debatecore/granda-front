@@ -6,13 +6,27 @@ on:
   push:
     branches: [ master ]
 
+# L6: domyślnie GITHUB_TOKEN tylko do odczytu
+permissions:
+  contents: read
+
 jobs:
+  # L6: skan sekretów, SAST, skan zależności, skan obrazu, DAST (plik security.yml)
+  security:
+    name: Security
+    uses: ./.github/workflows/security.yml
+    permissions:
+      contents: read
+      pull-requests: read
+
   test:
     name: Testy i budowanie Frontendu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
         with:
           node-version: '20'
       - run: npm ci
@@ -20,12 +34,19 @@ jobs:
 
   deploy:
     name: Wdrożenie Frontendu na AWS
-    needs: test
+    needs: [test, security]
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     runs-on: ubuntu-latest
     environment: production
+    permissions:
+      contents: read
+      # id-token: write   # <- odkomentować przy przejściu na OIDC
     steps:
-      - uses: aws-actions/configure-aws-credentials@v4
+      # TODO (część AWS z L6): zastąpić stałe klucze rolą IAM przez OIDC:
+      #   with:
+      #     role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/github-granda-deploy
+      #     aws-region: ${{ secrets.AWS_REGION }}
+      - uses: aws-actions/configure-aws-credentials@7474bc4690e29a8392af63c5b98e7449536d5c3a # v4.3.1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
