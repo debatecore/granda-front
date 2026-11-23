@@ -1,0 +1,106 @@
+# L6 – elementy bezpieczeństwa w CI/CD (front-end, Next.js)
+# Workflow wielokrotnego użytku: wywoływany z ci-cd-front.yml (job "security"),
+# a deploy ma `needs: [test, security]` -> wykryty problem blokuje wdrożenie.
+# Dodatkowo raz w tygodniu skanuje repo sam z siebie (nowe CVE w niezmienionych zależnościach).
+
+name: Security (front-end)
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: read
+
+env:
+  # Wartości tylko do zbudowania obrazu w CI (Dockerfile wymaga BACKEND_URL przy buildzie)
+  BUILD_ARGS: --build-arg BACKEND_URL=http://localhost:2023 --build-arg FRONTEND_PORT=3000
+
+jobs:
+  secrets:
+    name: Secret scan (gitleaks)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          fetch-depth: 0 # cała historia – sekret usunięty w późniejszym commicie dalej jest w repo
+          persist-credentials: false
+      - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITLEAKS_ENABLE_COMMENTS: false
+
+  sast:
+    name: SAST (Semgrep)
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      # Reguły dla TS/React/Next.js, Dockerfile, YAML i GitHub Actions; --error = job czerwony przy znalezisku
+      - run: semgrep scan --config auto --error
+
+  sca:
+    name: SCA (npm audit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6.5.0
+        with:
+          node-version: 20
+      # package-lock.json vs baza podatności npm; blokuje przy HIGH i CRITICAL.
+      # --omit=dev: liczą się zależności, które trafiają na produkcję.
+      - run: npm audit --omit=dev --audit-level=high
+
+  container:
+    name: Container scan (hadolint + Trivy)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Lint Dockerfile (hadolint)
+        run: docker run --rm -i hadolint/hadolint:v2.15.1 hadolint --failure-threshold error - < Dockerfile
+      - name: Build image
+        run: docker build $BUILD_ARGS -t granda-front:ci .
+      - name: Scan image (Trivy)
+        run: |
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:0.76.2 \
+            image --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress granda-front:ci
+
+  dast:
+    name: DAST (OWASP ZAP baseline)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      # Aplikacja uruchomiona w runnerze z tego samego obrazu co na produkcji – bez AWS
+      - name: Build and run app
+        run: |
+          docker build $BUILD_ARGS -t granda-front:ci .
+          docker run -d --name front -p 3000:3000 -e PORT=3000 granda-front:ci
+      - name: Wait for app
+        run: |
+          for i in $(seq 1 30); do
+            curl -s -o /dev/null http://localhost:3000 && exit 0
+            sleep 2
+          done
+          docker logs front; exit 1
+      # Skan pasywny: nagłówki bezpieczeństwa, ciasteczka, wycieki informacji.
+      # Raport HTML/JSON w artefaktach przebiegu (zap_scan). Na razie tylko raportuje, nie blokuje.
+      - uses: zaproxy/action-baseline@de8ad967d3548d44ef623df22cf95c3b0baf8b25 # v0.15.0
+        with:
+          target: http://localhost:3000
+          allow_issue_writing: false
+          fail_action: false
+          cmd_options: "-a"
